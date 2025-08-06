@@ -1,7 +1,9 @@
 using System.Collections;
+using System.Collections.Generic; // Add this at the top
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(MeshFilter))]
 
@@ -29,7 +31,7 @@ public class MeshGenerator : MonoBehaviour
     [Header("----- TEXTURE SETTINGS -----")]
     public int textureWidth = 1024;
     public int textureHeight = 1024;
-    
+
     public Gradient gradient;
     private float minTerrainHeight;
     private float maxTerrainHeight;
@@ -42,6 +44,7 @@ public class MeshGenerator : MonoBehaviour
     private float noiseOffsetX;
     private float noiseOffsetZ;
 
+    private List<GameObject> spawnedCubes = new List<GameObject>(); // Add this line
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -50,6 +53,7 @@ public class MeshGenerator : MonoBehaviour
         GetComponent<MeshFilter>().mesh = mesh;
 
         CreateShape();
+        SpawnCubesAtVertices();
         UpdateMesh();
     }
 
@@ -62,8 +66,8 @@ public class MeshGenerator : MonoBehaviour
     void CreateShape()
     {
         // Randomize noise offsets for each generation
-        noiseOffsetX = UnityEngine.Random.Range(0f, 10000f);
-        noiseOffsetZ = UnityEngine.Random.Range(0f, 10000f);
+        noiseOffsetX = Random.Range(0f, 10000f);
+        noiseOffsetZ = Random.Range(0f, 10000f);
 
         vertices = new Vector3[(xSize + 1) * (zSize + 1)];
         minTerrainHeight = float.MaxValue;
@@ -80,6 +84,11 @@ public class MeshGenerator : MonoBehaviour
             {
                 float y = GetNoiseSample(x, z);
                 vertices[i] = new Vector3(x, y, z);
+                // Track min/max
+                if (y > maxTerrainHeight)
+                    maxTerrainHeight = y;
+                if (y < minTerrainHeight)
+                    minTerrainHeight = y;
                 i++;
             }
         }
@@ -93,9 +102,9 @@ public class MeshGenerator : MonoBehaviour
             // Pick random edge start
             int edge = r;
             int startX = 0, startZ = 0;
-            if (edge == 0) { startX = UnityEngine.Random.Range(0, xSize); startZ = 0; }
-            if (edge == 1) { startX = xSize; startZ = UnityEngine.Random.Range(0, zSize); }
-            if (edge == 2) { startX = UnityEngine.Random.Range(0, xSize); startZ = zSize; }
+            if (edge == 0) { startX = Random.Range(0, xSize); startZ = 0; }
+            if (edge == 1) { startX = xSize; startZ = Random.Range(0, zSize); }
+            if (edge == 2) { startX = Random.Range(0, xSize); startZ = zSize; }
 
             var path = new System.Collections.Generic.List<Vector2Int>();
             int x = startX, z = startZ;
@@ -104,9 +113,9 @@ public class MeshGenerator : MonoBehaviour
                 path.Add(new Vector2Int(x, z));
                 // Move towards center with some randomness
                 if (x != centerX)
-                    x += Mathf.Clamp(centerX - x + UnityEngine.Random.Range(-1, 2), -1, 1);
+                    x += Mathf.Clamp(centerX - x + Random.Range(-1, 2), -1, 1);
                 if (z != centerZ)
-                    z += Mathf.Clamp(centerZ - z + UnityEngine.Random.Range(-1, 2), -1, 1);
+                    z += Mathf.Clamp(centerZ - z + Random.Range(-1, 2), -1, 1);
                 x = Mathf.Clamp(x, 0, xSize);
                 z = Mathf.Clamp(z, 0, zSize);
             }
@@ -115,6 +124,8 @@ public class MeshGenerator : MonoBehaviour
         }
 
         // Lower river path vertices and widen
+        float riverHeight = minTerrainHeight + riverDepth;
+        bool[] isRiverVertex = new bool[vertices.Length];
         foreach (var path in riverPaths)
         {
             foreach (var pos in path)
@@ -129,9 +140,11 @@ public class MeshGenerator : MonoBehaviour
                         {
                             int idx = nz * (xSize + 1) + nx;
                             float dist = Mathf.Sqrt(dx * dx + dz * dz);
-                            // Use riverSlope variable for bank curve
-                            float depth = Mathf.Lerp(riverDepth, vertices[idx].y, Mathf.Pow(dist / riverWidth, riverSlope));
-                            vertices[idx].y = Mathf.Min(vertices[idx].y, depth);
+                            if (dist <= riverWidth && !isRiverVertex[idx])
+                            {
+                                vertices[idx].y = riverHeight;
+                                isRiverVertex[idx] = true;
+                            }
                         }
                     }
                 }
@@ -140,49 +153,30 @@ public class MeshGenerator : MonoBehaviour
 
         // Lower the center for the tower
         int centerIdx = centerZ * (xSize + 1) + centerX;
-        vertices[centerIdx].y = riverDepth - 2f;
+        vertices[centerIdx].y = riverHeight - 2f;
 
-        // Update min/max terrain height
-        for (int i = 0; i < vertices.Length; i++)
-        {
-            if (vertices[i].y > maxTerrainHeight)
-                maxTerrainHeight = vertices[i].y;
-            if (vertices[i].y < minTerrainHeight)
-                minTerrainHeight = vertices[i].y;
-        }
-
+        // Create triangles
         triangles = new int[xSize * zSize * 6];
-
-        int vert = 0;
-        int tris = 0;
-
         for (int z = 0; z < zSize; z++)
         {
             for (int x = 0; x < xSize; x++)
             {
-                triangles[tris + 0] = vert;
-                triangles[tris + 1] = vert + xSize + 1;
-                triangles[tris + 2] = vert + 1;
-                triangles[tris + 3] = vert + 1;
-                triangles[tris + 4] = vert + xSize + 1;
-                triangles[tris + 5] = vert + xSize + 2;
-
-                vert++;
-                tris += 6;
+                int i = x + z * (xSize + 1);
+                int ti = (x + z * xSize) * 6;
+                triangles[ti] = i;
+                triangles[ti + 1] = i + xSize + 1;
+                triangles[ti + 2] = i + 1;
+                triangles[ti + 3] = i + 1;
+                triangles[ti + 4] = i + xSize + 1;
+                triangles[ti + 5] = i + xSize + 2;
             }
-            vert++;
         }
 
+        // Create colors based on height
         colors = new Color[vertices.Length];
-
-        for (int i = 0, z = 0; z <= zSize; z++)
+        for (int i = 0; i < vertices.Length; i++)
         {
-            for (int x = 0; x <= xSize; x++)
-            {
-                float height = Mathf.InverseLerp(minTerrainHeight, maxTerrainHeight, vertices[i].y);
-                colors[i] = gradient.Evaluate(height);
-                i++;
-            }
+            colors[i] = gradient.Evaluate(Mathf.InverseLerp(minTerrainHeight, maxTerrainHeight, vertices[i].y));
         }
     }
 
@@ -192,24 +186,50 @@ public class MeshGenerator : MonoBehaviour
         mesh.vertices = vertices;
         mesh.triangles = triangles;
         mesh.colors = colors;
-
         mesh.RecalculateNormals();
     }
 
     float GetNoiseSample(int x, int z)
     {
-        return
-            Mathf.PerlinNoise((x + noiseOffsetX) / noise01Scale, (z + noiseOffsetZ) / noise01Scale) * noise01Amp +
-            Mathf.PerlinNoise((x + noiseOffsetX) / noise02Scale, (z + noiseOffsetZ) / noise02Scale) * noise02Amp +
-            Mathf.PerlinNoise((x + noiseOffsetX) / noise03Scale, (z + noiseOffsetZ) / noise03Scale) * noise03Amp;
+        // Multi-layered Perlin noise
+        float noise = 0f;
+        noise += Mathf.PerlinNoise((x + noiseOffsetX) / noise01Scale, (z + noiseOffsetZ) / noise01Scale) * noise01Amp;
+        noise += Mathf.PerlinNoise((x + noiseOffsetX) / noise02Scale, (z + noiseOffsetZ) / noise02Scale) * noise02Amp;
+        noise += Mathf.PerlinNoise((x + noiseOffsetX) / noise03Scale, (z + noiseOffsetZ) / noise03Scale) * noise03Amp;
+        return noise;
     }
 
-#if UNITY_EDITOR
-public void RegenerateTerrain()
-{
-    CreateShape();
-    UpdateMesh();
-}
-#endif
+    public void RegenerateTerrain()
+    {
+        CreateShape();
+        SpawnCubesAtVertices();
+        UpdateMesh();
+    }
 
+    public GameObject cubePrefab; // Assign a Cube prefab in the Inspector
+
+    public void SpawnCubesAtVertices()
+    {
+        // Destroy previously spawned cubes
+        foreach (var cube in spawnedCubes)
+        {
+            if (cube != null)
+                Destroy(cube);
+        }
+        spawnedCubes.Clear();
+
+        if (cubePrefab == null)
+        {
+            Debug.LogWarning("cubePrefab not assigned!");
+            return;
+        }
+
+        for (int i = 0; i < vertices.Length; i++)
+        {
+            Vector3 worldPos = transform.TransformPoint(vertices[i]);
+            GameObject cube = Instantiate(cubePrefab, worldPos, Quaternion.identity, transform);
+            spawnedCubes.Add(cube);
+        }
+    }
 }
+

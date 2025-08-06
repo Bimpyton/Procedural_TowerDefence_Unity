@@ -205,13 +205,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: 0.35355338, y: 0.35355338, z: -0.1464466, w: 0.8535535}
+  m_LocalPosition: {x: 9, y: 85, z: 15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 45, y: 45, z: 0}
 --- !u!114 &330585547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -457,14 +457,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 657e75ac6f4e02e4e938552503ea2b5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  xSize: 200
-  zSize: 200
-  noise01Scale: 20
-  noise01Amp: 18
-  noise02Scale: 60
-  noise02Amp: -10
-  noise03Scale: 120
-  noise03Amp: -10
+  xSize: 50
+  zSize: 50
+  noise01Scale: 5
+  noise01Amp: 5
+  noise02Scale: 10
+  noise02Amp: 2
+  noise03Scale: 20
+  noise03Amp: 0
   textureWidth: 1024
   textureHeight: 1024
   gradient:
@@ -497,9 +497,10 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 3
     m_NumAlphaKeys: 2
-  riverWidth: 10
+  riverWidth: 2
   riverSlope: 5
-  riverDepth: -10
+  riverDepth: -0.01
+  cubePrefab: {fileID: 2736789683779468122, guid: 0890b28911e085d40b610f4843fff21f, type: 3}
 --- !u!23 &1785738737
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -507,7 +508,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1785738735}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
