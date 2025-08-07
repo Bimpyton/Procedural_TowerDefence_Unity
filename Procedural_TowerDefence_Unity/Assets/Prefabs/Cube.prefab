@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aaf47bfac9884bb49b51af6d047e92ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waterMaterial: {fileID: 2100000, guid: d4173b93de820304584d79615b81f7fc, type: 2}
+  waterMaterial: {fileID: 2100000, guid: e54b509dc1c2ec64c90c95ac115c35bc, type: 2}
   middleMaterial: {fileID: 2100000, guid: b5d434b6712dd3441aef1195b53534a0, type: 2}
   highMaterial: {fileID: 2100000, guid: ef69b84a48b60d24b8833d76a39a50f1, type: 2}
   waterHeight: 1
