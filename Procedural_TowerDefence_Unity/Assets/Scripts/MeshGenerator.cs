@@ -14,6 +14,8 @@ public class MeshGenerator : MonoBehaviour
     int[] triangles;
     Color[] colors;
 
+    public CameraController cameraController;
+
     [Header("----- TERRAIN SETTINGS -----")]
     public int xSize = 20;
     public int zSize = 20;
@@ -55,6 +57,15 @@ public class MeshGenerator : MonoBehaviour
         CreateShape();
         SpawnCubesAtVertices();
         UpdateMesh();
+
+        if (cameraController != null)
+        {
+            // Calculate the center in world space
+            Vector3 center = transform.TransformPoint(new Vector3(xSize / 2f, 0, zSize / 2f));
+            GameObject centerObj = new GameObject("CameraCenterPoint");
+            centerObj.transform.position = center;
+            cameraController.centerPoint = centerObj.transform;
+        }
     }
 
     // Update is called once per frame
