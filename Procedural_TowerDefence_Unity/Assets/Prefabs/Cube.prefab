@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waterMaterial: {fileID: 2100000, guid: e54b509dc1c2ec64c90c95ac115c35bc, type: 2}
-  middleMaterial: {fileID: 2100000, guid: b5d434b6712dd3441aef1195b53534a0, type: 2}
+  middleMaterial: {fileID: 2100000, guid: 5e0e16ec4b797a141b604c8f42cf6410, type: 2}
   highMaterial: {fileID: 2100000, guid: ef69b84a48b60d24b8833d76a39a50f1, type: 2}
   waterHeight: 1
   middleHeight: 4
@@ -169,7 +169,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8fb1b3ca155a46043b23d8477043017b, type: 2}
+  - {fileID: 2100000, guid: b5d434b6712dd3441aef1195b53534a0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

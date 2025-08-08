@@ -275,8 +275,8 @@ MonoBehaviour:
   zoomSpeed: 100
   rotationSpeed: 70
   pitchSpeed: 50
-  minPitch: 45
-  maxPitch: 89
+  minPitch: 15
+  maxPitch: 60
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
