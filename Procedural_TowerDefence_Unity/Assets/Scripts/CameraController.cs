@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -5,6 +6,7 @@ public class CameraController : MonoBehaviour
 {
     [Header("----- REFERENCES -----")]
     public Transform centerPoint;
+    public Camera camera;
 
     [Header("----- ZOOM -----")]
     public float minZoom = 10f;
@@ -35,9 +37,18 @@ public class CameraController : MonoBehaviour
     void HandleInput()
     {
         // Zoom
+        // Zoom with mouse scroll wheel
         float scroll = Mouse.current.scroll.ReadValue().y;
-        currentZoom -= scroll * zoomSpeed * Time.deltaTime;
-        currentZoom = Mathf.Clamp(currentZoom, minZoom, maxZoom);
+
+        if (scroll != 0)
+        {
+            camera.orthographicSize -= scroll * zoomSpeed * Time.deltaTime;
+            camera.orthographicSize = Mathf.Clamp(camera.orthographicSize, minZoom, maxZoom);
+        }
+
+        // float scroll = Mouse.current.scroll.ReadValue().y;
+        // currentZoom -= scroll * zoomSpeed * Time.deltaTime;
+        // currentZoom = Mathf.Clamp(currentZoom, minZoom, maxZoom);
 
         // Yaw (left/right)
         if (Keyboard.current.dKey.isPressed)

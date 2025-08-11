@@ -26,7 +26,7 @@ public class WaterManager : MonoBehaviour
         GenerateMesh();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         UpdateMesh();
     }
