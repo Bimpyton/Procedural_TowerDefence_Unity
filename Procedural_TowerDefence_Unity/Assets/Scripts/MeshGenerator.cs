@@ -1,8 +1,9 @@
 using System.Collections;
-using System.Collections.Generic; // Add this at the top
+using System.Collections.Generic;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(MeshFilter))]
@@ -31,22 +32,17 @@ public class MeshGenerator : MonoBehaviour
     public float noise03Amp = 2f;
 
     [Header("----- TEXTURE SETTINGS -----")]
-    public int textureWidth = 1024;
-    public int textureHeight = 1024;
-
-    public Gradient gradient;
     private float minTerrainHeight;
     private float maxTerrainHeight;
 
     [Header("----- RIVER SETTINGS -----")]
-    public int riverWidth = 16; // Editable in Inspector
-    public float riverSlope = 2f; // Controls how steep the river banks are
-    public float riverDepth = -8f; // Editable in Inspector
+    public int riverWidth = 16;
+    public float riverSlope = 2f;
+    public float riverDepth = -8f;
 
     private float noiseOffsetX;
     private float noiseOffsetZ;
-
-    private List<GameObject> spawnedCubes = new List<GameObject>(); // Add this line
+    private List<GameObject> spawnedCubes = new List<GameObject>();
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -104,9 +100,20 @@ public class MeshGenerator : MonoBehaviour
             }
         }
 
+        // Normalize terrain to set lowest point to 0
+        float desiredMinHeight = 0f; // You can change this to any constant height
+        float heightOffset = minTerrainHeight - desiredMinHeight;
+        for (int i = 0; i < vertices.Length; i++)
+        {
+            vertices[i].y -= heightOffset;
+        }
+        // Update min/max after normalization
+        minTerrainHeight = desiredMinHeight;
+        maxTerrainHeight -= heightOffset;
+
         // Plot river paths
         int riverCount = 3;
-        System.Collections.Generic.List<System.Collections.Generic.List<Vector2Int>> riverPaths = new();
+        List<List<Vector2Int>> riverPaths = new();
 
         for (int r = 0; r < riverCount; r++)
         {
@@ -117,7 +124,7 @@ public class MeshGenerator : MonoBehaviour
             if (edge == 1) { startX = xSize; startZ = Random.Range(0, zSize); }
             if (edge == 2) { startX = Random.Range(0, xSize); startZ = zSize; }
 
-            var path = new System.Collections.Generic.List<Vector2Int>();
+            var path = new List<Vector2Int>();
             int x = startX, z = startZ;
             while (Mathf.Abs(x - centerX) > 1 || Mathf.Abs(z - centerZ) > 1)
             {
@@ -162,10 +169,6 @@ public class MeshGenerator : MonoBehaviour
             }
         }
 
-        // Lower the center for the tower
-        int centerIdx = centerZ * (xSize + 1) + centerX;
-        vertices[centerIdx].y = riverHeight - 2f;
-
         // Create triangles
         triangles = new int[xSize * zSize * 6];
         for (int z = 0; z < zSize; z++)
@@ -181,13 +184,6 @@ public class MeshGenerator : MonoBehaviour
                 triangles[ti + 4] = i + xSize + 1;
                 triangles[ti + 5] = i + xSize + 2;
             }
-        }
-
-        // Create colors based on height
-        colors = new Color[vertices.Length];
-        for (int i = 0; i < vertices.Length; i++)
-        {
-            colors[i] = gradient.Evaluate(Mathf.InverseLerp(minTerrainHeight, maxTerrainHeight, vertices[i].y));
         }
     }
 
@@ -210,14 +206,12 @@ public class MeshGenerator : MonoBehaviour
         return noise;
     }
 
-    public void RegenerateTerrain()
+    public void ReloadScene()
     {
-        CreateShape();
-        SpawnCubesAtVertices();
-        UpdateMesh();
+        SceneManager.LoadScene("SampleScene");
     }
 
-    public GameObject cubePrefab; // Assign a Cube prefab in the Inspector
+    public GameObject cubePrefab; 
 
     public void SpawnCubesAtVertices()
     {
@@ -243,4 +237,3 @@ public class MeshGenerator : MonoBehaviour
         }
     }
 }
-

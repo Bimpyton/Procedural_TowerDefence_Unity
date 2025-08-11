@@ -9,9 +9,9 @@ public class MeshGeneratorEditor : Editor
         DrawDefaultInspector();
 
         MeshGenerator generator = (MeshGenerator)target;
-        if (GUILayout.Button("Regenerate Terrain"))
+        if (GUILayout.Button("Reload Scene"))
         {
-            generator.RegenerateTerrain();
+            generator.ReloadScene();
         }
     }
 }

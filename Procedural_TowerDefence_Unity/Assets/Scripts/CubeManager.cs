@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CubeManager : MonoBehaviour
@@ -8,38 +10,60 @@ public class CubeManager : MonoBehaviour
     [SerializeField] private Material middleMaterial;
     [SerializeField] private Material highMaterial;
 
-    [Header("----- CUBE HEIGHTs -----")]
-    private float cubeHeight;
+    [Header("----- CUBE HEIGHTS -----")]
     [SerializeField] private float waterHeight = 1f;
     [SerializeField] private float middleHeight = 8f;
 
-    [Header("----- CHILDREN -----")]
-    [SerializeField] private GameObject snapPoint;
+    [Header("----- CUBE LIST -----")]
+    [SerializeField] private List<GameObject> cubes = new List<GameObject>();
 
     void Start()
     {
-        SetMaterialByHeight();
+        FindCubesInScene();
+        SetMaterialsByHeight();
     }
 
-    void SetMaterialByHeight()
+    void FindCubesInScene()
     {
-        Renderer renderer = GetComponent<Renderer>();
+        GameObject[] foundCubes = GameObject.FindGameObjectsWithTag("Cube");
+        cubes.AddRange(foundCubes);
 
-        if (renderer == null) return;
+    }
 
-        cubeHeight = transform.position.y;
+    public void SetMaterialsByHeight()
+    {
+        foreach (GameObject cube in cubes)
+        {
+            Transform childTransform = null;
 
-        if (cubeHeight < waterHeight)
-        {
-            renderer.material = waterMaterial;
-        }
-        else if (cubeHeight < middleHeight)
-        {
-            renderer.material = middleMaterial;
-        }
-        else
-        {
-            renderer.material = highMaterial;
+            Renderer renderer = cube.GetComponentInChildren<Renderer>();
+            if (renderer == null) continue;
+
+            float cubeHeight = cube.transform.position.y;
+
+            if (cubeHeight < waterHeight)
+            {
+                renderer.material = waterMaterial;
+                childTransform = cube.transform.Find("SnapPoint");
+            }
+            else if (cubeHeight < middleHeight)
+            {
+                renderer.material = middleMaterial;
+            }
+            else
+            {
+                renderer.material = highMaterial;
+                childTransform = cube.transform.Find("SnapPoint");
+            }
+
+
+
+            if (childTransform != null)
+            {
+                GameObject childGameObject = childTransform.gameObject;
+
+                childGameObject.SetActive(false);
+            }
         }
     }
 }
