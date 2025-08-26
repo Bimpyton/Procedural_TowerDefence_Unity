@@ -6,7 +6,7 @@ public class CameraController : MonoBehaviour
 {
     [Header("----- REFERENCES -----")]
     public Transform centerPoint;
-    public Camera camera;
+    public Camera mainCamera;
 
     [Header("----- ZOOM -----")]
     public float minZoom = 10f;
@@ -42,8 +42,8 @@ public class CameraController : MonoBehaviour
 
         if (scroll != 0)
         {
-            camera.orthographicSize -= scroll * zoomSpeed * Time.deltaTime;
-            camera.orthographicSize = Mathf.Clamp(camera.orthographicSize, minZoom, maxZoom);
+            GetComponent<Camera>().orthographicSize -= scroll * zoomSpeed * Time.deltaTime;
+            GetComponent<Camera>().orthographicSize = Mathf.Clamp(GetComponent<Camera>().orthographicSize, minZoom, maxZoom);
         }
 
         // float scroll = Mouse.current.scroll.ReadValue().y;

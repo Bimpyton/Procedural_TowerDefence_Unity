@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Cube
   - SnapPoint
+  - MainTower
+  - Tower
+  - Enemy
+  - Spawner
   layers:
   - Default
   - TransparentFX

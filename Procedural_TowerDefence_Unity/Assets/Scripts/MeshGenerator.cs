@@ -11,7 +11,7 @@ using Random = UnityEngine.Random;
 public class MeshGenerator : MonoBehaviour
 {
     Mesh mesh;
-    Vector3[] vertices;
+    public Vector3[] vertices;
     int[] triangles;
     Color[] colors;
 
@@ -42,7 +42,20 @@ public class MeshGenerator : MonoBehaviour
 
     private float noiseOffsetX;
     private float noiseOffsetZ;
-    private List<GameObject> spawnedCubes = new List<GameObject>();
+
+    [Header("----- CUBE LIST -----")]
+    public GameObject cubePrefab;
+    private List<GameObject> spawnedCubes = new List<GameObject>();    
+
+    [Header("----- MAIN TOWER -----")]
+    public GameObject mainTowerPrefab;
+    public int towerHeight = 5;
+    private GameObject mainTower;
+
+    [Header("----- SPAWNER SETTINGS -----")]
+    public GameObject spawnerPrefab;
+
+    private List<List<Vector2Int>> riverPaths = new List<List<Vector2Int>>();
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -53,6 +66,8 @@ public class MeshGenerator : MonoBehaviour
         CreateShape();
         SpawnCubesAtVertices();
         UpdateMesh();
+        SpawnMainTower();
+        SpawnSpawners();
 
         if (cameraController != null)
         {
@@ -113,7 +128,7 @@ public class MeshGenerator : MonoBehaviour
 
         // Plot river paths
         int riverCount = 3;
-        List<List<Vector2Int>> riverPaths = new();
+        riverPaths.Clear();
 
         for (int r = 0; r < riverCount; r++)
         {
@@ -211,8 +226,6 @@ public class MeshGenerator : MonoBehaviour
         SceneManager.LoadScene("SampleScene");
     }
 
-    public GameObject cubePrefab; 
-
     public void SpawnCubesAtVertices()
     {
         // Destroy previously spawned cubes
@@ -234,6 +247,64 @@ public class MeshGenerator : MonoBehaviour
             Vector3 worldPos = transform.TransformPoint(vertices[i]);
             GameObject cube = Instantiate(cubePrefab, worldPos, Quaternion.identity, transform);
             spawnedCubes.Add(cube);
+        }
+    }
+    
+    public void SpawnMainTower()
+    {
+        if (mainTowerPrefab == null)
+        {
+            Debug.LogWarning("mainTowerPrefab not assigned!");
+            return;
+        }
+
+        // Calculate center position
+        float centerX = xSize / 2f;
+        float centerZ = zSize / 2f;
+
+        // Find the vertex closest to the center
+        Vector3 closestVertex = Vector3.zero;
+        float closestDist = float.MaxValue;
+        foreach (var v in vertices)
+        {
+            float dist = Vector2.Distance(new Vector2(v.x, v.z), new Vector2(centerX, centerZ));
+            if (dist < closestDist)
+            {
+                closestDist = dist;
+                closestVertex = v;
+            }
+        }
+
+        // Spawn tower at this vertex, adjusting for tower height
+        Vector3 spawnPos = transform.TransformPoint(closestVertex);
+        spawnPos.y += towerHeight / 2f; // Adjust Y to place tower on terrain
+        mainTower = Instantiate(mainTowerPrefab, spawnPos, Quaternion.identity, transform);
+        mainTower.transform.localScale = new Vector3(1, towerHeight, 1);
+    }
+
+    public void SpawnSpawners()
+    {
+        if (spawnerPrefab == null)
+        {
+            Debug.LogWarning("spawnerPrefab not assigned!");
+            return;
+        }
+
+        for (int i = 0; i < riverPaths.Count; i++)
+        {
+            Vector2Int startPos = riverPaths[i][0];
+            int idx = startPos.y * (xSize + 1) + startPos.x; // y is z-coordinate
+            Vector3 localPos = vertices[idx];
+            Vector3 worldPos = transform.TransformPoint(localPos);
+            worldPos.y += 1f; // Slightly above terrain to avoid clipping
+
+            GameObject spawner = Instantiate(spawnerPrefab, worldPos, Quaternion.identity, transform);
+            Spawner spawnerScript = spawner.GetComponent<Spawner>();
+            if (spawnerScript != null && mainTower != null)
+            {
+                spawnerScript.target = mainTower.transform;
+                spawnerScript.riverPath = riverPaths[i]; // Assign the specific river path
+            }
         }
     }
 }

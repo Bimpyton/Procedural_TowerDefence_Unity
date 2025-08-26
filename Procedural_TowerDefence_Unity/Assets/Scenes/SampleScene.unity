@@ -373,9 +373,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   centerPoint: {fileID: 0}
-  camera: {fileID: 330585545}
+  mainCamera: {fileID: 330585545}
   minZoom: 5
-  maxZoom: 20
+  maxZoom: 15
   zoomSpeed: 100
   rotationSpeed: 70
   pitchSpeed: 50
@@ -677,7 +677,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b36d92e7a6fa91f40b09035730fb4d2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameLimit: 60
+  waves:
+  - {fileID: 11400000, guid: e516475d6cd059747ab512b42650641e, type: 2}
+  timeBetweenWaves: 5
 --- !u!4 &1252603079
 Transform:
   m_ObjectHideFlags: 0
@@ -724,9 +726,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 657e75ac6f4e02e4e938552503ea2b5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  vertices: []
   cameraController: {fileID: 330585549}
-  xSize: 50
-  zSize: 50
+  xSize: 25
+  zSize: 25
   noise01Scale: 5
   noise01Amp: 5
   noise02Scale: 10
@@ -737,6 +740,9 @@ MonoBehaviour:
   riverSlope: 5
   riverDepth: -0.01
   cubePrefab: {fileID: 2736789683779468122, guid: 0890b28911e085d40b610f4843fff21f, type: 3}
+  mainTowerPrefab: {fileID: 3339977096270105870, guid: 2b522e20e3c1b8b4781cd23cbc957a47, type: 3}
+  towerHeight: 5
+  spawnerPrefab: {fileID: 670219083340561751, guid: f9e6760cc06be1e4e85330bb61babe0d, type: 3}
 --- !u!23 &1785738737
 MeshRenderer:
   m_ObjectHideFlags: 0
