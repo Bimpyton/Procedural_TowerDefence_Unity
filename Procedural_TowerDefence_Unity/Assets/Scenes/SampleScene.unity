@@ -679,6 +679,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   waves:
   - {fileID: 11400000, guid: e516475d6cd059747ab512b42650641e, type: 2}
+  - {fileID: 11400000, guid: e516475d6cd059747ab512b42650641e, type: 2}
   timeBetweenWaves: 5
 --- !u!4 &1252603079
 Transform:

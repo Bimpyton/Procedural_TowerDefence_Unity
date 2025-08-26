@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyGroups:
   - enemyData: {fileID: 11400000, guid: bc488b767b8dd7041a7cfc0fa8241f66, type: 2}
-    count: 1
-    spawnDelay: 2
-  - enemyData: {fileID: 11400000, guid: bc488b767b8dd7041a7cfc0fa8241f66, type: 2}
     count: 3
-    spawnDelay: 4
+    spawnDelay: 2
+  - enemyData: {fileID: 11400000, guid: 869afea171ac16646b6ce2b2475fb211, type: 2}
+    count: 3
+    spawnDelay: 3
   groupDelay: 2

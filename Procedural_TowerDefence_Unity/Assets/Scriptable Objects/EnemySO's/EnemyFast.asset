@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bf40f0b8dbc605546bd66461d1c5bbb4, type: 3}
-  m_Name: BasicEnemy
+  m_Name: EnemyFast
   m_EditorClassIdentifier: 
-  prefab: {fileID: 8599192043079365083, guid: f958c37445cc46248b6f28e67ab02cd9, type: 3}
-  speed: 2
-  health: 20
+  prefab: {fileID: 8599192043079365083, guid: 2398b9891c0f4494ca40fa3bdec1a053, type: 3}
+  speed: 4
+  health: 10
