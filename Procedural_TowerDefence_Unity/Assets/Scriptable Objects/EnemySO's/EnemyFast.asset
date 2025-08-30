@@ -13,5 +13,10 @@ MonoBehaviour:
   m_Name: EnemyFast
   m_EditorClassIdentifier: 
   prefab: {fileID: 8599192043079365083, guid: 2398b9891c0f4494ca40fa3bdec1a053, type: 3}
-  speed: 4
+  speed: 3
   health: 10
+  attackSpeed: 1
+  damage: 10
+  attackRange: 10
+  projectilePrefab: {fileID: 2616329685473949415, guid: c5ae241f814570a41af3b62040af6de3, type: 3}
+  projectileArcHeight: 5

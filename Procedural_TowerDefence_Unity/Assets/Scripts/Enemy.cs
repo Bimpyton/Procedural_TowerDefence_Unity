@@ -1,11 +1,43 @@
 using UnityEngine;
 using System.Collections.Generic;
+// Ensure Projectile is recognized
+using System;
 
 public class Enemy : MonoBehaviour
 {
+
+    [Header("----- DATA -----")]
+    public EnemyData enemyData;
+
+    [Header("----- ENEMY STATS -----")]
+    [SerializeField] private float speed;
+    [SerializeField] private int health;
+
+    [Header("----- ATTACK -----")]
+    [SerializeField] private float damage;
+    [SerializeField] private float attackSpeed;
+    [SerializeField] private GameObject projectilePrefab;
+    [SerializeField] private float attackRange;
+    [SerializeField] private float projectileArcHeight;
+    private float lastAttackTime = 0f;
+
+        void Start()
+        {
+            if (enemyData != null)
+            {
+                speed = enemyData.speed;
+                health = enemyData.health;
+                damage = enemyData.damage;
+                attackSpeed = enemyData.attackSpeed;
+                projectilePrefab = enemyData.projectilePrefab;
+                attackRange = enemyData.attackRange;
+                projectileArcHeight = enemyData.projectileArcHeight;
+            }
+        }
+
+    [Header("----- PATHFINDING -----")]
+    
     public Transform target;
-    public float speed = 5f;
-    public int health = 10;
     private List<Vector3> waypoints = new List<Vector3>();
     private int currentWaypointIndex = 0;
     private float waypointThreshold = 0.5f;
@@ -45,7 +77,47 @@ public class Enemy : MonoBehaviour
         {
             currentWaypointIndex++;
         }
+
+        // Attack towers in range
+        TryAttackTower();
     }
+
+    void Attack()
+    {
+            // Find nearest tower in range
+            GameObject[] towers = GameObject.FindGameObjectsWithTag("Tower");
+            GameObject nearestTower = null;
+            float minDist = Mathf.Infinity;
+            foreach (var tower in towers)
+            {
+                float dist = Vector3.Distance(transform.position, tower.transform.position);
+                if (dist < attackRange && dist < minDist)
+                {
+                    minDist = dist;
+                    nearestTower = tower;
+                }
+            }
+            if (nearestTower != null && projectilePrefab != null)
+            {
+                // Shoot projectile
+                GameObject proj = Instantiate(projectilePrefab, transform.position + Vector3.up, Quaternion.identity);
+                Projectile projectile = proj.GetComponent<Projectile>();
+                if (projectile != null)
+                {
+                    projectile.target = nearestTower.transform;
+                    projectile.arcHeight = projectileArcHeight;
+                }
+            }
+    }
+
+        void TryAttackTower()
+        {
+            if (Time.time - lastAttackTime >= 1f / attackSpeed)
+            {
+                lastAttackTime = Time.time;
+                Attack();
+            }
+        }
 
     void OnTriggerEnter(Collider other)
     {
@@ -53,9 +125,6 @@ public class Enemy : MonoBehaviour
         {
             Debug.Log($"Enemy hit Main Tower");
             Destroy(gameObject);
-        }
-        else
-        {
         }
     }
 

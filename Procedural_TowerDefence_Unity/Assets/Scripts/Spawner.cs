@@ -37,8 +37,7 @@ public class Spawner : MonoBehaviour
         {
             enemyScript.target = target;
             enemyScript.SetPath(riverPath, transform.parent);
-            enemyScript.speed = enemyData.speed;
-            enemyScript.health = enemyData.health;
+            enemyScript.enemyData = enemyData;
         }
         else
         {

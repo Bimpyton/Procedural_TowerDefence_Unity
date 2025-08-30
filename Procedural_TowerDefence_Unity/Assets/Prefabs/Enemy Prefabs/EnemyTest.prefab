@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2607000119793202155}
   - component: {fileID: -8528461038661200758}
   m_Layer: 0
-  m_Name: EnemyFast
+  m_Name: EnemyTest
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -48,9 +48,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b693329bebe73440bed3cd41ee72d32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyData: {fileID: 11400000, guid: bc488b767b8dd7041a7cfc0fa8241f66, type: 2}
+  speed: 0
+  health: 0
+  damage: 0
+  attackSpeed: 0
+  projectilePrefab: {fileID: 2616329685473949415, guid: c5ae241f814570a41af3b62040af6de3, type: 3}
+  attackRange: 0
+  projectileArcHeight: 0
   target: {fileID: 0}
-  speed: 1
-  health: 1
 --- !u!33 &2748256357124274990
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -82,7 +88,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c417da1001356ef44b69fffb92718adf, type: 2}
+  - {fileID: 2100000, guid: d9608e843f7a592469d460150664ecb6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

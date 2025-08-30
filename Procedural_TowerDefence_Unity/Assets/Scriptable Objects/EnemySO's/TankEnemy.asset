@@ -15,3 +15,8 @@ MonoBehaviour:
   prefab: {fileID: 8599192043079365083, guid: 2b47bf5208f79d141bb6b1bf08d97893, type: 3}
   speed: 0.5
   health: 50
+  attackSpeed: 1
+  damage: 10
+  attackRange: 10
+  projectilePrefab: {fileID: 2616329685473949415, guid: c5ae241f814570a41af3b62040af6de3, type: 3}
+  projectileArcHeight: 5
