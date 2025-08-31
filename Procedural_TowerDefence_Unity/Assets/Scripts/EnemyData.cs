@@ -13,4 +13,8 @@ public class EnemyData : ScriptableObject
     public float attackRange = 10f; // Range to attack towers
     public GameObject projectilePrefab; // Projectile prefab
     public float projectileArcHeight = 5f; // Arc height for lobbed projectile
+
+    [Header("----- REWARD -----")]
+    public int deathValue = 10; // Gold rewarded to player on death
+    public int deathXP = 10; // XP rewarded to player on death
 }

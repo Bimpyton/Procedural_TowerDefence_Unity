@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6658255028628680280}
   - component: {fileID: 9049194947837516409}
   - component: {fileID: -4165453800318347113}
-  m_Layer: 3
+  m_Layer: 20
   m_Name: Tower Projectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -14,7 +14,7 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Outline
+  - WorldUI
   - Water
   - UI
   - 
@@ -31,7 +31,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - Outline
   - 
   - 
   - 

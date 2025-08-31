@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1314745167585148117}
   - component: {fileID: 2607000119793202155}
   - component: {fileID: -8528461038661200758}
-  m_Layer: 3
+  m_Layer: 20
   m_Name: EnemyFast
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -57,6 +57,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 2616329685473949415, guid: c5ae241f814570a41af3b62040af6de3, type: 3}
   attackRange: 0
   projectileArcHeight: 0
+  healthBar: {fileID: 0}
   target: {fileID: 0}
 --- !u!33 &2748256357124274990
 MeshFilter:

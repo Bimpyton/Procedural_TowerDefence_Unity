@@ -15,9 +15,16 @@ public class MainTower : MonoBehaviour
 
     private float lastAttackTime = 0f;
 
+    [Header("----- UI -----")]
+    [SerializeField] private HealthBar healthBar;
+
     void Start()
     {
         health = maxHealth;
+            if (healthBar != null)
+            {
+                healthBar.SetHealth(health / maxHealth);
+            }
     }
 
     void Update()
@@ -65,6 +72,10 @@ public class MainTower : MonoBehaviour
     public void TakeDamage(int amount)
     {
         health -= amount;
+            if (healthBar != null)
+            {
+                healthBar.SetHealth(health / maxHealth);
+            }
         if (health <= 0)
         {
             Die();

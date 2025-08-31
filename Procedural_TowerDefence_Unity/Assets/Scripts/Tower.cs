@@ -18,6 +18,9 @@ public class Tower : MonoBehaviour
 
     public SnapPoint snapPoint;
 
+    [Header("----- UI -----")]
+    [SerializeField] private HealthBar healthBar;
+
     void Start()
     {
         if (towerData != null)
@@ -32,6 +35,10 @@ public class Tower : MonoBehaviour
             projectileArcHeight = towerData.projectileArcHeight;
             projectilePrefab = towerData.projectilePrefab;
         }
+            if (healthBar != null)
+            {
+                healthBar.SetHealth(health / maxHealth);
+            }
     }
 
     void Update()
@@ -79,6 +86,10 @@ public class Tower : MonoBehaviour
     public void TakeDamage(int amount)
     {
         health -= amount;
+            if (healthBar != null)
+            {
+                healthBar.SetHealth(health / maxHealth);
+            }
         if (health <= 0)
         {
             Die();

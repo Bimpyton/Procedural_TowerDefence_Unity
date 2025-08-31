@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7058701130354150602}
   - component: {fileID: 6191326782715268247}
   - component: {fileID: 2988433987736640281}
-  m_Layer: 3
+  m_Layer: 20
   m_Name: MainTower
   m_TagString: MainTower
   m_Icon: {fileID: 0}
@@ -54,6 +54,7 @@ MonoBehaviour:
   attackRange: 20
   projectileArcHeight: 5
   projectilePrefab: {fileID: 2616329685473949415, guid: 1b9f832507d82e54ab29931c9095e373, type: 3}
+  healthBar: {fileID: 0}
 --- !u!33 &7058701130354150602
 MeshFilter:
   m_ObjectHideFlags: 0

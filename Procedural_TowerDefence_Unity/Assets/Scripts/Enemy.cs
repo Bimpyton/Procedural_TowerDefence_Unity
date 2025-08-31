@@ -1,11 +1,9 @@
 using UnityEngine;
 using System.Collections.Generic;
-// Ensure Projectile is recognized
 using System;
 
 public class Enemy : MonoBehaviour
 {
-
     [Header("----- DATA -----")]
     public EnemyData enemyData;
 
@@ -13,6 +11,9 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float speed = 1f;
     [SerializeField] private float health = 10f;
     [SerializeField] private float maxHealth = 10f;
+    [Header("----- REWARD -----")]
+    public int deathValue = 10; // Gold rewarded to player on death
+    public int deathXP = 10; // XP rewarded to player on death
 
     [Header("----- ATTACK -----")]
     [SerializeField] private float damage = 5f;
@@ -21,6 +22,9 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float attackRange = 10f;
     [SerializeField] private float projectileArcHeight = 5f;
     private float lastAttackTime = 0f;
+
+        [Header("----- UI -----")]
+        [SerializeField] private HealthBar healthBar;
 
     void Start()
     {
@@ -36,6 +40,8 @@ public class Enemy : MonoBehaviour
             projectilePrefab = enemyData.projectilePrefab;
             attackRange = enemyData.attackRange;
             projectileArcHeight = enemyData.projectileArcHeight;
+            deathValue = enemyData.deathValue;
+            deathXP = enemyData.deathXP;
         }
     }
 
@@ -99,6 +105,10 @@ public class Enemy : MonoBehaviour
             {
                 minDist = dist;
                 nearestTower = tower;
+            if (healthBar != null)
+            {
+                healthBar.SetHealth(health / maxHealth);
+            }
             }
         }
         if (nearestTower != null && projectilePrefab != null)
@@ -143,6 +153,10 @@ public class Enemy : MonoBehaviour
     public void TakeDamage(int amount)
     {
         health -= amount;
+            if (healthBar != null)
+            {
+                healthBar.SetHealth(health / maxHealth);
+            }
         if (health <= 0)
         {
             Die();
@@ -151,6 +165,13 @@ public class Enemy : MonoBehaviour
 
     void Die()
     {
+        // Award player gold and XP
+        PlayerManager playerManager = FindObjectOfType<PlayerManager>();
+        if (playerManager != null)
+        {
+            playerManager.AddGold(deathValue);
+            playerManager.AddScore(deathXP); // XP per kill
+        }
         Destroy(gameObject);
     }
 
