@@ -51,6 +51,7 @@ MonoBehaviour:
   enemyData: {fileID: 11400000, guid: 869afea171ac16646b6ce2b2475fb211, type: 2}
   speed: 0
   health: 0
+  maxHealth: 10
   damage: 0
   attackSpeed: 0
   projectilePrefab: {fileID: 2616329685473949415, guid: c5ae241f814570a41af3b62040af6de3, type: 3}
@@ -89,6 +90,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: c417da1001356ef44b69fffb92718adf, type: 2}
+  - {fileID: 2100000, guid: a0c86f6e80efd70489099970b2c14676, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

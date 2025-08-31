@@ -5,7 +5,7 @@ public class EnemyData : ScriptableObject
 {
     public GameObject prefab; // The enemy prefab to instantiate
     public float speed = 5f; // Movement speed
-    public int health = 10; // Health points
+    public float maxHealth = 10f; // Max health points
 
     [Header("----- ATTACK SETTINGS -----")]
     public float attackSpeed = 1f; // Attacks per second

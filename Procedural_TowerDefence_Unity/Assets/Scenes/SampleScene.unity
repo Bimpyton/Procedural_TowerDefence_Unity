@@ -119,6 +119,71 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &4843357
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -3466754501309598307, guid: 1b9f832507d82e54ab29931c9095e373, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].time
+      value: 0.10846901
+      objectReference: {fileID: 0}
+    - target: {fileID: -3466754501309598307, guid: 1b9f832507d82e54ab29931c9095e373, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
+      value: 0.47086525
+      objectReference: {fileID: 0}
+    - target: {fileID: 732001498299460603, guid: 1b9f832507d82e54ab29931c9095e373, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 13.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 732001498299460603, guid: 1b9f832507d82e54ab29931c9095e373, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 732001498299460603, guid: 1b9f832507d82e54ab29931c9095e373, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 6.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 732001498299460603, guid: 1b9f832507d82e54ab29931c9095e373, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 732001498299460603, guid: 1b9f832507d82e54ab29931c9095e373, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 732001498299460603, guid: 1b9f832507d82e54ab29931c9095e373, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 732001498299460603, guid: 1b9f832507d82e54ab29931c9095e373, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 732001498299460603, guid: 1b9f832507d82e54ab29931c9095e373, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 732001498299460603, guid: 1b9f832507d82e54ab29931c9095e373, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 732001498299460603, guid: 1b9f832507d82e54ab29931c9095e373, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2616329685473949415, guid: 1b9f832507d82e54ab29931c9095e373, type: 3}
+      propertyPath: m_Name
+      value: Main Tower Projectile
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 1b9f832507d82e54ab29931c9095e373, type: 3}
 --- !u!1 &294258814
 GameObject:
   m_ObjectHideFlags: 0
@@ -177,7 +242,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e54b509dc1c2ec64c90c95ac115c35bc, type: 2}
+  - {fileID: 2100000, guid: b930b4198cf44d2488f1012e9f662279, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -580,9 +645,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aaf47bfac9884bb49b51af6d047e92ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waterMaterial: {fileID: 2100000, guid: e54b509dc1c2ec64c90c95ac115c35bc, type: 2}
-  middleMaterial: {fileID: 2100000, guid: 5e0e16ec4b797a141b604c8f42cf6410, type: 2}
-  highMaterial: {fileID: 2100000, guid: ef69b84a48b60d24b8833d76a39a50f1, type: 2}
+  waterMaterial: {fileID: 2100000, guid: b930b4198cf44d2488f1012e9f662279, type: 2}
+  middleMaterial: {fileID: 2100000, guid: c17ead05b0b429e4889cf7cbab1d9803, type: 2}
+  highMaterial: {fileID: 2100000, guid: 8998ecd6e47cd554a961eb389db43dd5, type: 2}
   waterHeight: -4
   middleHeight: -1
   cubes: []
@@ -680,6 +745,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b36d92e7a6fa91f40b09035730fb4d2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  frameRateLimit: 100
   waves:
   - {fileID: 11400000, guid: bb72e5aac81fa9a43bc2cf378ab63b88, type: 2}
   timeBetweenWaves: 5
@@ -826,3 +892,4 @@ SceneRoots:
   - {fileID: 1252603079}
   - {fileID: 891036459}
   - {fileID: 988317217}
+  - {fileID: 4843357}

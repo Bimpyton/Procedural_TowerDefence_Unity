@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5726317081690937177}
+  - component: {fileID: 9013296869638296432}
   - component: {fileID: -4120901127179192453}
   m_Layer: 0
   m_Name: TowerTest
@@ -33,6 +34,27 @@ Transform:
   - {fileID: 4370029397316396039}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9013296869638296432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 682686996252295135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 601a12a7e63ada8488ea65382bc9141d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  towerData: {fileID: 11400000, guid: 507315dd43984b840a92ae86b19dc38c, type: 2}
+  maxHealth: 1
+  health: 1
+  damage: 1
+  attackSpeed: 1
+  attackRange: 1
+  projectileArcHeight: 1
+  projectilePrefab: {fileID: 2616329685473949415, guid: f276d7867ac578641b388bf38a5a2147, type: 3}
+  snapPoint: {fileID: 0}
 --- !u!65 &-4120901127179192453
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -118,7 +140,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c2e40fa84d53ccd428f640eac126b1fb, type: 2}
+  - {fileID: 2100000, guid: a037245f5223f394fbfaefef9f8faa83, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4250453449647729183}
+  - component: {fileID: 2455862647358023098}
   - component: {fileID: 7058701130354150602}
   - component: {fileID: 6191326782715268247}
   - component: {fileID: 2988433987736640281}
@@ -34,6 +35,25 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2455862647358023098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3339977096270105870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d2be3f13ac991a41a2f780309a6ee38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  health: 100
+  damage: 20
+  attackSpeed: 1
+  attackRange: 20
+  projectileArcHeight: 5
+  projectilePrefab: {fileID: 2616329685473949415, guid: 1b9f832507d82e54ab29931c9095e373, type: 3}
 --- !u!33 &7058701130354150602
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -65,7 +85,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a701c06082eb05f449e0d5c05debabc9, type: 2}
+  - {fileID: 2100000, guid: f41a682617224594181342b601376997, type: 2}
+  - {fileID: 2100000, guid: 00c8e74c8a024794c9fe05c6aa058485, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -1,12 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using NUnit;
+using Unity.Properties;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance { get; private set; }
+        public static GameManager Instance { get; private set; }
+        
+    [Header("----- GAME SETTINGS -----")]
+    [SerializeField] private int frameRateLimit = 60;
 
-    [Header("Wave Settings")]
+    
+
+    [Header("----- WAVE SETTINGS -----")]
     public List<WaveData> waves = new List<WaveData>();
     private int currentWaveIndex = 0;
     private List<Spawner> spawners = new List<Spawner>();
@@ -14,17 +21,22 @@ public class GameManager : MonoBehaviour
     private bool isWaveInProgress = false;
     [SerializeField] private float timeBetweenWaves = 5f;
 
+    
+
     void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // Optional: Remove if not needed across scenes
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
             Destroy(gameObject);
         }
+        
+        //add frame rate limit with variable
+        Application.targetFrameRate = frameRateLimit;
     }
 
     IEnumerator Start()
@@ -66,13 +78,11 @@ public class GameManager : MonoBehaviour
     {
         if (currentWaveIndex >= waves.Count)
         {
-            Debug.Log("All waves completed");
             return;
         }
 
         if (isWaveInProgress)
         {
-            Debug.Log("Wave in progress, cannot start new wave");
             return;
         }
 
@@ -91,13 +101,11 @@ public class GameManager : MonoBehaviour
     public void RegisterEnemy()
     {
         activeEnemies++;
-        Debug.Log($"Enemy registered. Total active enemies: {activeEnemies}");
     }
 
     public void UnregisterEnemy()
     {
         activeEnemies--;
-        Debug.Log($"Enemy unregistered. Total active enemies: {activeEnemies}");
         if (activeEnemies <= 0 && !isWaveInProgress)
         {
             return;

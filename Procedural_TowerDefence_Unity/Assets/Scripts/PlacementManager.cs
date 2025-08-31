@@ -21,22 +21,26 @@ public class PlacementManager : MonoBehaviour
             {
                 if (hit.collider.CompareTag("SnapPoint"))
                 {
-                    PlaceObject(hit.collider.transform.position);
-                    hit.collider.gameObject.SetActive(false);
+                    SnapPoint snapPoint = hit.collider.GetComponent<SnapPoint>();
+                    if (snapPoint != null && !snapPoint.isOccupied)
+                    {
+                        PlaceObject(snapPoint);
+                    }
                 }
             }
         }
     }
 
-    void PlaceObject(Vector3 snapPosition)
+    void PlaceObject(SnapPoint snapPoint)
     {
-        GameObject tower = Instantiate(towerPrefab, snapPosition, Quaternion.identity);
-
-        // Start tiny so the spring effect can animate it
-        tower.transform.localScale = Vector3.one * startScale;
-
-        StartCoroutine(SpringScale(tower.transform, Vector3.one, springTime, springiness));
-}
+        snapPoint.PlaceTower(towerPrefab);
+        if (snapPoint.isOccupied && snapPoint.transform.childCount > 0)
+        {
+            Transform towerTransform = snapPoint.transform.GetChild(snapPoint.transform.childCount - 1);
+            towerTransform.localScale = Vector3.one * startScale;
+            StartCoroutine(SpringScale(towerTransform, Vector3.one, springTime, springiness));
+        }
+    }
 
 
     private System.Collections.IEnumerator SpringScale(Transform target, Vector3 finalScale, float duration, float springiness)

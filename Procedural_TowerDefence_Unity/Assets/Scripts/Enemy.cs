@@ -10,30 +10,34 @@ public class Enemy : MonoBehaviour
     public EnemyData enemyData;
 
     [Header("----- ENEMY STATS -----")]
-    [SerializeField] private float speed;
-    [SerializeField] private int health;
+    [SerializeField] private float speed = 1f;
+    [SerializeField] private float health = 10f;
+    [SerializeField] private float maxHealth = 10f;
 
     [Header("----- ATTACK -----")]
-    [SerializeField] private float damage;
-    [SerializeField] private float attackSpeed;
+    [SerializeField] private float damage = 5f;
+    [SerializeField] private float attackSpeed = 1f;
     [SerializeField] private GameObject projectilePrefab;
-    [SerializeField] private float attackRange;
-    [SerializeField] private float projectileArcHeight;
+    [SerializeField] private float attackRange = 10f;
+    [SerializeField] private float projectileArcHeight = 5f;
     private float lastAttackTime = 0f;
 
-        void Start()
+    void Start()
+    {
+        if (enemyData != null)
         {
-            if (enemyData != null)
-            {
-                speed = enemyData.speed;
-                health = enemyData.health;
-                damage = enemyData.damage;
-                attackSpeed = enemyData.attackSpeed;
-                projectilePrefab = enemyData.projectilePrefab;
-                attackRange = enemyData.attackRange;
-                projectileArcHeight = enemyData.projectileArcHeight;
-            }
+            speed = enemyData.speed;
+            maxHealth = enemyData.maxHealth;
+
+            health = maxHealth;
+
+            damage = enemyData.damage;
+            attackSpeed = enemyData.attackSpeed;
+            projectilePrefab = enemyData.projectilePrefab;
+            attackRange = enemyData.attackRange;
+            projectileArcHeight = enemyData.projectileArcHeight;
         }
+    }
 
     [Header("----- PATHFINDING -----")]
     
@@ -84,30 +88,32 @@ public class Enemy : MonoBehaviour
 
     void Attack()
     {
-            // Find nearest tower in range
-            GameObject[] towers = GameObject.FindGameObjectsWithTag("Tower");
-            GameObject nearestTower = null;
-            float minDist = Mathf.Infinity;
-            foreach (var tower in towers)
+        // Find nearest tower in range
+        GameObject[] towers = GameObject.FindGameObjectsWithTag("Tower");
+        GameObject nearestTower = null;
+        float minDist = Mathf.Infinity;
+        foreach (var tower in towers)
+        {
+            float dist = Vector3.Distance(transform.position, tower.transform.position);
+            if (dist < attackRange && dist < minDist)
             {
-                float dist = Vector3.Distance(transform.position, tower.transform.position);
-                if (dist < attackRange && dist < minDist)
-                {
-                    minDist = dist;
-                    nearestTower = tower;
-                }
+                minDist = dist;
+                nearestTower = tower;
             }
-            if (nearestTower != null && projectilePrefab != null)
+        }
+        if (nearestTower != null && projectilePrefab != null)
+        {
+            // Shoot projectile
+            GameObject proj = Instantiate(projectilePrefab, transform.position + Vector3.up, Quaternion.identity);
+            Projectile projectile = proj.GetComponent<Projectile>();
+            if (projectile != null)
             {
-                // Shoot projectile
-                GameObject proj = Instantiate(projectilePrefab, transform.position + Vector3.up, Quaternion.identity);
-                Projectile projectile = proj.GetComponent<Projectile>();
-                if (projectile != null)
-                {
-                    projectile.target = nearestTower.transform;
-                    projectile.arcHeight = projectileArcHeight;
-                }
+                projectile.target = nearestTower.transform;
+                projectile.arcHeight = projectileArcHeight;
+                projectile.speed = 10f;
+                projectile.damage = (int)damage;
             }
+        }
     }
 
         void TryAttackTower()
@@ -119,13 +125,33 @@ public class Enemy : MonoBehaviour
             }
         }
 
+
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("MainTower"))
         {
             Debug.Log($"Enemy hit Main Tower");
+            MainTower mainTower = other.GetComponent<MainTower>();
+            if (mainTower != null)
+            {
+                mainTower.TakeDamage(10); // Flat 10 damage to main tower
+            }
             Destroy(gameObject);
         }
+    }
+
+    public void TakeDamage(int amount)
+    {
+        health -= amount;
+        if (health <= 0)
+        {
+            Die();
+        }
+    }
+
+    void Die()
+    {
+        Destroy(gameObject);
     }
 
     void OnDestroy()
