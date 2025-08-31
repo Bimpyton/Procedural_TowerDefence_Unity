@@ -1,10 +1,10 @@
-Shader "Custom/LitOutline3D_Fixed"
+Shader "Custom/OutlineShader"
 {
     Properties
     {
         _BaseColor("Base Color", Color) = (1,1,1,1)
         _OutlineColor("Outline Color", Color) = (0,0,0,1)
-        _OutlineThickness("Outline Thickness", Range(0.0,0.05)) = 0.02
+        _OutlineThickness("Outline Thickness", Range(0.0,5)) = 0.02
     }
 
     SubShader
@@ -20,7 +20,6 @@ Shader "Custom/LitOutline3D_Fixed"
             #pragma vertex vertBase
             #pragma fragment fragBase
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 
             struct Attributes
             {
@@ -49,10 +48,7 @@ Shader "Custom/LitOutline3D_Fixed"
 
             float4 fragBase(Varyings IN) : SV_Target
             {
-                float3 normal = normalize(IN.normalWS);
-                float3 viewDir = normalize(_WorldSpaceCameraPos - IN.positionWS);
-                float3 lighting = ShadeSurfaceLambert(normal, float3(1,1,1));
-                return float4(_BaseColor.rgb * lighting, _BaseColor.a);
+                return _BaseColor;
             }
             ENDHLSL
         }
@@ -63,8 +59,8 @@ Shader "Custom/LitOutline3D_Fixed"
             Name "OUTLINE"
             Tags { "LightMode"="UniversalForward" }
             Cull Front
-            ZWrite On
-            ZTest LEqual
+            ZWrite Off
+            ZTest Always
             HLSLPROGRAM
             #pragma vertex vertOutline
             #pragma fragment fragOutline
@@ -106,7 +102,7 @@ Shader "Custom/LitOutline3D_Fixed"
 
             float4 fragOutline(Varyings IN) : SV_Target
             {
-                return _OutlineColor;
+                return float4(1,0,0,1); // Bright red for testing
             }
             ENDHLSL
         }
