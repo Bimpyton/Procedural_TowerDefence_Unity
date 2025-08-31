@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5996234797366784499}
   - component: {fileID: 7872711080313545453}
   - component: {fileID: 5022131366348778802}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Spawner
   m_TagString: Spawner
   m_Icon: {fileID: 0}
@@ -77,11 +77,10 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 5
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: d9608e843f7a592469d460150664ecb6, type: 2}
-  - {fileID: 2100000, guid: 4de9fbeb80ef7ec44a7f0d8720103b99, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

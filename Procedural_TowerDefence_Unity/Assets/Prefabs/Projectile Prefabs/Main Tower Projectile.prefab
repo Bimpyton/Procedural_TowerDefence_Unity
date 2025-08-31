@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6658255028628680280}
   - component: {fileID: 9049194947837516409}
   - component: {fileID: -3466754501309598307}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Main Tower Projectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -80,11 +80,10 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 5
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 0f97b8d0cadfb3e4184025209520d226, type: 2}
-  - {fileID: 2100000, guid: 00c8e74c8a024794c9fe05c6aa058485, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

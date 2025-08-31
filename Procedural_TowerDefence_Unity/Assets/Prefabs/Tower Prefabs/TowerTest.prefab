@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 4370029397316396039}
   - component: {fileID: 3038683513094172534}
   - component: {fileID: 2438319759533690886}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Tower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -137,10 +137,10 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 5
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a037245f5223f394fbfaefef9f8faa83, type: 2}
+  - {fileID: 2100000, guid: 103f6b6c8fec04b4a88ca90f36967ae6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
