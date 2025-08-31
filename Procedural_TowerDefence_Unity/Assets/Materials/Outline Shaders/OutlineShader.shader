@@ -1,4 +1,4 @@
-Shader "Custom/LitOutline3D"
+Shader "Custom/LitOutline3D_Fixed"
 {
     Properties
     {
@@ -32,7 +32,7 @@ Shader "Custom/LitOutline3D"
             {
                 float4 positionCS : SV_POSITION;
                 float3 positionWS : TEXCOORD0;
-                float3 normalWS : NORMAL;
+                float3 normalWS : TEXCOORD1;
             };
 
             float4 _BaseColor;
@@ -40,10 +40,10 @@ Shader "Custom/LitOutline3D"
             Varyings vertBase(Attributes IN)
             {
                 Varyings OUT;
-                float4 posWS = TransformObjectToWorld(float4(IN.positionOS,1.0));
-                OUT.positionWS = posWS.xyz;
+                float3 posWS = TransformObjectToWorld(IN.positionOS);
+                OUT.positionWS = posWS;
                 OUT.normalWS = TransformObjectToWorldNormal(IN.normalOS);
-                    OUT.positionCS = TransformWorldToHClip(posWS);
+                OUT.positionCS = TransformWorldToHClip(posWS);
                 return OUT;
             }
 
@@ -51,7 +51,7 @@ Shader "Custom/LitOutline3D"
             {
                 float3 normal = normalize(IN.normalWS);
                 float3 viewDir = normalize(_WorldSpaceCameraPos - IN.positionWS);
-                float3 lighting = ShadeSurfaceLambert(normal, float3(1,1,1)); // simple lighting
+                float3 lighting = ShadeSurfaceLambert(normal, float3(1,1,1));
                 return float4(_BaseColor.rgb * lighting, _BaseColor.a);
             }
             ENDHLSL
@@ -62,7 +62,7 @@ Shader "Custom/LitOutline3D"
         {
             Name "OUTLINE"
             Tags { "LightMode"="UniversalForward" }
-            Cull Front // render backfaces for outline
+            Cull Front
             ZWrite On
             ZTest LEqual
             HLSLPROGRAM
@@ -79,8 +79,8 @@ Shader "Custom/LitOutline3D"
             struct Varyings
             {
                 float4 positionCS : SV_POSITION;
-                float3 normalWS : NORMAL;
                 float3 positionWS : TEXCOORD0;
+                float3 normalWS : TEXCOORD1;
             };
 
             float _OutlineThickness;
@@ -89,17 +89,16 @@ Shader "Custom/LitOutline3D"
             Varyings vertOutline(Attributes IN)
             {
                 Varyings OUT;
-                // World space position & normal
-                float4 posWS = TransformObjectToWorld(float4(IN.positionOS,1.0));
+                float3 posWS = TransformObjectToWorld(IN.positionOS);
                 float3 normalWS = TransformObjectToWorldNormal(IN.normalOS);
 
-                // Screen-space consistent offset
-                float3 viewDir = normalize(_WorldSpaceCameraPos - posWS.xyz);
+                // Screen-space consistent thickness
+                float3 viewDir = normalize(_WorldSpaceCameraPos - posWS);
                 float ndotv = dot(normalWS, viewDir);
-                float thickness = _OutlineThickness / max(abs(ndotv), 0.1); // avoid division by zero
+                float thickness = _OutlineThickness / max(abs(ndotv), 0.1);
 
-                float4 extrudedPosWS = float4(posWS.xyz + normalWS * thickness, 1.0);
-                OUT.positionWS = extrudedPosWS.xyz;
+                float3 extrudedPosWS = posWS + normalWS * thickness;
+                OUT.positionWS = extrudedPosWS;
                 OUT.normalWS = normalWS;
                 OUT.positionCS = TransformWorldToHClip(extrudedPosWS);
                 return OUT;
@@ -109,7 +108,6 @@ Shader "Custom/LitOutline3D"
             {
                 return _OutlineColor;
             }
-
             ENDHLSL
         }
     }
