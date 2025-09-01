@@ -880,7 +880,7 @@ MonoBehaviour:
   towerPrefab: {fileID: 682686996252295135, guid: 46abe049a596a564b8d3ba8728bdcd12, type: 3}
   cam: {fileID: 330585545}
   cubeManager: {fileID: 891036458}
-  springiness: 3
+  springiness: 10
   springTime: 0.5
   startScale: 0.5
 --- !u!4 &988317217

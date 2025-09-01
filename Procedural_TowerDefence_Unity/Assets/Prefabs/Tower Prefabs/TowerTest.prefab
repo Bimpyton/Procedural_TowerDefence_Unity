@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 5726317081690937177}
   - component: {fileID: 9013296869638296432}
   - component: {fileID: -4120901127179192453}
+  - component: {fileID: 2493535185175400060}
+  - component: {fileID: 4946907354372001892}
   m_Layer: 20
   m_Name: TowerTest
   m_TagString: Tower
@@ -31,7 +33,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4370029397316396039}
   - {fileID: 3190000128728628674}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -55,6 +56,7 @@ MonoBehaviour:
   attackRange: 1
   projectileArcHeight: 1
   projectilePrefab: {fileID: 2616329685473949415, guid: f276d7867ac578641b388bf38a5a2147, type: 3}
+  cost: 50
   snapPoint: {fileID: 0}
   healthBar: {fileID: 3538877449045552284}
 --- !u!65 &-4120901127179192453
@@ -77,55 +79,22 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1, y: 2, z: 1}
-  m_Center: {x: 0, y: 1, z: 0}
---- !u!1 &2876136634294341538
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4370029397316396039}
-  - component: {fileID: 3038683513094172534}
-  - component: {fileID: 2438319759533690886}
-  m_Layer: 20
-  m_Name: Tower
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4370029397316396039
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2876136634294341538}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5726317081690937177}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &3038683513094172534
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!33 &2493535185175400060
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2876136634294341538}
+  m_GameObject: {fileID: 682686996252295135}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &2438319759533690886
+--- !u!23 &4946907354372001892
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2876136634294341538}
+  m_GameObject: {fileID: 682686996252295135}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1

@@ -36,8 +36,11 @@ public class PlacementManager : MonoBehaviour
         if (snapPoint.isOccupied && snapPoint.transform.childCount > 0)
         {
             Transform towerTransform = snapPoint.transform.GetChild(snapPoint.transform.childCount - 1);
-            towerTransform.localScale = Vector3.one * startScale;
-            StartCoroutine(SpringScale(towerTransform, Vector3.one, springTime, springiness));
+            if (towerTransform.CompareTag("Tower"))
+            {
+                towerTransform.localScale = Vector3.one * startScale;
+                StartCoroutine(SpringScale(towerTransform, Vector3.one, springTime, springiness));
+            }
         }
     }
 
@@ -52,8 +55,8 @@ public class PlacementManager : MonoBehaviour
             time += Time.deltaTime;
             float progress = time / duration;
 
-            // Spring formula
-            float value = Mathf.Sin(progress * Mathf.PI * springiness) * (1f - progress) + progress;
+                // Spring formula
+                float value = 1f - Mathf.Exp(-springiness * progress) * Mathf.Cos(progress * Mathf.PI * springiness);
 
             target.localScale = Vector3.LerpUnclamped(startScale, finalScale, value);
             yield return null;

@@ -15,6 +15,7 @@ public class Tower : MonoBehaviour
     [SerializeField] private float projectileArcHeight = 5f;
     [SerializeField] private GameObject projectilePrefab;
     private float lastAttackTime = 0f;
+    [SerializeField] private float cost = 50f;
 
     public SnapPoint snapPoint;
 
