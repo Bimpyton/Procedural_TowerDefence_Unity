@@ -1,8 +1,12 @@
 using UnityEngine;
-
+using System.Collections;
 
 public class Tower : MonoBehaviour
 {
+    [Header("----- SPRING EFFECT -----")]
+    [SerializeField] private float springiness = 4f;
+    [SerializeField] private float springTime = 1f;
+    [SerializeField] private float startScale = 0.01f;
     [Header("----- DATA -----")]
     public TowerData towerData;
 
@@ -27,19 +31,37 @@ public class Tower : MonoBehaviour
         if (towerData != null)
         {
             maxHealth = towerData.maxHealth;
-            
             health = maxHealth;
-        
             damage = towerData.damage;
             attackSpeed = towerData.attackSpeed;
             attackRange = towerData.attackRange;
             projectileArcHeight = towerData.projectileArcHeight;
             projectilePrefab = towerData.projectilePrefab;
         }
-            if (healthBar != null)
-            {
-                healthBar.SetHealth(health / maxHealth);
-            }
+        if (healthBar != null)
+        {
+            healthBar.SetHealth(health / maxHealth);
+        }
+
+        // Spring effect on placement
+        transform.localScale = Vector3.one * startScale;
+        StartCoroutine(SpringScale(transform, Vector3.one, springTime, springiness));
+    }
+
+    private IEnumerator SpringScale(Transform target, Vector3 finalScale, float duration, float springiness)
+    {
+        float time = 0f;
+        Vector3 startScale = target.localScale;
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            float progress = time / duration;
+            // Improved spring formula: damped sine wave for bouncier effect
+            float value = 1f - Mathf.Exp(-springiness * progress) * Mathf.Cos(progress * Mathf.PI * springiness);
+            target.localScale = Vector3.LerpUnclamped(startScale, finalScale, value);
+            yield return null;
+        }
+        target.localScale = finalScale; // Snap to final
     }
 
     void Update()

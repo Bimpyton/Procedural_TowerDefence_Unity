@@ -6,9 +6,6 @@ public class PlacementManager : MonoBehaviour
     public GameObject towerPrefab; // Prefab you want to place
     public Camera cam;
     [SerializeField] private CubeManager cubeManager;
-    [SerializeField] private float springiness = 4f; // Adjust for more or less spring effect
-    [SerializeField] private float springTime = 1f;
-    [SerializeField] private float startScale = 0.01f;
 
     void Update()
     {
@@ -36,11 +33,6 @@ public class PlacementManager : MonoBehaviour
         if (snapPoint.isOccupied && snapPoint.transform.childCount > 0)
         {
             Transform towerTransform = snapPoint.transform.GetChild(snapPoint.transform.childCount - 1);
-            if (towerTransform.CompareTag("Tower"))
-            {
-                towerTransform.localScale = Vector3.one * startScale;
-                StartCoroutine(SpringScale(towerTransform, Vector3.one, springTime, springiness));
-            }
         }
     }
 
@@ -63,6 +55,5 @@ public class PlacementManager : MonoBehaviour
         }
 
         target.localScale = finalScale; // Snap to final
-
     }
 }
