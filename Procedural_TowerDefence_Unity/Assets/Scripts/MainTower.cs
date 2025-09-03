@@ -5,8 +5,8 @@ public class MainTower : MonoBehaviour
 {
     [Header("Tower Stats")]
 
-    [SerializeField] private float maxHealth = 100f;
-    [SerializeField] private float health = 100f;
+    public float health = 100f;
+    public float maxHealth = 100f;
     [SerializeField] private float damage = 20f;
     [SerializeField] private float attackSpeed = 1f;
     [SerializeField] private float attackRange = 10f;

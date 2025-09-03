@@ -9,16 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf40f0b8dbc605546bd66461d1c5bbb4, type: 3}
-  m_Name: BasicEnemy
+  m_Script: {fileID: 11500000, guid: 85c5fd17226e2924fb46ea572514ddc2, type: 3}
+  m_Name: Tower_Catapult
   m_EditorClassIdentifier: 
-  prefab: {fileID: 8599192043079365083, guid: f958c37445cc46248b6f28e67ab02cd9, type: 3}
-  speed: 1
-  maxHealth: 50
+  projectileSpeed: 10
+  projectileDamage: 20
+  projectilePrefab: {fileID: 2616329685473949415, guid: f276d7867ac578641b388bf38a5a2147, type: 3}
+  maxHealth: 100
+  damage: 20
   attackSpeed: 1
-  damage: 5
   attackRange: 10
-  projectilePrefab: {fileID: 2616329685473949415, guid: c5ae241f814570a41af3b62040af6de3, type: 3}
   projectileArcHeight: 5
-  deathValue: 5
-  deathXP: 5
+  cost: 50

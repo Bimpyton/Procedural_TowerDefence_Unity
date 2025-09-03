@@ -10,7 +10,6 @@ public class TowerData : ScriptableObject
 
 	[Header("----- TOWER STATS -----")]
 	public float maxHealth = 100f;
-	public float damage = 20f;
 	public float attackSpeed = 1f;
 	public float attackRange = 10f;
 	public float projectileArcHeight = 5f;

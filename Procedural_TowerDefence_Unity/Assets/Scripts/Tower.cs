@@ -13,7 +13,7 @@ public class Tower : MonoBehaviour
     [Header("----- TOWER STATS -----")]
     [SerializeField] private float maxHealth = 100f;
     [SerializeField] private float health = 100f;
-    [SerializeField] private float damage = 20f;
+    [SerializeField] private float projectileDamage = 20f;
     [SerializeField] private float attackSpeed = 1f;
     [SerializeField] private float attackRange = 10f;
     [SerializeField] private float projectileArcHeight = 5f;
@@ -32,7 +32,7 @@ public class Tower : MonoBehaviour
         {
             maxHealth = towerData.maxHealth;
             health = maxHealth;
-            damage = towerData.damage;
+            projectileDamage = towerData.projectileDamage;
             attackSpeed = towerData.attackSpeed;
             attackRange = towerData.attackRange;
             projectileArcHeight = towerData.projectileArcHeight;
@@ -100,8 +100,8 @@ public class Tower : MonoBehaviour
             {
                 projectile.target = nearestEnemy.transform;
                 projectile.arcHeight = projectileArcHeight;
-                projectile.speed = 10f;
-                projectile.damage = (int)damage;
+                projectile.speed = towerData.projectileSpeed;
+                projectile.damage = (int)projectileDamage;
             }
         }
     }
