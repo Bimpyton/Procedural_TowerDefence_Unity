@@ -714,7 +714,7 @@ MonoBehaviour:
   centerPoint: {fileID: 0}
   mainCamera: {fileID: 330585545}
   minZoom: 5
-  maxZoom: 20
+  maxZoom: 15
   zoomSpeed: 100
   rotationSpeed: 70
   pitchSpeed: 50
@@ -1524,12 +1524,18 @@ MonoBehaviour:
   towerOptions:
   - towerPrefab: {fileID: 682686996252295135, guid: f9b91e1781e1dd645acba1567885380c, type: 3}
     previewMesh: {fileID: 1284239656564370568, guid: b327cc2b2b43fdb4089c6f6fdabbad44, type: 3}
+    towerData: {fileID: 11400000, guid: 2f3423532bb5b1c429e37037dfbfd965, type: 2}
   - towerPrefab: {fileID: 682686996252295135, guid: 0a9afd1386f40854798dafd7136fb581, type: 3}
     previewMesh: {fileID: 1284239656564370568, guid: 12e7a07157f30b944bb019f3309725c5, type: 3}
+    towerData: {fileID: 11400000, guid: 9e2fe47ad6a634644b165bec23891dc7, type: 2}
   - towerPrefab: {fileID: 682686996252295135, guid: c14b3a15099daa349885513304e0540a, type: 3}
     previewMesh: {fileID: 1284239656564370568, guid: decd0e773410e8146bfe2684e03b602e, type: 3}
+    towerData: {fileID: 11400000, guid: b56fe2072b127b84797d9de6572dc721, type: 2}
   cam: {fileID: 330585545}
   cubeManager: {fileID: 891036458}
+  playerManager: {fileID: 880645617}
+  shakeDuration: 0.5
+  shakeMagnitude: 0.2
 --- !u!4 &988317217
 Transform:
   m_ObjectHideFlags: 0

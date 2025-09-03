@@ -50,10 +50,10 @@ MonoBehaviour:
   springiness: 8
   springTime: 2
   startScale: 0.01
-  towerData: {fileID: 11400000, guid: 507315dd43984b840a92ae86b19dc38c, type: 2}
+  towerData: {fileID: 11400000, guid: 2f3423532bb5b1c429e37037dfbfd965, type: 2}
   maxHealth: 1
   health: 1
-  damage: 1
+  projectileDamage: 20
   attackSpeed: 1
   attackRange: 1
   projectileArcHeight: 1

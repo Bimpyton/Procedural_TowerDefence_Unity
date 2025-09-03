@@ -47,12 +47,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d2be3f13ac991a41a2f780309a6ee38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
-  health: 100
-  damage: 20
+  health: 1000
+  maxHealth: 1000
+  damage: 25
   attackSpeed: 1
   attackRange: 20
-  projectileArcHeight: 5
+  projectileArcHeight: 0.5
   projectilePrefab: {fileID: 2616329685473949415, guid: 1b9f832507d82e54ab29931c9095e373, type: 3}
   healthBar: {fileID: 0}
 --- !u!33 &7058701130354150602

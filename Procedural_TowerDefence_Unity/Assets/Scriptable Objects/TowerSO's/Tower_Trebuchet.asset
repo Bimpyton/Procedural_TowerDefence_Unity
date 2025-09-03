@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectileSpeed: 5
   projectileDamage: 50
-  projectilePrefab: {fileID: 0}
-  maxHealth: 20
+  projectilePrefab: {fileID: 2616329685473949415, guid: fde8290bf2b41564386455627ad961b3, type: 3}
+  maxHealth: 50
   attackSpeed: 0.5
-  attackRange: 15
-  projectileArcHeight: 5
-  cost: 50
+  attackRange: 10
+  projectileArcHeight: 10
+  cost: 25

@@ -19,4 +19,4 @@ MonoBehaviour:
   attackSpeed: 1
   attackRange: 10
   projectileArcHeight: 5
-  cost: 50
+  cost: 10

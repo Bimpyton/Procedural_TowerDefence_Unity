@@ -1,6 +1,7 @@
 
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
 using System.Collections.Generic;
 
 
@@ -9,19 +10,26 @@ public class TowerPlacementOption
 {
     public GameObject towerPrefab;
     public GameObject previewMesh;
+    public TowerData towerData;
 }
 
 public class PlacementManager : MonoBehaviour
 {
     [Header("----- TOWER OPTIONS -----")]
     public List<TowerPlacementOption> towerOptions = new List<TowerPlacementOption>();
+
     public Camera cam;
     [SerializeField] private CubeManager cubeManager;
+    [SerializeField] private PlayerManager playerManager;
 
     private int selectedTowerIndex = -1; // -1 means no selection
     private GameObject previewObject;
     private SnapPoint currentSnapPoint;
     private bool isPlacing = false;
+
+    [Header("----- CAMERA SHAKE -----")]
+    [SerializeField] private float shakeDuration = 0.5f;
+    [SerializeField] private float shakeMagnitude = 0.2f;
 
     void Update()
     {
@@ -114,9 +122,17 @@ public class PlacementManager : MonoBehaviour
 
     void PlaceObject(SnapPoint snapPoint)
     {
-        if (towerOptions.Count > selectedTowerIndex && towerOptions[selectedTowerIndex].towerPrefab != null)
+        if (towerOptions.Count > selectedTowerIndex && towerOptions[selectedTowerIndex].towerPrefab != null && towerOptions[selectedTowerIndex].towerData != null)
         {
-            snapPoint.PlaceTower(towerOptions[selectedTowerIndex].towerPrefab);
+            int cost = towerOptions[selectedTowerIndex].towerData.cost;
+            if (playerManager != null && playerManager.SpendGold(cost))
+            {
+                snapPoint.PlaceTower(towerOptions[selectedTowerIndex].towerPrefab);
+            }
+            else
+            {
+                CantAfford();
+            }
         }
         // Reset selection and preview after placement
         selectedTowerIndex = -1;
@@ -128,23 +144,28 @@ public class PlacementManager : MonoBehaviour
         currentSnapPoint = null;
     }
 
-    private System.Collections.IEnumerator SpringScale(Transform target, Vector3 finalScale, float duration, float springiness)
+    void CantAfford()
     {
-        float time = 0f;
-        Vector3 startScale = target.localScale;
-
-        while (time < duration)
+        // Camera shake
+        if (cam != null)
         {
-            time += Time.deltaTime;
-            float progress = time / duration;
+            StartCoroutine(ShakeCamera(shakeDuration, shakeMagnitude));
+        }
+        // To do: Add flash logic
+    }
 
-            // Spring formula
-            float value = 1f - Mathf.Exp(-springiness * progress) * Mathf.Cos(progress * Mathf.PI * springiness);
-
-            target.localScale = Vector3.LerpUnclamped(startScale, finalScale, value);
+    private IEnumerator ShakeCamera(float duration, float magnitude)
+    {
+        Vector3 originalPos = cam.transform.localPosition;
+        float elapsed = 0.0f;
+        while (elapsed < duration)
+        {
+            float x = Random.Range(-1f, 1f) * magnitude;
+            float y = Random.Range(-1f, 1f) * magnitude;
+            cam.transform.localPosition = originalPos + new Vector3(x, y, 0);
+            elapsed += Time.deltaTime;
             yield return null;
         }
-
-        target.localScale = finalScale; // Snap to final
+        cam.transform.localPosition = originalPos;
     }
 }
