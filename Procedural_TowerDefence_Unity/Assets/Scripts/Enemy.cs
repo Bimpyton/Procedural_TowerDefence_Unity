@@ -191,9 +191,10 @@ public class Enemy : MonoBehaviour
 
     void OnDestroy()
     {
-        if (GameManager.Instance != null)
+    WaveManager waveManager = FindFirstObjectByType<WaveManager>();
+        if (waveManager != null)
         {
-            GameManager.Instance.UnregisterEnemy();
+            waveManager.UnregisterEnemy();
         }
     }
 }

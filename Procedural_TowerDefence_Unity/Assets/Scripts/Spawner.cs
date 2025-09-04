@@ -44,6 +44,10 @@ public class Spawner : MonoBehaviour
             Debug.LogError($"Enemy prefab {enemyData.prefab.name} is missing the Enemy script");
         }
 
-        GameManager.Instance.RegisterEnemy();
+        WaveManager waveManager = FindFirstObjectByType<WaveManager>();
+        if (waveManager != null)
+        {
+            waveManager.RegisterEnemy();
+        }
     }
 }
