@@ -1,4 +1,11 @@
+using System;
 using UnityEngine;
+
+public enum TargetPriorityMode
+{
+    Closest,
+    Furthest
+}
 
 [CreateAssetMenu(fileName = "EnemyData", menuName = "TowerDefense/EnemyData", order = 1)]
 public class EnemyData : ScriptableObject
@@ -13,6 +20,8 @@ public class EnemyData : ScriptableObject
     public float attackRange = 10f; // Range to attack towers
     public GameObject projectilePrefab; // Projectile prefab
     public float projectileArcHeight = 5f; // Arc height for lobbed projectile
+    public Type priorityTargetType; // Type of tower to prioritize by range
+    public TargetPriorityMode targetPriorityMode = TargetPriorityMode.Closest; // Prioritize closest or furthest target
 
     [Header("----- REWARD -----")]
     public int deathValue = 10; // Gold rewarded to player on death

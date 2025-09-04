@@ -1305,7 +1305,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d17d1c45c8ae2d14dbba7d7614c0d3d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreToNextLevel: 100
+  xpToNextLevel: 100
 --- !u!4 &880645618
 Transform:
   m_ObjectHideFlags: 0
@@ -1534,7 +1534,7 @@ MonoBehaviour:
   cam: {fileID: 330585545}
   cubeManager: {fileID: 891036458}
   playerManager: {fileID: 880645617}
-  shakeDuration: 0.5
+  shakeDuration: 2
   shakeMagnitude: 0.2
 --- !u!4 &988317217
 Transform:

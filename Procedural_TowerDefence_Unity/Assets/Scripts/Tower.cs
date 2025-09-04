@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Tower : MonoBehaviour
 {
@@ -81,24 +82,44 @@ public class Tower : MonoBehaviour
     void Attack()
     {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        GameObject nearestEnemy = null;
-        float minDist = Mathf.Infinity;
+        GameObject selectedEnemy = null;
+    List<GameObject> inRangeEnemies = new List<GameObject>();
+    float selectedDist = (towerData != null && towerData.targetPriorityMode == TowerData.TargetPriorityMode.Furthest) ? -Mathf.Infinity : Mathf.Infinity;
         foreach (var enemy in enemies)
         {
             float dist = Vector3.Distance(transform.position, enemy.transform.position);
-            if (dist < attackRange && dist < minDist)
+            if (dist < attackRange)
             {
-                minDist = dist;
-                nearestEnemy = enemy;
+                inRangeEnemies.Add(enemy);
+                if (towerData != null && towerData.targetPriorityMode == TowerData.TargetPriorityMode.Furthest)
+                {
+                    if (dist > selectedDist)
+                    {
+                        selectedDist = dist;
+                        selectedEnemy = enemy;
+                    }
+                }
+                else if (towerData != null && towerData.targetPriorityMode == TowerData.TargetPriorityMode.Closest)
+                {
+                    if (dist < selectedDist)
+                    {
+                        selectedDist = dist;
+                        selectedEnemy = enemy;
+                    }
+                }
             }
         }
-        if (nearestEnemy != null && projectilePrefab != null)
+        if (towerData != null && towerData.targetPriorityMode == TowerData.TargetPriorityMode.Random && inRangeEnemies.Count > 0)
+        {
+            selectedEnemy = inRangeEnemies[UnityEngine.Random.Range(0, inRangeEnemies.Count)];
+        }
+        if (selectedEnemy != null && projectilePrefab != null)
         {
             GameObject proj = Instantiate(projectilePrefab, transform.position + Vector3.up, Quaternion.identity);
             Projectile projectile = proj.GetComponent<Projectile>();
             if (projectile != null)
             {
-                projectile.target = nearestEnemy.transform;
+                projectile.target = selectedEnemy.transform;
                 projectile.arcHeight = projectileArcHeight;
                 projectile.speed = towerData.projectileSpeed;
                 projectile.damage = (int)projectileDamage;
@@ -128,12 +149,5 @@ public class Tower : MonoBehaviour
         }
         Destroy(gameObject);
 
-        void OnDestroy()
-        {
-            if (snapPoint != null)
-            {
-                snapPoint.TowerDestroyed();
-            }
-        }
     }
 }

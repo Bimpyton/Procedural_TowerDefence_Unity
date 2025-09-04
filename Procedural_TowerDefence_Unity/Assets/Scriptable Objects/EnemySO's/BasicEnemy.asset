@@ -20,5 +20,6 @@ MonoBehaviour:
   attackRange: 5
   projectilePrefab: {fileID: 2616329685473949415, guid: c5ae241f814570a41af3b62040af6de3, type: 3}
   projectileArcHeight: 5
+  targetPriorityMode: 0
   deathValue: 5
   deathXP: 5

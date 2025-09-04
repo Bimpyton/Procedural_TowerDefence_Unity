@@ -3,26 +3,26 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
     // Player stats
-    public int Score { get; private set; }
+    public int xp { get; private set; }
     public int Gold { get; private set; }
     public int Level { get; private set; }
     public int SkillPoints { get; private set; }
 
     // Leveling system (customize as needed)
-    public int scoreToNextLevel = 100;
+    public int xpToNextLevel = 100;
 
     void Start()
     {
-        Score = 0;
-        Gold = 0;
+        xp = 0;
+        Gold = 50;
         Level = 1;
         SkillPoints = 0;
     }
 
     public void AddScore(int amount)
     {
-        Score += amount;
-        if (Score >= scoreToNextLevel)
+        xp += amount;
+        if (xp >= xpToNextLevel)
         {
             LevelUp();
         }
@@ -48,9 +48,9 @@ public class PlayerManager : MonoBehaviour
     {
         Level++;
         SkillPoints++;
-        Score -= scoreToNextLevel;
-        // 100 score to get to level 2, 200 score to get to level 3, etc.
-        scoreToNextLevel += 100 * Level;
+        xp -= xpToNextLevel;
+        // 100 xp to get to level 2, 200 xp to get to level 3, etc.
+        xpToNextLevel += 100 * Level;
     }
 
     public bool SpendSkillPoint()

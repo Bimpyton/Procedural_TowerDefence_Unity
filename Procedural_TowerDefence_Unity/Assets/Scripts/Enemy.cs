@@ -94,31 +94,45 @@ public class Enemy : MonoBehaviour
 
     void Attack()
     {
-        // Find nearest tower in range
+        // Find tower in range based on priority mode
         GameObject[] towers = GameObject.FindGameObjectsWithTag("Tower");
-        GameObject nearestTower = null;
-        float minDist = Mathf.Infinity;
+        GameObject selectedTower = null;
+        float selectedDist = (enemyData != null && enemyData.targetPriorityMode == TargetPriorityMode.Furthest) ? -Mathf.Infinity : Mathf.Infinity;
         foreach (var tower in towers)
         {
             float dist = Vector3.Distance(transform.position, tower.transform.position);
-            if (dist < attackRange && dist < minDist)
+            if (dist < attackRange)
             {
-                minDist = dist;
-                nearestTower = tower;
-            if (healthBar != null)
-            {
-                healthBar.SetHealth(health / maxHealth);
-            }
+                if (enemyData != null && enemyData.targetPriorityMode == TargetPriorityMode.Furthest)
+                {
+                    if (dist > selectedDist)
+                    {
+                        selectedDist = dist;
+                        selectedTower = tower;
+                    }
+                }
+                else // Closest (default)
+                {
+                    if (dist < selectedDist)
+                    {
+                        selectedDist = dist;
+                        selectedTower = tower;
+                    }
+                }
+                if (healthBar != null)
+                {
+                    healthBar.SetHealth(health / maxHealth);
+                }
             }
         }
-        if (nearestTower != null && projectilePrefab != null)
+        if (selectedTower != null && projectilePrefab != null)
         {
             // Shoot projectile
             GameObject proj = Instantiate(projectilePrefab, transform.position + Vector3.up, Quaternion.identity);
             Projectile projectile = proj.GetComponent<Projectile>();
             if (projectile != null)
             {
-                projectile.target = nearestTower.transform;
+                projectile.target = selectedTower.transform;
                 projectile.arcHeight = projectileArcHeight;
                 projectile.speed = 10f;
                 projectile.damage = (int)damage;

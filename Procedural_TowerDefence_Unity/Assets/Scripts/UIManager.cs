@@ -31,11 +31,11 @@ public class UIManager : MonoBehaviour
     {
         if (playerManager != null)
         {
-            // Assuming PlayerManager exposes scoreToNextLevel
+            // Assuming PlayerManager exposes xpToNextLevel
             float progress = 0f;
-            if (playerManager.Score >= 0 && playerManager.Score < playerManager.scoreToNextLevel)
+            if (playerManager.xp >= 0 && playerManager.xp < playerManager.xpToNextLevel)
             {
-                progress = (float)playerManager.Score / playerManager.scoreToNextLevel;
+                progress = (float)playerManager.xp / playerManager.xpToNextLevel;
             }
             scoreProgressBar.fillAmount = progress;
 

@@ -19,4 +19,5 @@ MonoBehaviour:
   attackSpeed: 0.25
   attackRange: 15
   projectileArcHeight: 20
+  targetPriorityMode: 2
   cost: 50
