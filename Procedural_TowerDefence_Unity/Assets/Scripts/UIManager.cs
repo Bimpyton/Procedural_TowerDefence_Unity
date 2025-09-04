@@ -12,12 +12,16 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI goldText;
     public TextMeshProUGUI levelText;
     public TextMeshProUGUI skillPointsText;
+    public TextMeshProUGUI waveText;
+
 
     private PlayerManager playerManager;
+    private WaveManager waveManager;
 
     void Start()
     {
         playerManager = FindObjectOfType<PlayerManager>();
+        waveManager = FindObjectOfType<WaveManager>();
         StartCoroutine(InitializeMainTower());
         UpdateUI();
     }
@@ -49,6 +53,7 @@ public class UIManager : MonoBehaviour
             goldText.text = $"Gold: {playerManager.Gold}";
             levelText.text = $"{playerManager.Level}";
             skillPointsText.text = $"Skill Points: {playerManager.SkillPoints}";
+            waveText.text = $"Wave {waveManager.GetCurrentWaveIndex()}";
         }
     }
 

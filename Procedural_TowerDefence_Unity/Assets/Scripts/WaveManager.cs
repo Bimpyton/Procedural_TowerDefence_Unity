@@ -5,8 +5,9 @@ using UnityEngine;
 public class WaveManager : MonoBehaviour
 {
     [Header("----- WAVE SETTINGS -----")]
-    public List<WaveData> waves = new List<WaveData>();
-    public int CurrentWaveIndex = 0;
+    public List<WaveData> regularWaves = new List<WaveData>(); // Waves with difficulty
+    public List<WaveData> bossWaves = new List<WaveData>();    // Boss waves
+    public int currentWaveNumber = 1;
     private List<Spawner> spawners = new List<Spawner>();
     private int activeEnemies = 0;
     private bool isWaveInProgress = false;
@@ -41,9 +42,9 @@ public class WaveManager : MonoBehaviour
             Debug.LogWarning("No spawners found with tag 'Spawner'");
         }
 
-        if (waves.Count == 0)
+        if (regularWaves.Count == 0)
         {
-            Debug.LogWarning("No waves assigned to WaveManager");
+            Debug.LogWarning("No regular waves assigned to WaveManager");
         }
 
         StartNextWave();
@@ -51,26 +52,50 @@ public class WaveManager : MonoBehaviour
 
     public void StartNextWave()
     {
-        if (CurrentWaveIndex >= waves.Count)
-        {
-            return;
-        }
-
         if (isWaveInProgress)
         {
             return;
         }
 
         isWaveInProgress = true;
-        WaveData currentWave = waves[CurrentWaveIndex];
-        Debug.Log($"Starting Wave {CurrentWaveIndex + 1}");
 
-        foreach (Spawner spawner in spawners)
+        // Boss wave every 5th wave
+        if (currentWaveNumber % 5 == 0)
         {
-            StartCoroutine(spawner.SpawnWave(currentWave));
+            // Select boss wave (for now, pick first or random boss wave)
+            WaveData bossWave = bossWaves.Count > 0 ? bossWaves[Random.Range(0, bossWaves.Count)] : null;
+            Debug.Log($"Starting Boss Wave {currentWaveNumber}");
+            if (bossWave != null)
+            {
+                foreach (Spawner spawner in spawners)
+                {
+                    StartCoroutine(spawner.SpawnWave(bossWave));
+                }
+            }
+            else
+            {
+                Debug.LogWarning("No boss waves defined!");
+            }
+        }
+        else
+        {
+            // Determine difficulty based on wave number
+            int difficulty = ((currentWaveNumber - 1) / 5) + 1;
+            // Filter regular waves by difficulty using float comparison
+            List<WaveData> possibleWaves = regularWaves.FindAll(w => Mathf.Approximately(w.waveDifficulty, difficulty));
+            if (possibleWaves.Count == 0)
+            {
+                Debug.LogWarning($"No regular waves found for difficulty {difficulty}");
+                return;
+            }
+            WaveData selectedWave = possibleWaves[Random.Range(0, possibleWaves.Count)];
+            Debug.Log($"Starting Wave {currentWaveNumber} (Difficulty {difficulty})");
+            foreach (Spawner spawner in spawners)
+            {
+                StartCoroutine(spawner.SpawnWave(selectedWave));
+            }
         }
 
-        CurrentWaveIndex++;
     }
 
     public void RegisterEnemy()
@@ -89,8 +114,14 @@ public class WaveManager : MonoBehaviour
         if (activeEnemies <= 0)
         {
             isWaveInProgress = false;
+            currentWaveNumber++; // Increment wave number after wave completion
             Debug.Log($"Wave completed! Starting next wave in {timeBetweenWaves} seconds...");
             Invoke("StartNextWave", timeBetweenWaves);
         }
+    }
+
+    public int GetCurrentWaveIndex()
+    {
+        return currentWaveNumber;
     }
 }

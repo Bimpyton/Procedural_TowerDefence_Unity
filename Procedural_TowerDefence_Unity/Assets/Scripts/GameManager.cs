@@ -30,8 +30,7 @@ public class GameManager : MonoBehaviour
     public int GetCurrentWaveIndex()
     {
         if (waveManager != null)
-            return waveManager.CurrentWaveIndex;
+            return waveManager.currentWaveNumber;
         return -1;
     }
-    // ...existing code...
 }

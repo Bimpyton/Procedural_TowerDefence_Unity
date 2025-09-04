@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eba0e47170c013d4f86427879aafb710, type: 3}
   m_Name: TestWave
   m_EditorClassIdentifier: 
+  waveDifficulty: 1
   enemyGroups:
   - enemyData: {fileID: 11400000, guid: bc488b767b8dd7041a7cfc0fa8241f66, type: 2}
     count: 3
@@ -19,7 +20,4 @@ MonoBehaviour:
   - enemyData: {fileID: 11400000, guid: 869afea171ac16646b6ce2b2475fb211, type: 2}
     count: 3
     spawnDelay: 3
-  - enemyData: {fileID: 11400000, guid: 5870a949cb28c744d89e111567d92080, type: 2}
-    count: 5
-    spawnDelay: 1
   groupDelay: 2
