@@ -3135,7 +3135,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e516475d6cd059747ab512b42650641e, type: 2}
   bossWaves:
   - {fileID: 11400000, guid: bb72e5aac81fa9a43bc2cf378ab63b88, type: 2}
-  currentWaveNumber: 3
+  currentWaveNumber: 1
   timeBetweenWaves: 5
 --- !u!4 &2060705286
 Transform:
