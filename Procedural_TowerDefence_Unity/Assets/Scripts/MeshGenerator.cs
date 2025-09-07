@@ -36,6 +36,8 @@ public class MeshGenerator : MonoBehaviour
     private float maxTerrainHeight;
 
     [Header("----- RIVER SETTINGS -----")]
+
+    public int riverCount = 3;
     public int riverWidth = 16;
     public float riverSlope = 2f;
     public float riverDepth = -8f;
@@ -127,7 +129,6 @@ public class MeshGenerator : MonoBehaviour
         maxTerrainHeight -= heightOffset;
 
         // Plot river paths
-        int riverCount = 3;
         riverPaths.Clear();
 
         for (int r = 0; r < riverCount; r++)
