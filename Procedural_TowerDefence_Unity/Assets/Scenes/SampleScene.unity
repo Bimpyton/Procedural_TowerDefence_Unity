@@ -3544,7 +3544,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   regularWaves:
-  - {fileID: 11400000, guid: ce6db8d2d518b134e9276bced6b81c24, type: 2}
+  - {fileID: 11400000, guid: bb72e5aac81fa9a43bc2cf378ab63b88, type: 2}
   bossWaves:
   - {fileID: 11400000, guid: bb72e5aac81fa9a43bc2cf378ab63b88, type: 2}
   currentWaveNumber: 1
