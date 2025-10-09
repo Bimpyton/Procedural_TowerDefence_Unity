@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 85c5fd17226e2924fb46ea572514ddc2, type: 3}
-  m_Name: Tower_Trebuchet
+  m_Name: Tower_Long
   m_EditorClassIdentifier: 
-  projectileSpeed: 5
-  projectileDamage: 50
-  projectilePrefab: {fileID: 2616329685473949415, guid: fde8290bf2b41564386455627ad961b3, type: 3}
-  maxHealth: 50
-  attackSpeed: 0.5
-  attackRange: 10
-  projectileArcHeight: 10
-  targetPriorityMode: 1
-  cost: 25
+  projectileSpeed: 10
+  projectileDamage: 100
+  projectilePrefab: {fileID: 2616329685473949415, guid: b7e76818b88cec349b9642c3cb5939ba, type: 3}
+  maxHealth: 20
+  attackRate: 5
+  attackRange: 15
+  projectileArcHeight: 20
+  targetPriorityMode: 2
+  cost: 50

@@ -154,6 +154,17 @@ public class PlacementManager : MonoBehaviour
         // To do: Add flash logic
     }
 
+    // Call this from UI buttons to set active placement
+    public void SetActivePlacement(int index)
+    {
+        if (index >= 0 && index < towerOptions.Count)
+        {
+            selectedTowerIndex = index;
+            isPlacing = true;
+            CreatePreviewObject();
+        }
+    }
+
     private IEnumerator ShakeCamera(float duration, float magnitude)
     {
         Vector3 originalPos = cam.transform.localPosition;

@@ -18,7 +18,9 @@ public class TowerData : ScriptableObject
 
 	[Header("----- TOWER STATS -----")]
 	public float maxHealth = 100f;
-	public float attackSpeed = 1f;
+
+	[Tooltip("Attacks per second")]
+	public float attackRate = 1f;	
 	public float attackRange = 10f;
 	public float projectileArcHeight = 5f;
 	public TargetPriorityMode targetPriorityMode = TargetPriorityMode.Closest; // How tower selects enemy target

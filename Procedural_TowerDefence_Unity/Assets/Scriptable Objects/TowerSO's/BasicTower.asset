@@ -16,7 +16,8 @@ MonoBehaviour:
   projectileDamage: 25
   projectilePrefab: {fileID: 2616329685473949415, guid: f276d7867ac578641b388bf38a5a2147, type: 3}
   maxHealth: 100
-  attackSpeed: 1
+  attackSpeed: 2
   attackRange: 10
   projectileArcHeight: 5
+  targetPriorityMode: 0
   cost: 10
