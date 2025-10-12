@@ -6,6 +6,7 @@ public class WaveData : ScriptableObject
 {
     [Header("----- WAVE SETTINGS -----")]
     public float waveDifficulty = 1f; // Difficulty for this wave
+    public bool procedural = false; // If true, WaveManager will procedurally generate groups at runtime
 
     [System.Serializable]
     public class EnemyGroup

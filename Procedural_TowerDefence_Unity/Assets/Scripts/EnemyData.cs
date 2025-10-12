@@ -23,6 +23,9 @@ public class EnemyData : ScriptableObject
     public Type priorityTargetType; // Type of tower to prioritize by range
     public TargetPriorityMode targetPriorityMode = TargetPriorityMode.Closest; // Prioritize closest or furthest target
 
+    [Header("----- BALANCE -----")]
+    public int difficultyValue = 1; // Difficulty rating used by procedural wave generator
+
     [Header("----- REWARD -----")]
     public int deathValue = 10; // Gold rewarded to player on death
     public int deathXP = 10; // XP rewarded to player on death

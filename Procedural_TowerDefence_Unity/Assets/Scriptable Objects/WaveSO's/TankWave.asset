@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eba0e47170c013d4f86427879aafb710, type: 3}
   m_Name: TankWave
   m_EditorClassIdentifier: 
+  waveDifficulty: 1
+  procedural: 0
   enemyGroups:
   - enemyData: {fileID: 11400000, guid: 5870a949cb28c744d89e111567d92080, type: 2}
     count: 5
@@ -19,4 +21,4 @@ MonoBehaviour:
   - enemyData: {fileID: 11400000, guid: bc488b767b8dd7041a7cfc0fa8241f66, type: 2}
     count: 3
     spawnDelay: 2
-  groupDelay: 5
+  groupDelay: 3

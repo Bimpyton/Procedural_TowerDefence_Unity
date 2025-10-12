@@ -3582,7 +3582,11 @@ MonoBehaviour:
   regularWaves:
   - {fileID: 11400000, guid: bb72e5aac81fa9a43bc2cf378ab63b88, type: 2}
   bossWaves:
-  - {fileID: 11400000, guid: bb72e5aac81fa9a43bc2cf378ab63b88, type: 2}
+  - {fileID: 11400000, guid: cca7a4d8d3b09b34e88b2d49c1821a81, type: 2}
+  availableEnemyTypes:
+  - {fileID: 11400000, guid: bc488b767b8dd7041a7cfc0fa8241f66, type: 2}
+  - {fileID: 11400000, guid: 869afea171ac16646b6ce2b2475fb211, type: 2}
+  - {fileID: 11400000, guid: 5870a949cb28c744d89e111567d92080, type: 2}
   currentWaveNumber: 1
   timeBetweenWaves: 5
 --- !u!4 &2060705286

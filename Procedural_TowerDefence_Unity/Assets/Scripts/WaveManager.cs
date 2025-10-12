@@ -7,6 +7,7 @@ public class WaveManager : MonoBehaviour
     [Header("----- WAVE SETTINGS -----")]
     public List<WaveData> regularWaves = new List<WaveData>(); // Waves with difficulty
     public List<WaveData> bossWaves = new List<WaveData>();    // Boss waves
+    public List<EnemyData> availableEnemyTypes = new List<EnemyData>(); // Optional pool for procedural generation
     public int currentWaveNumber = 1;
     private List<Spawner> spawners = new List<Spawner>();
     private int activeEnemies = 0;
@@ -79,20 +80,29 @@ public class WaveManager : MonoBehaviour
         }
         else
         {
-            // Determine difficulty based on wave number
-            int difficulty = ((currentWaveNumber - 1) / 5) + 1;
-            // Filter regular waves by difficulty using float comparison
-            List<WaveData> possibleWaves = regularWaves.FindAll(w => Mathf.Approximately(w.waveDifficulty, difficulty));
-            if (possibleWaves.Count == 0)
+            int targetDR = currentWaveNumber * 5;
+            if (regularWaves.Count == 0)
             {
-                Debug.LogWarning($"No regular waves found for difficulty {difficulty}");
+                Debug.LogWarning("No regular waves assigned to WaveManager");
                 return;
             }
-            WaveData selectedWave = possibleWaves[Random.Range(0, possibleWaves.Count)];
-            Debug.Log($"Starting Wave {currentWaveNumber} (Difficulty {difficulty})");
+            WaveData selectedWave = regularWaves[Random.Range(0, regularWaves.Count)];
+            Debug.Log($"Starting Wave {currentWaveNumber} (DR {targetDR})");
+            WaveData runtimeWave = selectedWave;
+            if (selectedWave.procedural)
+            {
+                EnsureAvailableEnemyTypes();
+                runtimeWave = GenerateProceduralWave(targetDR);
+                if (runtimeWave == null)
+                {
+                    Debug.LogWarning("Procedural generation failed; aborting wave.");
+                    isWaveInProgress = false;
+                    return;
+                }
+            }
             foreach (Spawner spawner in spawners)
             {
-                StartCoroutine(spawner.SpawnWave(selectedWave));
+                StartCoroutine(spawner.SpawnWave(runtimeWave));
             }
         }
 
@@ -123,5 +133,73 @@ public class WaveManager : MonoBehaviour
     public int GetCurrentWaveIndex()
     {
         return currentWaveNumber;
+    }
+
+    // Ensure the availableEnemyTypes list is populated from regular waves if not set in inspector
+    private void EnsureAvailableEnemyTypes()
+    {
+        if (availableEnemyTypes != null && availableEnemyTypes.Count > 0) return;
+        HashSet<EnemyData> set = new HashSet<EnemyData>();
+        foreach (var w in regularWaves)
+        {
+            if (w == null) continue;
+            foreach (var g in w.enemyGroups)
+            {
+                if (g != null && g.enemyData != null) set.Add(g.enemyData);
+            }
+        }
+        availableEnemyTypes = new List<EnemyData>(set);
+    }
+
+    // Generate a runtime WaveData instance whose enemyGroups sum to approximately targetDR using enemy difficulty values
+    private WaveData GenerateProceduralWave(float targetDR)
+    {
+        int remaining = Mathf.Max(0, Mathf.RoundToInt(targetDR));
+        if (remaining <= 0) return null;
+
+        List<EnemyData> pool = new List<EnemyData>(availableEnemyTypes);
+        if (pool.Count == 0) return null;
+
+        WaveData runtime = ScriptableObject.CreateInstance<WaveData>();
+        runtime.waveDifficulty = targetDR;
+        runtime.procedural = false;
+        runtime.enemyGroups = new List<WaveData.EnemyGroup>();
+
+        while (remaining > 0)
+        {
+            List<EnemyData> candidates = pool.FindAll(e => e != null && e.difficultyValue <= remaining);
+            if (candidates.Count == 0) break;
+
+            EnemyData chosen = candidates[Random.Range(0, candidates.Count)];
+            int maxCount = Mathf.Max(1, remaining / Mathf.Max(1, chosen.difficultyValue));
+            int count = Random.Range(1, Mathf.Min(maxCount, 5) + 1);
+            int used = chosen.difficultyValue * count;
+
+            WaveData.EnemyGroup group = new WaveData.EnemyGroup();
+            group.enemyData = chosen;
+            group.count = count;
+            group.spawnDelay = Random.Range(1f, 2f);
+
+            runtime.enemyGroups.Add(group);
+            remaining -= used;
+        }
+
+        if (remaining > 0)
+        {
+            EnemyData smallest = pool[0];
+            foreach (var e in pool) if (e.difficultyValue < smallest.difficultyValue) smallest = e;
+            if (smallest != null && smallest.difficultyValue > 0)
+            {
+                int extra = Mathf.CeilToInt((float)remaining / smallest.difficultyValue);
+                WaveData.EnemyGroup group = new WaveData.EnemyGroup();
+                group.enemyData = smallest;
+                group.count = extra;
+                group.spawnDelay = 0.5f;
+                runtime.enemyGroups.Add(group);
+                remaining = 0;
+            }
+        }
+
+        return runtime;
     }
 }
