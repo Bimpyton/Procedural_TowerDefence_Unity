@@ -15,7 +15,7 @@ public class WaveManager : MonoBehaviour
 
     void Awake()
     {
-        // Optionally, validate setup
+        
     }
 
     void Start()
@@ -62,7 +62,7 @@ public class WaveManager : MonoBehaviour
         // Boss wave every 5th wave
         if (currentWaveNumber % 5 == 0)
         {
-            // Select boss wave (for now, pick first or random boss wave)
+            // Select boss wave
             WaveData bossWave = bossWaves.Count > 0 ? bossWaves[Random.Range(0, bossWaves.Count)] : null;
             Debug.Log($"Starting Boss Wave {currentWaveNumber}");
             if (bossWave != null)

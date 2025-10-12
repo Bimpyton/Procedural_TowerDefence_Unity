@@ -13,7 +13,6 @@ public class WaveData : ScriptableObject
         public EnemyData enemyData; // The type of enemy to spawn
         public int count = 1; // Number of this enemy to spawn in the group
         public float spawnDelay = 1f; // Delay between spawning each enemy in the group
-        // You can remove waveDifficulty here if not needed per group
     }
 
     public List<EnemyGroup> enemyGroups = new List<EnemyGroup>(); // List of groups in the wave

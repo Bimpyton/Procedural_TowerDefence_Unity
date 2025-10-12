@@ -1940,7 +1940,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b36d92e7a6fa91f40b09035730fb4d2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameRateLimit: 200
+  frameRateLimit: 60
   waveManager: {fileID: 2060705285}
 --- !u!4 &1252603079
 Transform:
