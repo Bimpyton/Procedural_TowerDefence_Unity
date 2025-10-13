@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: TankEnemy
   m_EditorClassIdentifier: 
   prefab: {fileID: 8599192043079365083, guid: 2b47bf5208f79d141bb6b1bf08d97893, type: 3}
-  speed: 0.5
-  maxHealth: 100
+  speed: 0.25
+  maxHealth: 150
   attackSpeed: 0.25
   damage: 10
   attackRange: 10

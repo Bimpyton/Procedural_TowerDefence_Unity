@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Active: 1
   FeatureSettings:
-    RenderPassEvent: 500
+    RenderPassEvent: 450
     LayerMask:
       serializedVersion: 2
       m_Bits: 1048576

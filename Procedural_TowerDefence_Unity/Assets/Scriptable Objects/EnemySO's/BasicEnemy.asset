@@ -13,13 +13,14 @@ MonoBehaviour:
   m_Name: BasicEnemy
   m_EditorClassIdentifier: 
   prefab: {fileID: 8599192043079365083, guid: f958c37445cc46248b6f28e67ab02cd9, type: 3}
-  speed: 1
-  maxHealth: 50
-  attackSpeed: 1
+  speed: 0.5
+  maxHealth: 100
+  attackSpeed: 0.5
   damage: 5
   attackRange: 5
   projectilePrefab: {fileID: 2616329685473949415, guid: c5ae241f814570a41af3b62040af6de3, type: 3}
   projectileArcHeight: 5
   targetPriorityMode: 0
+  difficultyValue: 1
   deathValue: 5
   deathXP: 5
