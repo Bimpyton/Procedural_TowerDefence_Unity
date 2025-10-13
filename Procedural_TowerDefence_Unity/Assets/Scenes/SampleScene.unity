@@ -1450,9 +1450,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aaf47bfac9884bb49b51af6d047e92ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waterMaterial: {fileID: 2100000, guid: b930b4198cf44d2488f1012e9f662279, type: 2}
-  middleMaterial: {fileID: 2100000, guid: c17ead05b0b429e4889cf7cbab1d9803, type: 2}
-  highMaterial: {fileID: 2100000, guid: 8998ecd6e47cd554a961eb389db43dd5, type: 2}
+  waterMaterial: {fileID: 2100000, guid: 47ffa84478670a8488a36827cd1f6d1f, type: 2}
+  middleMaterial: {fileID: 2100000, guid: 29810e04ab83ae44c84c60fa1d4b79bb, type: 2}
+  highMaterial: {fileID: 2100000, guid: aaca44965ea9dd64ab99d1ab5dd4347d, type: 2}
   waterHeight: -4
   middleHeight: -1
   cubes: []
@@ -1648,7 +1648,7 @@ MonoBehaviour:
   cubeManager: {fileID: 891036458}
   playerManager: {fileID: 880645617}
   shakeDuration: 0.4
-  shakeMagnitude: 0.25
+  shakeMagnitude: 0.1
 --- !u!4 &988317217
 Transform:
   m_ObjectHideFlags: 0
