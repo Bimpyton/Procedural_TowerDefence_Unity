@@ -20,5 +20,5 @@ MonoBehaviour:
     spawnDelay: 3
   - enemyData: {fileID: 11400000, guid: 5870a949cb28c744d89e111567d92080, type: 2}
     count: 3
-    spawnDelay: 2
+    spawnDelay: 3
   groupDelay: 3
