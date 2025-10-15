@@ -7331,10 +7331,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   regularWaves:
-  - {fileID: 11400000, guid: bb72e5aac81fa9a43bc2cf378ab63b88, type: 2}
-  - {fileID: 11400000, guid: cca7a4d8d3b09b34e88b2d49c1821a81, type: 2}
-  - {fileID: 11400000, guid: e516475d6cd059747ab512b42650641e, type: 2}
-  - {fileID: 11400000, guid: ce6db8d2d518b134e9276bced6b81c24, type: 2}
+  - {fileID: 11400000, guid: 7afed2011c4d2b646ba3d1f5b7d2deca, type: 2}
   bossWaves:
   - {fileID: 11400000, guid: 9c01b599109adfe43b57aa42b0a2db40, type: 2}
   availableEnemyTypes:

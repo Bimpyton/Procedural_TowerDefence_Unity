@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 85c5fd17226e2924fb46ea572514ddc2, type: 3}
-  m_Name: Tower_Base
+  m_Name: Tower_Short
   m_EditorClassIdentifier: 
   projectileSpeed: 10
   projectileDamage: 50
