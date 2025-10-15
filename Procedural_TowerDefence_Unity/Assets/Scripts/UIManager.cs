@@ -113,11 +113,11 @@ public class UIManager : MonoBehaviour
     private IEnumerator CountdownAndStartNextWave()
     {
         float timer = nextWaveCountdown;
-        while (timer > 0)
+        while (timer > 0) 
         {
             if (countdownText != null)
             {
-                countdownText.text = $"Wave {waveManager.GetCurrentWaveIndex()} starting in {Mathf.CeilToInt(timer)}...";
+                countdownText.text = $"Wave {waveManager.GetCurrentWaveIndex() + 1} starting in {Mathf.CeilToInt(timer)}...";
             }
             yield return new WaitForSeconds(1f);
             timer -= 1f;

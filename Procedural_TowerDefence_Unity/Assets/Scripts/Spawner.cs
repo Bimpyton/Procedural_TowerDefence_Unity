@@ -7,24 +7,8 @@ public class Spawner : MonoBehaviour
     public Transform target;
     public List<Vector2Int> riverPath;
 
-    public IEnumerator SpawnWave(WaveData wave)
-    {
-        foreach (WaveData.EnemyGroup group in wave.enemyGroups)
-        {
-            if (group.enemyData == null)
-            {
-                continue;
-            }
-            for (int i = 0; i < group.count; i++)
-            {
-                SpawnEnemy(group.enemyData);
-                yield return new WaitForSeconds(group.spawnDelay);
-            }
-            yield return new WaitForSeconds(wave.groupDelay);
-        }
-    }
 
-    void SpawnEnemy(EnemyData enemyData)
+    public void SpawnEnemy(EnemyData enemyData)
     {
         if (enemyData == null || enemyData.prefab == null || target == null || riverPath == null || riverPath.Count == 0) 
         {
@@ -42,12 +26,6 @@ public class Spawner : MonoBehaviour
         else
         {
             Debug.LogError($"Enemy prefab {enemyData.prefab.name} is missing the Enemy script");
-        }
-
-        WaveManager waveManager = FindFirstObjectByType<WaveManager>();
-        if (waveManager != null)
-        {
-            waveManager.RegisterEnemy();
         }
     }
 }

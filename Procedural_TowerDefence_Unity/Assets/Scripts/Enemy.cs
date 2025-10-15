@@ -3,142 +3,147 @@ using System.Collections.Generic;
 using System;
 
 public class Enemy : MonoBehaviour
-{
-    [Header("----- DATA -----")]
-    public EnemyData enemyData;
 
-    [Header("----- ENEMY STATS -----")]
-    [SerializeField] private float speed = 1f;
-    [SerializeField] private float health = 10f;
-    [SerializeField] private float maxHealth = 10f;
-    [Header("----- REWARD -----")]
-    public int deathValue = 10; // Gold rewarded to player on death
-    public int deathXP = 10; // XP rewarded to player on death
+    {
+        [Header("----- DATA -----")]
+        public EnemyData enemyData;
 
-    [Header("----- ATTACK -----")]
-    [SerializeField] private float damage = 5f;
-    [SerializeField] private float attackSpeed = 1f;
-    [SerializeField] private GameObject projectilePrefab;
-    [SerializeField] private float attackRange = 10f;
-    [SerializeField] private float projectileArcHeight = 5f;
-    private float lastAttackTime = 0f;
+        [Header("----- ENEMY STATS -----")]
+        [SerializeField] private float speed = 1f;
+        [SerializeField] private float health = 10f;
+        [SerializeField] private float maxHealth = 10f;
+
+        [Header("----- REWARD -----")]
+        public int deathValue = 10; // Gold rewarded to player on death
+        public int deathXP = 10; // XP rewarded to player on death
+
+        [Header("----- ATTACK -----")]
+        [SerializeField] private float damage = 5f;
+        [SerializeField] private float attackSpeed = 1f;
+        [SerializeField] private GameObject projectilePrefab;
+        [SerializeField] private float attackRange = 10f;
+        [SerializeField] private float projectileArcHeight = 5f;
+        private float lastAttackTime = 0f;
+
+        [Header("----- DIFFICULTY -----")]
+        public int difficultyValue = 1;
 
         [Header("----- UI -----")]
         [SerializeField] private HealthBar healthBar;
 
-    void Start()
-    {
-        if (enemyData != null)
+        [Header("----- PATHFINDING -----")]
+        public Transform target;
+        private List<Vector3> waypoints = new List<Vector3>();
+        private int currentWaypointIndex = 0;
+        private float waypointThreshold = 0.5f;
+
+        void Start()
         {
-            speed = enemyData.speed;
-            maxHealth = enemyData.maxHealth;
-
-            health = maxHealth;
-
-            damage = enemyData.damage;
-            attackSpeed = enemyData.attackSpeed;
-            projectilePrefab = enemyData.projectilePrefab;
-            attackRange = enemyData.attackRange;
-            projectileArcHeight = enemyData.projectileArcHeight;
-            deathValue = enemyData.deathValue;
-            deathXP = enemyData.deathXP;
-        }
-    }
-
-    [Header("----- PATHFINDING -----")]
-    
-    public Transform target;
-    private List<Vector3> waypoints = new List<Vector3>();
-    private int currentWaypointIndex = 0;
-    private float waypointThreshold = 0.5f;
-
-    public void SetPath(List<Vector2Int> riverPath, Transform meshGeneratorTransform)
-    {
-        MeshGenerator mg = meshGeneratorTransform.GetComponent<MeshGenerator>();
-        if (mg == null)
-        {
-            Debug.LogError($"MeshGenerator component not found on {meshGeneratorTransform.name}!");
-            return;
-        }
-        waypoints.Clear();
-        foreach (Vector2Int point in riverPath)
-        {
-            int idx = point.y * (mg.xSize + 1) + point.x;
-            Vector3 localPos = mg.vertices[idx];
-            Vector3 worldPos = meshGeneratorTransform.TransformPoint(localPos);
-            worldPos.y += 1f;
-            waypoints.Add(worldPos);
-        }
-    }
-
-    void Update()
-    {
-        if (waypoints.Count == 0 || currentWaypointIndex >= waypoints.Count)
-        {
-            Debug.LogWarning($"No waypoints or reached end for enemy: {gameObject.name}");
-            return;
-        }
-
-        Vector3 targetPos = waypoints[currentWaypointIndex];
-        transform.LookAt(targetPos);
-        transform.Translate(Vector3.forward * speed * Time.deltaTime);
-
-        if (Vector3.Distance(transform.position, targetPos) < waypointThreshold)
-        {
-            currentWaypointIndex++;
-        }
-
-        // Attack towers in range
-        TryAttackTower();
-    }
-
-    void Attack()
-    {
-        // Find tower in range based on priority mode
-        GameObject[] towers = GameObject.FindGameObjectsWithTag("Tower");
-        GameObject selectedTower = null;
-        float selectedDist = (enemyData != null && enemyData.targetPriorityMode == TargetPriorityMode.Furthest) ? -Mathf.Infinity : Mathf.Infinity;
-        foreach (var tower in towers)
-        {
-            float dist = Vector3.Distance(transform.position, tower.transform.position);
-            if (dist < attackRange)
+            if (enemyData != null)
             {
-                if (enemyData != null && enemyData.targetPriorityMode == TargetPriorityMode.Furthest)
+                speed = enemyData.speed;
+                maxHealth = enemyData.maxHealth;
+
+                health = maxHealth;
+
+                damage = enemyData.damage;
+                attackSpeed = enemyData.attackSpeed;
+                projectilePrefab = enemyData.projectilePrefab;
+                attackRange = enemyData.attackRange;
+                projectileArcHeight = enemyData.projectileArcHeight;
+                deathValue = enemyData.deathValue;
+                deathXP = enemyData.deathXP;
+                difficultyValue = enemyData.difficultyValue;
+            }
+        }
+
+        public void SetPath(List<Vector2Int> riverPath, Transform meshGeneratorTransform)
+        {
+            MeshGenerator mg = meshGeneratorTransform.GetComponent<MeshGenerator>();
+            if (mg == null)
+            {
+                Debug.LogError($"MeshGenerator component not found on {meshGeneratorTransform.name}!");
+                return;
+            }
+            waypoints.Clear();
+            foreach (Vector2Int point in riverPath)
+            {
+                int idx = point.y * (mg.xSize + 1) + point.x;
+                Vector3 localPos = mg.vertices[idx];
+                Vector3 worldPos = meshGeneratorTransform.TransformPoint(localPos);
+                worldPos.y += 1f;
+                waypoints.Add(worldPos);
+            }
+        }
+
+        void Update()
+        {
+            if (waypoints.Count == 0 || currentWaypointIndex >= waypoints.Count)
+            {
+                Debug.LogWarning($"No waypoints or reached end for enemy: {gameObject.name}");
+                return;
+            }
+
+            Vector3 targetPos = waypoints[currentWaypointIndex];
+            transform.LookAt(targetPos);
+            transform.Translate(Vector3.forward * speed * Time.deltaTime);
+
+            if (Vector3.Distance(transform.position, targetPos) < waypointThreshold)
+            {
+                currentWaypointIndex++;
+            }
+
+            // Attack towers in range
+            TryAttackTower();
+        }
+
+        void Attack()
+        {
+            // Find tower in range based on priority mode
+            GameObject[] towers = GameObject.FindGameObjectsWithTag("Tower");
+            GameObject selectedTower = null;
+            float selectedDist = (enemyData != null && enemyData.targetPriorityMode == TargetPriorityMode.Furthest) ? -Mathf.Infinity : Mathf.Infinity;
+            foreach (var tower in towers)
+            {
+                float dist = Vector3.Distance(transform.position, tower.transform.position);
+                if (dist < attackRange)
                 {
-                    if (dist > selectedDist)
+                    if (enemyData != null && enemyData.targetPriorityMode == TargetPriorityMode.Furthest)
                     {
-                        selectedDist = dist;
-                        selectedTower = tower;
+                        if (dist > selectedDist)
+                        {
+                            selectedDist = dist;
+                            selectedTower = tower;
+                        }
+                    }
+                    else // Closest (default)
+                    {
+                        if (dist < selectedDist)
+                        {
+                            selectedDist = dist;
+                            selectedTower = tower;
+                        }
+                    }
+                    if (healthBar != null)
+                    {
+                        healthBar.SetHealth(health / maxHealth);
                     }
                 }
-                else // Closest (default)
+            }
+            if (selectedTower != null && projectilePrefab != null)
+            {
+                // Shoot projectile
+                GameObject proj = Instantiate(projectilePrefab, transform.position + Vector3.up, Quaternion.identity);
+                Projectile projectile = proj.GetComponent<Projectile>();
+                if (projectile != null)
                 {
-                    if (dist < selectedDist)
-                    {
-                        selectedDist = dist;
-                        selectedTower = tower;
-                    }
-                }
-                if (healthBar != null)
-                {
-                    healthBar.SetHealth(health / maxHealth);
+                    projectile.target = selectedTower.transform;
+                    projectile.arcHeight = projectileArcHeight;
+                    projectile.speed = 10f;
+                    projectile.damage = (int)damage;
                 }
             }
         }
-        if (selectedTower != null && projectilePrefab != null)
-        {
-            // Shoot projectile
-            GameObject proj = Instantiate(projectilePrefab, transform.position + Vector3.up, Quaternion.identity);
-            Projectile projectile = proj.GetComponent<Projectile>();
-            if (projectile != null)
-            {
-                projectile.target = selectedTower.transform;
-                projectile.arcHeight = projectileArcHeight;
-                projectile.speed = 10f;
-                projectile.damage = (int)damage;
-            }
-        }
-    }
 
         void TryAttackTower()
         {
@@ -149,52 +154,52 @@ public class Enemy : MonoBehaviour
             }
         }
 
-
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("MainTower"))
+        void OnTriggerEnter(Collider other)
         {
-            Debug.Log($"Enemy hit Main Tower");
-            MainTower mainTower = other.GetComponent<MainTower>();
-            if (mainTower != null)
+            if (other.CompareTag("MainTower"))
             {
-                mainTower.TakeDamage(10); // Flat 10 damage to main tower
+                Debug.Log($"Enemy hit Main Tower");
+                MainTower mainTower = other.GetComponent<MainTower>();
+                if (mainTower != null)
+                {
+                    mainTower.TakeDamage(10); // Flat 10 damage to main tower
+                }
+                Destroy(gameObject);
             }
-            Destroy(gameObject);
         }
-    }
 
-    public void TakeDamage(int amount)
-    {
-        health -= amount;
+        public void TakeDamage(int amount)
+        {
+            health -= amount;
             if (healthBar != null)
             {
                 healthBar.SetHealth(health / maxHealth);
             }
-        if (health <= 0)
-        {
-            Die();
+            if (health <= 0)
+            {
+                Die();
+            }
         }
-    }
 
-    void Die()
-    {
-        // Award player gold and XP
-        PlayerManager playerManager = FindObjectOfType<PlayerManager>();
-        if (playerManager != null)
+        void Die()
         {
-            playerManager.AddGold(deathValue);
-            playerManager.AddScore(deathXP); // XP per kill
-        }
-        Destroy(gameObject);
-    }
+            Debug.Log($"Enemy died: {gameObject.name}");
+            
 
-    void OnDestroy()
-    {
-    WaveManager waveManager = FindFirstObjectByType<WaveManager>();
-        if (waveManager != null)
-        {
-            waveManager.UnregisterEnemy();
+            // Award player gold and XP
+            PlayerManager playerManager = FindObjectOfType<PlayerManager>();
+            if (playerManager != null)
+            {
+                playerManager.AddGold(deathValue);
+                playerManager.AddScore(deathXP); // XP per kill
+            }
+            // Notify WaveManager before destroying
+            WaveManager waveManager = FindObjectOfType<WaveManager>();
+            if (waveManager != null)
+            {
+                Debug.Log($"Their DR was {difficultyValue}");
+                waveManager.UnregisterEnemy(difficultyValue);
+            }
+            Destroy(gameObject);
         }
     }
-}
