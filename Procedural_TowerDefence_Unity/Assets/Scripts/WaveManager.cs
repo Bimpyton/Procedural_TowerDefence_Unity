@@ -12,7 +12,8 @@ public class WaveManager : MonoBehaviour
     private List<Spawner> spawners = new List<Spawner>();
     private int activeEnemies = 0;
     private bool isWaveInProgress = false;
-    [SerializeField] private float timeBetweenWaves = 5f;
+    [SerializeField] private float nextWaveCountdown = 5f;
+    private UIManager uiManager;
 
     void Awake()
     {
@@ -21,7 +22,8 @@ public class WaveManager : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(SetupWaves());
+    uiManager = FindObjectOfType<UIManager>();
+    StartCoroutine(SetupWaves());
     }
 
     private IEnumerator SetupWaves()
@@ -116,17 +118,15 @@ public class WaveManager : MonoBehaviour
     public void UnregisterEnemy()
     {
         activeEnemies--;
-        if (activeEnemies <= 0 && !isWaveInProgress)
-        {
-            return;
-        }
-
-        if (activeEnemies <= 0)
+        if (activeEnemies <= 0 && isWaveInProgress)
         {
             isWaveInProgress = false;
             currentWaveNumber++; // Increment wave number after wave completion
-            Debug.Log($"Wave completed! Starting next wave in {timeBetweenWaves} seconds...");
-            Invoke("StartNextWave", timeBetweenWaves);
+            Debug.Log($"Wave completed! Waiting for player to start next wave.");
+            if (uiManager != null)
+            {
+                uiManager.ShowStartNextWaveButton(nextWaveCountdown);
+            }
         }
     }
 
