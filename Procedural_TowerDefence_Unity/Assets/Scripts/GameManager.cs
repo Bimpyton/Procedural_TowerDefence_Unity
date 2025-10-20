@@ -19,14 +19,12 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        // Optionally, you can check if waveManager is assigned
         if (waveManager == null)
         {
             Debug.LogWarning("WaveManager reference not assigned in GameManager!");
         }
     }
 
-    // Example method to get current wave index
     public int GetCurrentWaveIndex()
     {
         if (waveManager != null)
