@@ -10,9 +10,11 @@ public class WaveManager : MonoBehaviour
     public List<EnemyData> availableEnemyTypes = new List<EnemyData>(); // Optional pool for procedural generation
     public int currentWaveNumber = 1;
     private List<Spawner> spawners = new List<Spawner>();
-    private int activeEnemies = 0;
+    private float killedDifficultyValue = 0f;
+    private float targetDR = 0f;
     private bool isWaveInProgress = false;
-    [SerializeField] private float timeBetweenWaves = 5f;
+    [SerializeField] private float nextWaveCountdown = 5f;
+    private UIManager uiManager;
 
     void Awake()
     {
@@ -21,7 +23,8 @@ public class WaveManager : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(SetupWaves());
+    uiManager = FindObjectOfType<UIManager>();
+    StartCoroutine(SetupWaves());
     }
 
     private IEnumerator SetupWaves()
@@ -53,37 +56,32 @@ public class WaveManager : MonoBehaviour
 
     public void StartNextWave()
     {
+        currentWaveNumber++; // Increment wave number after player starts next wave
+
         if (isWaveInProgress)
         {
             return;
         }
 
         isWaveInProgress = true;
+        killedDifficultyValue = 0f;
+        targetDR = 0f;
 
+        WaveData currentWaveData = null;
         // Boss wave every 5th wave
         if (currentWaveNumber % 5 == 0)
         {
-            // Select boss wave
             WaveData bossWave = bossWaves.Count > 0 ? bossWaves[Random.Range(0, bossWaves.Count)] : null;
             Debug.Log($"Starting Boss Wave {currentWaveNumber}");
-            if (bossWave != null)
-            {
-                foreach (Spawner spawner in spawners)
-                {
-                    StartCoroutine(spawner.SpawnWave(bossWave));
-                }
-            }
-            else
-            {
-                Debug.LogWarning("No boss waves defined!");
-            }
+            currentWaveData = bossWave;
         }
         else
         {
-            int targetDR = currentWaveNumber * 5;
+            targetDR = currentWaveNumber * 10;
             if (regularWaves.Count == 0)
             {
                 Debug.LogWarning("No regular waves assigned to WaveManager");
+                isWaveInProgress = false;
                 return;
             }
             WaveData selectedWave = regularWaves[Random.Range(0, regularWaves.Count)];
@@ -100,35 +98,67 @@ public class WaveManager : MonoBehaviour
                     return;
                 }
             }
-            foreach (Spawner spawner in spawners)
+            currentWaveData = runtimeWave;
+        }
+
+        // If boss wave, set targetDR to sum of all enemy difficultyValues in the wave
+        if (currentWaveNumber % 5 == 0 && currentWaveData != null && currentWaveData.enemyGroups != null)
+        {
+            targetDR = 0f;
+            foreach (var group in currentWaveData.enemyGroups)
             {
-                StartCoroutine(spawner.SpawnWave(runtimeWave));
+                if (group != null && group.enemyData != null)
+                    targetDR += group.enemyData.difficultyValue * group.count;
             }
         }
 
-    }
-
-    public void RegisterEnemy()
-    {
-        activeEnemies++;
-    }
-
-    public void UnregisterEnemy()
-    {
-        activeEnemies--;
-        if (activeEnemies <= 0 && !isWaveInProgress)
+        // Start spawning: spawn each enemy at a random spawner
+        if (currentWaveData != null)
         {
-            return;
+            StartCoroutine(SpawnWaveAtRandomSpawners(currentWaveData));
         }
+    }
 
-        if (activeEnemies <= 0)
+    private IEnumerator SpawnWaveAtRandomSpawners(WaveData wave)
+    {
+        foreach (WaveData.EnemyGroup group in wave.enemyGroups)
+        {
+            if (group.enemyData == null)
+            {
+                continue;
+            }
+            for (int i = 0; i < group.count; i++)
+            {
+                // Pick a random spawner
+                if (spawners.Count == 0) yield break;
+                Spawner chosenSpawner = spawners[Random.Range(0, spawners.Count)];
+                chosenSpawner.SpawnEnemy(group.enemyData);
+                yield return new WaitForSeconds(group.spawnDelay);
+            }
+            yield return new WaitForSeconds(wave.groupDelay);
+        }
+    }
+
+    public void RegisterEnemy(int difficultyValue)
+    {
+        killedDifficultyValue += difficultyValue;
+    }
+
+    public void UnregisterEnemy(int difficultyValue)
+    {
+        killedDifficultyValue += difficultyValue;
+        Debug.Log($"Enemy killed. Progress: {killedDifficultyValue}/{targetDR} (Remaining: {Mathf.Max(0, targetDR - killedDifficultyValue)})");
+        if (isWaveInProgress && killedDifficultyValue >= targetDR)
         {
             isWaveInProgress = false;
-            currentWaveNumber++; // Increment wave number after wave completion
-            Debug.Log($"Wave completed! Starting next wave in {timeBetweenWaves} seconds...");
-            Invoke("StartNextWave", timeBetweenWaves);
+            Debug.Log($"Wave completed! Waiting for player to start next wave.");
+            if (uiManager != null)
+            {
+                uiManager.ShowStartNextWaveButton(nextWaveCountdown);
+            }
         }
     }
+    
 
     public int GetCurrentWaveIndex()
     {
@@ -178,7 +208,7 @@ public class WaveManager : MonoBehaviour
             WaveData.EnemyGroup group = new WaveData.EnemyGroup();
             group.enemyData = chosen;
             group.count = count;
-            group.spawnDelay = Random.Range(1f, 2f);
+            group.spawnDelay = Random.Range(1f, 3f);
 
             runtime.enemyGroups.Add(group);
             remaining -= used;

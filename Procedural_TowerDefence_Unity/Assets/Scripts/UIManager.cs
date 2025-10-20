@@ -14,6 +14,12 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI skillPointsText;
     public TextMeshProUGUI waveText;
 
+    [Header("Wave UI")]
+    public GameObject startNextWaveButton;
+    public TextMeshProUGUI countdownText;
+
+    [Header("----- Pause Menu -----")]
+    public GameObject pauseMenu;
 
     private PlayerManager playerManager;
     private WaveManager waveManager;
@@ -24,11 +30,19 @@ public class UIManager : MonoBehaviour
         waveManager = FindObjectOfType<WaveManager>();
         StartCoroutine(InitializeMainTower());
         UpdateUI();
+        if (startNextWaveButton != null)
+        {
+            startNextWaveButton.SetActive(false);
+        }
+        if (countdownText != null)
+        {
+            countdownText.gameObject.SetActive(false);
+        }
     }
 
     void Update()
     {
-        UpdateUI();
+    UpdateUI();
     }
 
     public void UpdateUI()
@@ -53,7 +67,7 @@ public class UIManager : MonoBehaviour
             goldText.text = $"Gold: {playerManager.Gold}";
             levelText.text = $"{playerManager.Level}";
             skillPointsText.text = $"Skill Points: {playerManager.SkillPoints}";
-            waveText.text = $"Wave {waveManager.GetCurrentWaveIndex()}";
+            waveText.text = $"{waveManager.GetCurrentWaveIndex()}";
         }
     }
 
@@ -66,9 +80,71 @@ public class UIManager : MonoBehaviour
 #endif
     }
 
+    // Called by WaveManager when a wave ends
+    public void ShowStartNextWaveButton(float countdown)
+    {
+        if (startNextWaveButton != null)
+        {
+            startNextWaveButton.SetActive(true);
+        }
+        if (countdownText != null)
+        {
+            countdownText.gameObject.SetActive(false);
+        }
+        nextWaveCountdown = countdown;
+    }
+
+    private float nextWaveCountdown = 5f;
+
+    // Called by button OnClick
+    public void OnStartNextWaveButtonClicked()
+    {
+        if (startNextWaveButton != null)
+        {
+            startNextWaveButton.SetActive(false);
+        }
+        if (countdownText != null)
+        {
+            countdownText.gameObject.SetActive(true);
+        }
+        StartCoroutine(CountdownAndStartNextWave());
+    }
+
+    private IEnumerator CountdownAndStartNextWave()
+    {
+        float timer = nextWaveCountdown;
+        while (timer > 0) 
+        {
+            if (countdownText != null)
+            {
+                countdownText.text = $"Wave {waveManager.GetCurrentWaveIndex() + 1} starting in {Mathf.CeilToInt(timer)}...";
+            }
+            yield return new WaitForSeconds(1f);
+            timer -= 1f;
+        }
+        if (countdownText != null)
+        {
+            countdownText.gameObject.SetActive(false);
+        }
+        if (waveManager != null)
+        {
+            waveManager.StartNextWave();
+        }
+    }
+
     private IEnumerator InitializeMainTower()
     {
         yield return new WaitForSeconds(1f);
         MainTower = GameObject.FindGameObjectWithTag("MainTower")?.GetComponent<MainTower>();
+    }
+
+    public void TogglePauseMenu()
+    {
+        if (pauseMenu != null)
+        {
+            bool isActive = pauseMenu.activeSelf;
+            pauseMenu.SetActive(!isActive);
+            Time.timeScale = isActive ? 1f : 0f; // Pause or resume game
+        }
     }
 }
