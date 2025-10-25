@@ -1,9 +1,8 @@
-
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
 using System.Collections.Generic;
-
+using UnityEngine.EventSystems; // Add this for EventSystem
 
 [System.Serializable]
 public class TowerPlacementOption
@@ -119,6 +118,12 @@ public class PlacementManager : MonoBehaviour
 
     void HandlePlacement()
     {
+        // Check if pointer is over a UI element
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            return; // Exit if clicking on UI
+        }
+
         if (previewObject != null && currentSnapPoint != null && Mouse.current.leftButton.wasPressedThisFrame)
         {
             PlaceObject(currentSnapPoint);
