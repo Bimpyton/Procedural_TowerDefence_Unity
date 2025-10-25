@@ -39,6 +39,11 @@ public class PlacementManager : MonoBehaviour
             UpdatePreviewPosition();
             HandlePlacement();
         }
+
+        if (Mouse.current.rightButton.wasPressedThisFrame && isPlacing)
+        {
+            CancelPlacement();
+        }
     }
 
     void HandleTowerSelection()
@@ -178,5 +183,16 @@ public class PlacementManager : MonoBehaviour
             yield return null;
         }
         cam.transform.localPosition = originalPos;
+    }
+
+    private void CancelPlacement()
+    {
+        selectedTowerIndex = -1;
+        isPlacing = false;
+        if (previewObject != null)
+        {
+            Destroy(previewObject);
+        }
+        currentSnapPoint = null;
     }
 }
