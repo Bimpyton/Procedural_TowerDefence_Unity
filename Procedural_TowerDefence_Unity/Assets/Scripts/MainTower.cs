@@ -12,6 +12,7 @@ public class MainTower : MonoBehaviour
     [SerializeField] private float attackRange = 10f;
     [SerializeField] private float projectileArcHeight = 5f;
     public GameObject projectilePrefab;
+    [SerializeField] private Transform firePoint;
 
     private float lastAttackTime = 0f;
 
@@ -57,7 +58,7 @@ public class MainTower : MonoBehaviour
         }
         if (nearestEnemy != null && projectilePrefab != null)
         {
-            GameObject proj = Instantiate(projectilePrefab, transform.position + Vector3.up, Quaternion.identity);
+            GameObject proj = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
             Projectile projectile = proj.GetComponent<Projectile>();
             if (projectile != null)
             {
