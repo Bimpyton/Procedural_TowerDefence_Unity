@@ -328,6 +328,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 2616329685473949415, guid: c5ae241f814570a41af3b62040af6de3, type: 3}
   attackRange: 0
   projectileArcHeight: 0
+  difficultyValue: 1
   healthBar: {fileID: 1077334311653902346}
   target: {fileID: 0}
 --- !u!33 &2748256357124274990
@@ -487,6 +488,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 8ff8dc99508a67f42ac1eb2ec608d8a5, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 2a50f6aaa7de566468f848b7d2a0e1d4, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 8ff8dc99508a67f42ac1eb2ec608d8a5, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 52200c4efe3d3fe4db12ce9e7c767e03, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 8ff8dc99508a67f42ac1eb2ec608d8a5, type: 3}
+      propertyPath: 'm_Materials.Array.data[2]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 103835baa5041ee4e9fe7912110e9649, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 8ff8dc99508a67f42ac1eb2ec608d8a5, type: 3}
+      propertyPath: 'm_Materials.Array.data[3]'
+      value: 
+      objectReference: {fileID: 2100000, guid: f8edc1cf75ac2964e8314be912bf8f1f, type: 2}
     - target: {fileID: 919132149155446097, guid: 8ff8dc99508a67f42ac1eb2ec608d8a5, type: 3}
       propertyPath: m_Name
       value: Enemy_Fast

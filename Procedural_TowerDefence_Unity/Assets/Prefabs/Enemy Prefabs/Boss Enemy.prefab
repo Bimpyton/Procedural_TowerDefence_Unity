@@ -328,6 +328,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 2616329685473949415, guid: c5ae241f814570a41af3b62040af6de3, type: 3}
   attackRange: 0
   projectileArcHeight: 0
+  difficultyValue: 1
   healthBar: {fileID: 5722669549019104772}
   target: {fileID: 0}
 --- !u!33 &2748256357124274990
@@ -495,6 +496,14 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: dcbedd8202e031e42a26e0450cfd06f4, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 103835baa5041ee4e9fe7912110e9649, type: 2}
+    - target: {fileID: -7511558181221131132, guid: dcbedd8202e031e42a26e0450cfd06f4, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: ff85d29c3e7188542a71f4a4d4ca233e, type: 2}
     - target: {fileID: 919132149155446097, guid: dcbedd8202e031e42a26e0450cfd06f4, type: 3}
       propertyPath: m_Name
       value: DuckBoss

@@ -419,9 +419,21 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 83b3e3560afb8bc4fa708e24c820156f, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 83b3e3560afb8bc4fa708e24c820156f, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: c6f72775916a79c4089dcc59e6d64689, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 83b3e3560afb8bc4fa708e24c820156f, type: 3}
       propertyPath: 'm_Materials.Array.data[1]'
       value: 
-      objectReference: {fileID: 2100000, guid: 103f6b6c8fec04b4a88ca90f36967ae6, type: 2}
+      objectReference: {fileID: 2100000, guid: 103835baa5041ee4e9fe7912110e9649, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 83b3e3560afb8bc4fa708e24c820156f, type: 3}
+      propertyPath: 'm_Materials.Array.data[2]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 103835baa5041ee4e9fe7912110e9649, type: 2}
     - target: {fileID: 919132149155446097, guid: 83b3e3560afb8bc4fa708e24c820156f, type: 3}
       propertyPath: m_Name
       value: Tower

@@ -328,6 +328,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 2616329685473949415, guid: c5ae241f814570a41af3b62040af6de3, type: 3}
   attackRange: 0
   projectileArcHeight: 0
+  difficultyValue: 1
   healthBar: {fileID: 5722669549019104772}
   target: {fileID: 0}
 --- !u!33 &2748256357124274990
@@ -498,15 +499,15 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 9665bde961123724e8e696b97947a992, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 25a1e55c11d269148aab16606309913d, type: 2}
+      objectReference: {fileID: 2100000, guid: 276daab5960d19644b60d6c6b8ea7fc6, type: 2}
     - target: {fileID: -7511558181221131132, guid: 9665bde961123724e8e696b97947a992, type: 3}
       propertyPath: 'm_Materials.Array.data[1]'
       value: 
-      objectReference: {fileID: 2100000, guid: d9608e843f7a592469d460150664ecb6, type: 2}
+      objectReference: {fileID: 2100000, guid: 447e9460605ba774992607ec45c69824, type: 2}
     - target: {fileID: -7511558181221131132, guid: 9665bde961123724e8e696b97947a992, type: 3}
       propertyPath: 'm_Materials.Array.data[2]'
       value: 
-      objectReference: {fileID: 2100000, guid: eabb7c67f178e1f409340103a605a27e, type: 2}
+      objectReference: {fileID: 2100000, guid: 276daab5960d19644b60d6c6b8ea7fc6, type: 2}
     - target: {fileID: 919132149155446097, guid: 9665bde961123724e8e696b97947a992, type: 3}
       propertyPath: m_Name
       value: Enemy
