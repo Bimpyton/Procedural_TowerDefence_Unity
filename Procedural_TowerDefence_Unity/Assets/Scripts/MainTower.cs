@@ -12,6 +12,7 @@ public class MainTower : MonoBehaviour
     [SerializeField] private float attackRange = 10f;
     [SerializeField] private float projectileArcHeight = 5f;
     public GameObject projectilePrefab;
+    [SerializeField] private Transform firePoint;
 
     private float lastAttackTime = 0f;
 
@@ -25,6 +26,14 @@ public class MainTower : MonoBehaviour
             {
                 healthBar.SetHealth(health / maxHealth);
             }
+        if (firePoint == null)
+        {
+            Transform found = transform.Find("FirePoint");
+            if (found != null)
+            {
+                firePoint = found;
+            }
+        }
     }
 
     void Update()
@@ -57,7 +66,9 @@ public class MainTower : MonoBehaviour
         }
         if (nearestEnemy != null && projectilePrefab != null)
         {
-            GameObject proj = Instantiate(projectilePrefab, transform.position + Vector3.up, Quaternion.identity);
+            Vector3 spawnPos = (firePoint != null) ? firePoint.position : (transform.position + Vector3.up);
+            Quaternion spawnRot = (firePoint != null) ? firePoint.rotation : Quaternion.identity;
+            GameObject proj = Instantiate(projectilePrefab, spawnPos, spawnRot);
             Projectile projectile = proj.GetComponent<Projectile>();
             if (projectile != null)
             {
