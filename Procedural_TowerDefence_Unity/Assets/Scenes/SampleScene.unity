@@ -1277,9 +1277,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50b45baa9e15d9b47acef27f45b436fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  swayAmount: 5
-  swaySpeed: 2
-  directionChangeSpeed: 10
+  swayAmount: 3
+  swaySpeed: 0.5
+  directionChangeSpeed: 2
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -4902,9 +4902,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50b45baa9e15d9b47acef27f45b436fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  swayAmount: 5
-  swaySpeed: 2
-  directionChangeSpeed: 10
+  swayAmount: 3
+  swaySpeed: 0.5
+  directionChangeSpeed: 2
 --- !u!1 &1725437537
 GameObject:
   m_ObjectHideFlags: 0
