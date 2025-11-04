@@ -19,21 +19,26 @@ public class CollapseTower : MonoBehaviour
     {
         if (Keyboard.current.spaceKey.wasPressedThisFrame)
         {
-            // Enable physics
-            foreach (var rb in blocks)
-                rb.isKinematic = false;
+            ExplodeTower();
+        }
+    }
 
-            // Apply explosion force
-            foreach (var rb in blocks)
+    public void ExplodeTower()
+    {
+        // Enable physics
+        foreach (var rb in blocks)
+            rb.isKinematic = false;
+
+        // Apply explosion force
+        foreach (var rb in blocks)
+        {
+            foreach (var explosionLocation in explosionLocations)
             {
-                foreach (var explosionLocation in explosionLocations)
-                {
-                    rb.AddExplosionForce(
-                        explosionForce,
-                        explosionLocation.position,
-                        explosionRadius
-                    );
-                }
+                rb.AddExplosionForce(
+                    explosionForce,
+                    explosionLocation.position,
+                    explosionRadius
+                );
             }
         }
     }

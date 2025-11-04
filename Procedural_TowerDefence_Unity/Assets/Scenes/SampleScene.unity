@@ -6544,7 +6544,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 869afea171ac16646b6ce2b2475fb211, type: 2}
   - {fileID: 11400000, guid: 5870a949cb28c744d89e111567d92080, type: 2}
   - {fileID: 11400000, guid: b38d89cd8dbeea54cbf372c77ab9db3a, type: 2}
-  currentWaveNumber: 0
+  currentWaveNumber: 4
   nextWaveCountdown: 5
 --- !u!4 &2060705286
 Transform:

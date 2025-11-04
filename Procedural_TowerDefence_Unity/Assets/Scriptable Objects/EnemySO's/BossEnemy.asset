@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 8599192043079365083, guid: b31620db043b4b448a28457b7ddad0ae, type: 3}
   speed: 0.25
-  maxHealth: 1500
-  attackSpeed: 2
-  damage: 25
+  maxHealth: 2000
+  attackSpeed: 1
+  damage: 20
   attackRange: 10
   projectilePrefab: {fileID: 2616329685473949415, guid: c5ae241f814570a41af3b62040af6de3, type: 3}
   projectileArcHeight: 15

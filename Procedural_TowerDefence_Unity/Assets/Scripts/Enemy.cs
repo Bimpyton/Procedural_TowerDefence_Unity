@@ -7,22 +7,23 @@ public class Enemy : MonoBehaviour
     {
         [Header("----- DATA -----")]
         public EnemyData enemyData;
+        public TargetPriorityMode targetPriorityMode = TargetPriorityMode.Closest;
 
         [Header("----- ENEMY STATS -----")]
-        [SerializeField] private float speed = 1f;
-        [SerializeField] private float health = 10f;
-        [SerializeField] private float maxHealth = 10f;
+        public float speed = 1f;
+        public float health = 10f;
+        public float maxHealth = 10f;
 
         [Header("----- REWARD -----")]
         public int deathValue = 10; // Gold rewarded to player on death
         public int deathXP = 10; // XP rewarded to player on death
 
         [Header("----- ATTACK -----")]
-        [SerializeField] private float damage = 5f;
-        [SerializeField] private float attackSpeed = 1f;
-        [SerializeField] private GameObject projectilePrefab;
-        [SerializeField] private float attackRange = 10f;
-        [SerializeField] private float projectileArcHeight = 5f;
+        public float damage = 5f;
+        public float attackSpeed = 1f;
+        public GameObject projectilePrefab;
+        public float attackRange = 10f;
+        public float projectileArcHeight = 5f;
         private float lastAttackTime = 0f;
 
         [Header("----- DIFFICULTY -----")]
@@ -36,6 +37,10 @@ public class Enemy : MonoBehaviour
         private List<Vector3> waypoints = new List<Vector3>();
         private int currentWaypointIndex = 0;
         private float waypointThreshold = 0.5f;
+
+        [Header("----- DEATH EFFECTS -----")]
+        public GameObject deathParticles;
+        public float destroyDelay = 0.5f;
 
         void Start()
         {
@@ -99,43 +104,36 @@ public class Enemy : MonoBehaviour
 
         void Attack()
         {
-            // Find tower in range based on priority mode
             GameObject[] towers = GameObject.FindGameObjectsWithTag("Tower");
             GameObject selectedTower = null;
-            float selectedDist = (enemyData != null && enemyData.targetPriorityMode == TargetPriorityMode.Furthest) ? -Mathf.Infinity : Mathf.Infinity;
+            float bestDistance = (targetPriorityMode == TargetPriorityMode.Furthest) ? 0f : Mathf.Infinity;
+
             foreach (var tower in towers)
             {
                 float dist = Vector3.Distance(transform.position, tower.transform.position);
-                if (dist < attackRange)
+                if (dist > attackRange) continue; // Skip out-of-range
+
+                bool better = (targetPriorityMode == TargetPriorityMode.Furthest)
+                    ? dist > bestDistance
+                    : dist < bestDistance;
+
+                if (better)
                 {
-                    if (enemyData != null && enemyData.targetPriorityMode == TargetPriorityMode.Furthest)
-                    {
-                        if (dist > selectedDist)
-                        {
-                            selectedDist = dist;
-                            selectedTower = tower;
-                        }
-                    }
-                    else // Closest (default)
-                    {
-                        if (dist < selectedDist)
-                        {
-                            selectedDist = dist;
-                            selectedTower = tower;
-                        }
-                    }
-                    if (healthBar != null)
-                    {
-                        healthBar.SetHealth(health / maxHealth);
-                    }
+                    bestDistance = dist;
+                    selectedTower = tower;
                 }
             }
+
+            // UPDATE HEALTH BAR ONCE
+            if (healthBar != null)
+                healthBar.SetHealth(health / maxHealth);
+
+            // FIRE!
             if (selectedTower != null && projectilePrefab != null)
             {
-                // Shoot projectile
-                GameObject proj = Instantiate(projectilePrefab, transform.position + Vector3.up, Quaternion.identity);
-                Projectile projectile = proj.GetComponent<Projectile>();
-                if (projectile != null)
+                var proj = Instantiate(projectilePrefab, transform.position + Vector3.up, Quaternion.identity);
+                var projectile = proj.GetComponent<Projectile>();
+                if (projectile)
                 {
                     projectile.target = selectedTower.transform;
                     projectile.arcHeight = projectileArcHeight;
@@ -195,11 +193,15 @@ public class Enemy : MonoBehaviour
             }
             // Notify WaveManager before destroying
             WaveManager waveManager = FindObjectOfType<WaveManager>();
-            if (waveManager != null)
-            {
-                Debug.Log($"Their DR was {difficultyValue}");
-                waveManager.UnregisterEnemy(difficultyValue);
-            }
-            Destroy(gameObject);
+        if (waveManager != null)
+        {
+            Debug.Log($"Their DR was {difficultyValue}");
+            waveManager.UnregisterEnemy(difficultyValue);
+        }
+
+        if (deathParticles)
+            Instantiate(deathParticles, transform.position, Quaternion.identity);
+            
+            Destroy(gameObject, destroyDelay);
         }
     }

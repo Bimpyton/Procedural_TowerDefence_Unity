@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53d1fb1ddf81fbf48aa58e6b2ca683b8, type: 3}
+  m_Name: Boss
+  m_EditorClassIdentifier: 
+  profileName: Speedster
+  bodyMaterial: {fileID: 2100000, guid: 103835baa5041ee4e9fe7912110e9649, type: 2}
+  beakMaterial: {fileID: 2100000, guid: ff85d29c3e7188542a71f4a4d4ca233e, type: 2}
+  bossIcon: {fileID: -219262782, guid: 9d7f1dbb416d1d34bb100d5204dd482c, type: 3}
+  healthMultiplier: 1
+  speedMultiplier: 1
+  damageMultiplier: 1
+  targetPriorityMode: 0
+  deathValue: 150
+  deathXP: 150

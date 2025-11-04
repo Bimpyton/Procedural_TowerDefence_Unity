@@ -14,20 +14,27 @@ public class MainTower : MonoBehaviour
     public GameObject projectilePrefab;
     [SerializeField] private Transform firePoint;
 
+
     private float lastAttackTime = 0f;
 
     [Header("----- UI -----")]
     [SerializeField] private HealthBar healthBar;
+    
+
+    [Header("----- References -----")]
+    [SerializeField] private CollapseTower collapseTower;
 
     void Start()
     {
         health = maxHealth;
-            if (healthBar != null)
-            {
-                healthBar.SetHealth(health / maxHealth);
-            }
-    }
+        if (healthBar != null)
+        {
+            healthBar.SetHealth(health / maxHealth);
+        }
 
+        collapseTower = GetComponent<CollapseTower>();
+    }
+    
     void Update()
     {
         TryAttackEnemy();
@@ -88,5 +95,10 @@ public class MainTower : MonoBehaviour
     {
         Debug.Log("Main Tower destroyed!");
         Destroy(gameObject);
+
+        if (collapseTower != null)
+        {
+            collapseTower.ExplodeTower();
+        }
     }
 }

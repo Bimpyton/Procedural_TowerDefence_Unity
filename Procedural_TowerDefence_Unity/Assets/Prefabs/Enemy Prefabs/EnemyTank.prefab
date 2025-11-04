@@ -214,6 +214,8 @@ MonoBehaviour:
   difficultyValue: 1
   healthBar: {fileID: 8368479759843726465}
   target: {fileID: 0}
+  deathParticles: {fileID: 5634791696418612003, guid: 69d89ade81dbf1047b6bc87351336dcb, type: 3}
+  destroyDelay: 0.2
 --- !u!33 &2748256357124274990
 MeshFilter:
   m_ObjectHideFlags: 0
