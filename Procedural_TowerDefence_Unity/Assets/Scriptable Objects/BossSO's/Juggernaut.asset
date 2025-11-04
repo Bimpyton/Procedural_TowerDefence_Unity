@@ -15,7 +15,7 @@ MonoBehaviour:
   profileName: Juggernaut
   bodyMaterial: {fileID: 2100000, guid: 4735b9db8901706479feea50870b9207, type: 2}
   beakMaterial: {fileID: 2100000, guid: 53b48e51019d5ac46938431690d10a34, type: 2}
-  bossIcon: {fileID: 2032640570, guid: 9d7f1dbb416d1d34bb100d5204dd482c, type: 3}
+  bossIcon: {fileID: 21300000, guid: b71d5b3696d371f4997a99785ec25418, type: 3}
   healthMultiplier: 3
   speedMultiplier: 0.5
   damageMultiplier: 1.5
