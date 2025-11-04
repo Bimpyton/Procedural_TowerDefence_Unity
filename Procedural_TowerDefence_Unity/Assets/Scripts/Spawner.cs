@@ -7,7 +7,6 @@ public class Spawner : MonoBehaviour
     public Transform target;
     public List<Vector2Int> riverPath;
 
-
     public void SpawnEnemy(EnemyData enemyData)
     {
         if (enemyData == null || enemyData.prefab == null || target == null || riverPath == null || riverPath.Count == 0) 
@@ -22,6 +21,13 @@ public class Spawner : MonoBehaviour
             enemyScript.target = target;
             enemyScript.SetPath(riverPath, transform.parent);
             enemyScript.enemyData = enemyData;
+
+            // Notify WaveManager enemy spawned
+            WaveManager waveManager = FindObjectOfType<WaveManager>();
+            if (waveManager != null)
+            {
+                waveManager.EnemySpawned(enemyData.difficultyValue);
+            }
         }
         else
         {

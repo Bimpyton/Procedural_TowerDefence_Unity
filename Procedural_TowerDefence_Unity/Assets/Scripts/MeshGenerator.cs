@@ -76,7 +76,7 @@ public class MeshGenerator : MonoBehaviour
             // Calculate the center in world space
             Vector3 center = transform.TransformPoint(new Vector3(xSize / 2f, 0, zSize / 2f));
             GameObject centerObj = new GameObject("CameraCenterPoint");
-            centerObj.transform.position = center;
+            centerObj.transform.position = center + Vector3.up * 5f; 
             cameraController.centerPoint = centerObj.transform;
         }
     }

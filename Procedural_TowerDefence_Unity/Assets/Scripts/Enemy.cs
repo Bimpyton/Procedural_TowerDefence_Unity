@@ -13,6 +13,7 @@ public class Enemy : MonoBehaviour
         public float speed = 1f;
         public float health = 10f;
         public float maxHealth = 10f;
+        public int mainTowerDamage = 10;
 
         [Header("----- REWARD -----")]
         public int deathValue = 10; // Gold rewarded to player on death
@@ -48,8 +49,8 @@ public class Enemy : MonoBehaviour
             {
                 speed = enemyData.speed;
                 maxHealth = enemyData.maxHealth;
-
                 health = maxHealth;
+                mainTowerDamage = enemyData.mainTowerDamage;
 
                 damage = enemyData.damage;
                 attackSpeed = enemyData.attackSpeed;
@@ -158,11 +159,12 @@ public class Enemy : MonoBehaviour
             {
                 Debug.Log($"Enemy hit Main Tower");
                 MainTower mainTower = other.GetComponent<MainTower>();
-                if (mainTower != null)
-                {
-                    mainTower.TakeDamage(10); // Flat 10 damage to main tower
-                }
-                Destroy(gameObject);
+            if (mainTower != null)
+            {
+                mainTower.TakeDamage(mainTowerDamage); 
+            }
+                
+                Die();
             }
         }
 
@@ -182,7 +184,6 @@ public class Enemy : MonoBehaviour
         void Die()
         {
             Debug.Log($"Enemy died: {gameObject.name}");
-            
 
             // Award player gold and XP
             PlayerManager playerManager = FindObjectOfType<PlayerManager>();
@@ -191,17 +192,18 @@ public class Enemy : MonoBehaviour
                 playerManager.AddGold(deathValue);
                 playerManager.AddScore(deathXP); // XP per kill
             }
-            // Notify WaveManager before destroying
-            WaveManager waveManager = FindObjectOfType<WaveManager>();
-        if (waveManager != null)
-        {
-            Debug.Log($"Their DR was {difficultyValue}");
-            waveManager.UnregisterEnemy(difficultyValue);
-        }
 
-        if (deathParticles)
-            Instantiate(deathParticles, transform.position, Quaternion.identity);
-            
+            // Notify WaveManager
+            WaveManager waveManager = FindObjectOfType<WaveManager>();
+            if (waveManager != null)
+            {
+                Debug.Log($"Their DR was {difficultyValue}");
+                waveManager.UnregisterEnemy(difficultyValue);
+            }
+
+            if (deathParticles)
+                Instantiate(deathParticles, transform.position, Quaternion.identity);
+                
             Destroy(gameObject, destroyDelay);
         }
     }

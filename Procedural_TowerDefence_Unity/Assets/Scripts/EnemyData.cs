@@ -13,6 +13,7 @@ public class EnemyData : ScriptableObject
     public GameObject prefab; // The enemy prefab to instantiate
     public float speed = 5f; // Movement speed
     public float maxHealth = 10f; // Max health points
+    public int mainTowerDamage = 10; // Damage to main tower on contact
 
     [Header("----- ATTACK SETTINGS -----")]
     public float attackSpeed = 1f; // Attacks per second
