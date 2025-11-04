@@ -15,6 +15,7 @@ MonoBehaviour:
   prefab: {fileID: 8599192043079365083, guid: b31620db043b4b448a28457b7ddad0ae, type: 3}
   speed: 0.25
   maxHealth: 2000
+  mainTowerDamage: 20
   attackSpeed: 1
   damage: 20
   attackRange: 10
