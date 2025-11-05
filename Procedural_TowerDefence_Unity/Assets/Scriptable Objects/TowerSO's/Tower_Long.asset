@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Tower_Long
   m_EditorClassIdentifier: 
   projectileSpeed: 10
-  projectileDamage: 100
+  projectileDamage: 50
   projectilePrefab: {fileID: 2616329685473949415, guid: b7e76818b88cec349b9642c3cb5939ba, type: 3}
   maxHealth: 20
   attackRate: 5

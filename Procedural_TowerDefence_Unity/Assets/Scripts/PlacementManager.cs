@@ -26,9 +26,11 @@ public class PlacementManager : MonoBehaviour
     private GameObject previewObject;
     private SnapPoint currentSnapPoint;
     private bool isPlacing = false;
+    [SerializeField] private Texture2D buildCursor;
+
 
     [Header("----- UPGRADE -----")]
-    [SerializeField] private Texture2D upgradeCursorTexture;
+    [SerializeField] private Texture2D upgradeCursor;
     [SerializeField] private TextMeshProUGUI upgradeCostTextUI;
     public bool inUpgradeMode = false;
     private Tower hoveredTowerForUpgrade;
@@ -41,8 +43,12 @@ public class PlacementManager : MonoBehaviour
     {
         HandleTowerSelection();
 
+        // Show build cursor when placing
         if (isPlacing)
         {
+            Vector2 hotspot = new Vector2(buildCursor.width / 2f, buildCursor.height / 2f);
+            Cursor.SetCursor(buildCursor, hotspot, CursorMode.Auto);
+            
             UpdatePreviewPosition();
             HandlePlacement();
         }
@@ -51,10 +57,16 @@ public class PlacementManager : MonoBehaviour
             UpdateUpgradePreview();
             HandleUpgradeClick();
         }
+        else
+        {
+            // Reset cursor if not placing or upgrading
+            Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+        }
 
-        if (Mouse.current.rightButton.wasPressedThisFrame && isPlacing)
+        if (Mouse.current.rightButton.wasPressedThisFrame && (isPlacing || inUpgradeMode))
         {
             CancelPlacement();
+            ExitUpgradeMode();
         }
     }
 
@@ -84,11 +96,16 @@ public class PlacementManager : MonoBehaviour
             Destroy(previewObject);
         }
         currentSnapPoint = null;
-        Cursor.SetCursor(upgradeCursorTexture, Vector2.zero, CursorMode.Auto);
-        if (upgradeCostTextUI != null)
-        {
-            upgradeCostTextUI.gameObject.SetActive(false);
-        }
+
+        Vector2 hotspot = new Vector2(upgradeCursor.width / 2f, upgradeCursor.height / 2f);
+        Cursor.SetCursor(upgradeCursor, hotspot, CursorMode.Auto);
+
+            if (upgradeCostTextUI != null)
+            {
+                upgradeCostTextUI.gameObject.SetActive(false);
+            }
+
+        CancelPlacement();
     }
 
     public void ExitUpgradeMode()
@@ -114,6 +131,8 @@ public class PlacementManager : MonoBehaviour
             previewObject = Instantiate(towerOptions[selectedTowerIndex].previewMesh);
             SetPreviewMode(previewObject, true);
         }
+
+        ExitUpgradeMode();
     }
 
     void SetPreviewMode(GameObject obj, bool isPreview)
@@ -219,7 +238,7 @@ public class PlacementManager : MonoBehaviour
                 hoveredTowerForUpgrade = tower;
                 if (upgradeCostTextUI != null)
                 {
-                    upgradeCostTextUI.text = $"${nextCost:F0}";
+                    upgradeCostTextUI.text = $"{nextCost:F0}G";
                     Vector2 mousePos = Mouse.current.position.ReadValue();
                     RectTransform rect = upgradeCostTextUI.GetComponent<RectTransform>();
                     rect.position = new Vector3(mousePos.x + 10f, mousePos.y - 10f, 0f);

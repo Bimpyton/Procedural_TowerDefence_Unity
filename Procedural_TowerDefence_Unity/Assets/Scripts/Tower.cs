@@ -28,9 +28,9 @@ public class Tower : MonoBehaviour
 
     [Header("----- UPGRADES -----")]
     public int upgradeLevel = 0;
-    [SerializeField] private float upgradeMultiplier = 0.25f;
+    [SerializeField] private float upgradeMultiplier = 0.20f;
     [SerializeField] private GameObject starPrefab;
-    private float[] upgradeCostMultipliers = {0.5f, 1f, 1.5f, 2f, 3f};
+    [SerializeField] private float[] upgradeCostMultipliers = {1f, 1.5f, 2f, 2.5f, 5f};
     [SerializeField] private Transform starParent;
 
     public SnapPoint snapPoint;
@@ -86,7 +86,7 @@ public class Tower : MonoBehaviour
         // Level 5 passive healing (10% max health per second)
         if (upgradeLevel == 5 && health < maxHealth)
         {
-            health += maxHealth * 0.1f * Time.deltaTime;
+            health += maxHealth * 0.05f * Time.deltaTime;
             if (health > maxHealth) health = maxHealth;
             if (healthBar != null)
             {
@@ -119,8 +119,7 @@ public class Tower : MonoBehaviour
             // Shoot projectile
             yield return Attack(target);
 
-            // Wait for cooldown (attackRate is attacks per second, so cooldown = 1 / attackRate)
-            yield return new WaitForSeconds(1f / attackRate);
+            yield return new WaitForSeconds(attackRate);
 
             canAttack = true;
         }
@@ -197,7 +196,7 @@ public class Tower : MonoBehaviour
         maxHealth *= (1f + upgradeMultiplier);
         health = maxHealth; // Full heal
         projectileDamage *= (1f + upgradeMultiplier);
-        attackRate *= (1f + upgradeMultiplier); // Increase attacks per second
+        attackRate *= (1f - upgradeMultiplier); 
 
         if (healthBar != null)
         {

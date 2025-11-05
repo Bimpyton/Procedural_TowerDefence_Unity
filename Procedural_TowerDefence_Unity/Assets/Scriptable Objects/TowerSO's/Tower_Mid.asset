@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Tower_Mid
   m_EditorClassIdentifier: 
   projectileSpeed: 10
-  projectileDamage: 50
+  projectileDamage: 30
   projectilePrefab: {fileID: 2616329685473949415, guid: fde8290bf2b41564386455627ad961b3, type: 3}
   maxHealth: 50
-  attackRate: 3
+  attackRate: 1
   attackRange: 10
   projectileArcHeight: 10
   targetPriorityMode: 1
