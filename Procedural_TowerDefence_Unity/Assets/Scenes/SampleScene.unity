@@ -6807,6 +6807,7 @@ MonoBehaviour:
   totalDRSpawned: 0
   targetDR: 0
   nextWaveCountdown: 5
+  canSpawn: 1
   gameManager: {fileID: 0}
 --- !u!4 &2060705286
 Transform:
