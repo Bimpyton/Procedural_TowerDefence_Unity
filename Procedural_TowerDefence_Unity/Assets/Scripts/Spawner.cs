@@ -23,7 +23,7 @@ public class Spawner : MonoBehaviour
             enemyScript.enemyData = enemyData;
 
             // Notify WaveManager enemy spawned
-            WaveManager waveManager = FindObjectOfType<WaveManager>();
+            WaveManager waveManager = Object.FindFirstObjectByType<WaveManager>();
             if (waveManager != null)
             {
                 waveManager.EnemySpawned(enemyData.difficultyValue);

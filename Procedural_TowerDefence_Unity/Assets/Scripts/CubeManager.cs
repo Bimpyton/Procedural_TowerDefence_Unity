@@ -6,9 +6,9 @@ using UnityEngine;
 public class CubeManager : MonoBehaviour
 {
     [Header("----- CUBE MATERIALS -----")]
-    [SerializeField] private Material waterMaterial;
-    [SerializeField] private Material middleMaterial;
-    [SerializeField] private Material highMaterial;
+    [SerializeField] private Material[] waterMaterial;
+    [SerializeField] private Material[] middleMaterial;
+    [SerializeField] private Material[] highMaterial;
 
     [Header("----- CUBE HEIGHTS -----")]
     [SerializeField] private float waterHeight = 1f;
@@ -43,16 +43,16 @@ public class CubeManager : MonoBehaviour
 
             if (cubeHeight < waterHeight)
             {
-                renderer.material = waterMaterial;
+                renderer.material = randomRange(waterMaterial);
                 childTransform = cube.transform.Find("SnapPoint");
             }
             else if (cubeHeight < middleHeight)
             {
-                renderer.material = middleMaterial;
+                renderer.material = randomRange(middleMaterial);
             }
             else
             {
-                renderer.material = highMaterial;
+                renderer.material = randomRange(highMaterial); //choose random material from highMaterial array
                 childTransform = cube.transform.Find("SnapPoint");
             }
 
@@ -65,5 +65,11 @@ public class CubeManager : MonoBehaviour
                 childGameObject.SetActive(false);
             }
         }
+    }
+
+    private Material randomRange(Material[] materials)
+    {
+        int index = UnityEngine.Random.Range(0, materials.Length);
+        return materials[index];
     }
 }

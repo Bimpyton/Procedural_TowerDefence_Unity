@@ -33,6 +33,7 @@ namespace RenderFeatures.Blur
             m_Material.SetFloat(VerticalBlurId, m_DefaultSettings.VerticalBlur);
         }
 
+        [System.Obsolete]
         public override void Configure(CommandBuffer cmd, RenderTextureDescriptor cameraTextureDescriptor)
         {
             // Set the blur texture size to the same as the camera target size.
@@ -43,6 +44,7 @@ namespace RenderFeatures.Blur
             RenderingUtils.ReAllocateIfNeeded(ref m_BlurTextureHandle, m_BlurTextureDescriptor, name: "_BlurTexture");
         }
 
+        [System.Obsolete]
         public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
         {
             // Get a command buffer from the pool.

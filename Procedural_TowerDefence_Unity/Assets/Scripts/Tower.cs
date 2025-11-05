@@ -21,7 +21,7 @@ public class Tower : MonoBehaviour
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private bool canAttack = true;
     [SerializeField] private bool isAttacking = false;
-    [SerializeField] private float cost = 50f;
+    public float cost = 50f;
 
     public SnapPoint snapPoint;
 
@@ -32,7 +32,6 @@ public class Tower : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private float animationDuration = 2f; 
     [SerializeField] private string shootAnimationTrigger = "Shoot";
-    private bool isAnimationStarted = false;
 
     void Start()
     {

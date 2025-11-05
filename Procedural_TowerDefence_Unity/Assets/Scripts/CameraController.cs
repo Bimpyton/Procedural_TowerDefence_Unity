@@ -31,8 +31,6 @@ public class CameraController : MonoBehaviour
     private float targetYaw;
     private float targetPitch;
     private float zoomVelocity = 0f;
-    private float yawVelocity = 0f;
-    private float pitchVelocity = 0f;
 
     void Start()
     {

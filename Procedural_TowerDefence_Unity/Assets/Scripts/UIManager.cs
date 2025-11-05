@@ -26,8 +26,8 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
-        playerManager = FindObjectOfType<PlayerManager>();
-        waveManager = FindObjectOfType<WaveManager>();
+        playerManager = Object.FindFirstObjectByType<PlayerManager>();
+        waveManager = Object.FindFirstObjectByType<WaveManager>();
         StartCoroutine(InitializeMainTower());
         UpdateUI();
         if (startNextWaveButton != null)

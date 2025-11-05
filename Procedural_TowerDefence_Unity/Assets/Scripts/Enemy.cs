@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System;
+using System.Collections;
 
 public class Enemy : MonoBehaviour
 
@@ -186,7 +187,7 @@ public class Enemy : MonoBehaviour
             Debug.Log($"Enemy died: {gameObject.name}");
 
             // Award player gold and XP
-            PlayerManager playerManager = FindObjectOfType<PlayerManager>();
+            PlayerManager playerManager = UnityEngine.Object.FindFirstObjectByType<PlayerManager>();
             if (playerManager != null)
             {
                 playerManager.AddGold(deathValue);
@@ -194,7 +195,7 @@ public class Enemy : MonoBehaviour
             }
 
             // Notify WaveManager
-            WaveManager waveManager = FindObjectOfType<WaveManager>();
+            WaveManager waveManager = UnityEngine.Object.FindFirstObjectByType<WaveManager>();
             if (waveManager != null)
             {
                 Debug.Log($"Their DR was {difficultyValue}");

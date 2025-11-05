@@ -54,6 +54,7 @@ namespace RenderFeatures
             m_FullscreenMaterial.SetFloat(SaturationId, m_Settings.Saturation);
         }
 
+        [System.Obsolete]
         public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData)
         {
             var cameraTextureDescriptor = renderingData.cameraData.cameraTargetDescriptor;
@@ -84,6 +85,7 @@ namespace RenderFeatures
             m_RendererList = context.CreateRendererList(ref param);
         }
 
+        [System.Obsolete]
         public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
         {
             // Make sure we have a valid material

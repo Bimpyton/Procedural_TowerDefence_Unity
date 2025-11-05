@@ -25,7 +25,7 @@ public class WaveManager : MonoBehaviour
 
     void Start()
     {
-        uiManager = FindObjectOfType<UIManager>();
+        uiManager = Object.FindFirstObjectByType<UIManager>();
         StartCoroutine(SetupWaves());
     }
 
