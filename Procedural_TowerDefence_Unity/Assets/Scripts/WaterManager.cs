@@ -12,6 +12,8 @@ public class WaterManager : MonoBehaviour
     private Vector3[] vertices;
     private float[,] noiseOffsets;
 
+    public CubeManager cubeManager;
+
     void Start()
     {
         // Generate random offsets for each vertex
@@ -24,6 +26,18 @@ public class WaterManager : MonoBehaviour
             }
         }
         GenerateMesh();
+
+        if (cubeManager == null)
+        {
+            cubeManager = FindObjectOfType<CubeManager>();
+        }
+
+        if (cubeManager != null && cubeManager.waterMaterial != null && cubeManager.waterMaterial.Length > 0)
+        {
+            int randomIndex = Random.Range(0, cubeManager.waterMaterial.Length);
+            Material selectedMaterial = cubeManager.waterMaterial[randomIndex];
+            GetComponent<MeshRenderer>().material = selectedMaterial;
+        }
     }
 
     void FixedUpdate()

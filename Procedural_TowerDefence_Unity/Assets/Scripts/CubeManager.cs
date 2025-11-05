@@ -6,7 +6,7 @@ using UnityEngine;
 public class CubeManager : MonoBehaviour
 {
     [Header("----- CUBE MATERIALS -----")]
-    [SerializeField] private Material[] waterMaterial;
+    public Material[] waterMaterial;
     [SerializeField] private Material[] middleMaterial;
     [SerializeField] private Material[] highMaterial;
 
@@ -52,7 +52,7 @@ public class CubeManager : MonoBehaviour
             }
             else
             {
-                renderer.material = randomRange(highMaterial); //choose random material from highMaterial array
+                renderer.material = randomRange(highMaterial); 
                 childTransform = cube.transform.Find("SnapPoint");
             }
 

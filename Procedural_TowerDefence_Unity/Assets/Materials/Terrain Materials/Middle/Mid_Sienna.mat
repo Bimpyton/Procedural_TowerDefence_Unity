@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Snow Gradient
+  m_Name: Mid_Sienna
   m_Shader: {fileID: -6465566751694194690, guid: 057ba7e2c67e6e543a0b21eb4dbd16e1, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -54,7 +54,7 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
-    - _BottomColour: {r: 0.3882353, g: 0.16470589, b: 0, a: 0}
-    - _TopColour: {r: 1, g: 1, b: 1, a: 0}
+    - _BottomColour: {r: 0, g: 0, b: 0, a: 0}
+    - _TopColour: {r: 0.627451, g: 0.32156864, b: 0.1764706, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
