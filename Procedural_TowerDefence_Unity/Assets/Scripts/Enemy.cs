@@ -44,8 +44,13 @@ public class Enemy : MonoBehaviour
         public GameObject deathParticles;
         public float destroyDelay = 0.5f;
 
+        [Header("----- GAME MANAGER -----")]
+        public GameManager gameManager;
+
         void Start()
-        {
+    {
+            gameManager = FindFirstObjectByType<GameManager>();
+            
             if (enemyData != null)
             {
                 speed = enemyData.speed;
@@ -203,8 +208,13 @@ public class Enemy : MonoBehaviour
             }
 
             if (deathParticles)
+            {
                 Instantiate(deathParticles, transform.position, Quaternion.identity);
-                
+            }
+
+            gameManager.AddEnemiesDefeated();
+            gameManager.AddGoldEarned(deathValue);
+
             Destroy(gameObject, destroyDelay);
         }
     }

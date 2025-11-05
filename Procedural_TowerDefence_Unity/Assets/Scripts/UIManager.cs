@@ -42,7 +42,7 @@ public class UIManager : MonoBehaviour
 
     void Update()
     {
-    UpdateUI();
+        UpdateUI();
     }
 
     public void UpdateUI()
@@ -64,7 +64,7 @@ public class UIManager : MonoBehaviour
                 healthText.text = $"{MainTower.health} / {MainTower.maxHealth}";
             }
 
-            goldText.text = $"Gold: {playerManager.Gold}";
+            goldText.text = $"{playerManager.Gold}G";
             levelText.text = $"{playerManager.Level}";
             skillPointsText.text = $"Skill Points: {playerManager.SkillPoints}";
             waveText.text = $"{waveManager.GetCurrentWaveIndex()}";
@@ -73,11 +73,11 @@ public class UIManager : MonoBehaviour
 
     public void CloseGame()
     {
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-            Application.Quit();
-#endif
+    #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+    #else
+                Application.Quit();
+    #endif
     }
 
     // Called by WaveManager when a wave ends
@@ -146,5 +146,46 @@ public class UIManager : MonoBehaviour
             pauseMenu.SetActive(!isActive);
             Time.timeScale = isActive ? 1f : 0f; // Pause or resume game
         }
+    }
+
+    public void PulseGoldText()
+    {
+        StartCoroutine(PulseTextCoroutine(goldText));
+    }
+
+    private IEnumerator PulseTextCoroutine(TextMeshProUGUI textElement)
+    {
+        // Define the absolute default scale for UI
+        Vector3 defaultScale = Vector3.one;
+        Vector3 targetScale = defaultScale * 1.5f;
+        float duration = 0.2f;
+        float elapsed = 0f;
+
+        // Scale up (Start from current scale to make transition smooth if overlapping)
+        Vector3 currentScale = textElement.transform.localScale;
+        while (elapsed < duration)
+        {
+            textElement.transform.localScale = Vector3.Lerp(currentScale, targetScale, elapsed / duration);
+            elapsed += Time.unscaledDeltaTime;
+            Color gold = new Color(1f, 0.84f, 0f);
+            textElement.color = gold;
+            yield return null;
+        }
+        textElement.transform.localScale = targetScale;
+
+        // Scale down
+        elapsed = 0f;
+        while (elapsed < duration)
+        {
+            // Scale back to the fixed default scale (Vector3.one)
+            textElement.transform.localScale = Vector3.Lerp(targetScale, defaultScale, elapsed / duration);
+            elapsed += Time.unscaledDeltaTime;
+            Color white = Color.white;
+            textElement.color = white;
+            yield return null;
+        }
+        
+        // Ensure the text ends exactly at the default scale
+        textElement.transform.localScale = defaultScale;
     }
 }

@@ -8,8 +8,9 @@ public class PlayerManager : MonoBehaviour
     public int Level { get; private set; }
     public int SkillPoints { get; private set; }
 
-    // Leveling system (customize as needed)
+    // Leveling system
     public int xpToNextLevel = 100;
+    [SerializeField] UIManager uiManager;
 
     void Start()
     {
@@ -31,6 +32,7 @@ public class PlayerManager : MonoBehaviour
     public void AddGold(int amount)
     {
         Gold += amount;
+        uiManager.PulseGoldText();
     }
 
     public bool SpendGold(int amount)

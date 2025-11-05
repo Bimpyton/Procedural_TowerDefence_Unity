@@ -39,6 +39,14 @@ public class PlacementManager : MonoBehaviour
     [SerializeField] private float shakeDuration = 0.5f;
     [SerializeField] private float shakeMagnitude = 0.2f;
 
+    [Header("----- GAME MANAGER -----")]
+    [SerializeField] private GameManager gameManager;
+
+    void Start()
+    {
+        gameManager = FindFirstObjectByType<GameManager>();
+    }
+
     void Update()
     {
         HandleTowerSelection();
@@ -201,6 +209,7 @@ public class PlacementManager : MonoBehaviour
             if (playerManager != null && playerManager.SpendGold(cost))
             {
                 snapPoint.PlaceTower(towerOptions[selectedTowerIndex].towerPrefab);
+                gameManager.AddTowersBuilt();
             }
             else
             {
@@ -218,36 +227,36 @@ public class PlacementManager : MonoBehaviour
     }
 
     private void UpdateUpgradePreview()
-{
-    hoveredTowerForUpgrade = null;
-    if (upgradeCostTextUI != null)
     {
-        upgradeCostTextUI.gameObject.SetActive(false);
-        upgradeCostTextUI.text = "";
-    }
-
-    Ray ray = cam.ScreenPointToRay(Mouse.current.position.ReadValue());
-    if (Physics.Raycast(ray, out RaycastHit hit))
-    {
-        Tower tower = hit.collider.GetComponentInParent<Tower>();
-        if (tower != null)
+        hoveredTowerForUpgrade = null;
+        if (upgradeCostTextUI != null)
         {
-            float nextCost = tower.GetNextUpgradeCost();
-            if (nextCost > 0f)
+            upgradeCostTextUI.gameObject.SetActive(false);
+            upgradeCostTextUI.text = "";
+        }
+
+        Ray ray = cam.ScreenPointToRay(Mouse.current.position.ReadValue());
+        if (Physics.Raycast(ray, out RaycastHit hit))
+        {
+            Tower tower = hit.collider.GetComponentInParent<Tower>();
+            if (tower != null)
             {
-                hoveredTowerForUpgrade = tower;
-                if (upgradeCostTextUI != null)
+                float nextCost = tower.GetNextUpgradeCost();
+                if (nextCost > 0f)
                 {
-                    upgradeCostTextUI.text = $"{nextCost:F0}G";
-                    Vector2 mousePos = Mouse.current.position.ReadValue();
-                    RectTransform rect = upgradeCostTextUI.GetComponent<RectTransform>();
-                    rect.position = new Vector3(mousePos.x + 10f, mousePos.y - 10f, 0f);
-                    upgradeCostTextUI.gameObject.SetActive(true);
+                    hoveredTowerForUpgrade = tower;
+                    if (upgradeCostTextUI != null)
+                    {
+                        upgradeCostTextUI.text = $"{nextCost:F0}G";
+                        Vector2 mousePos = Mouse.current.position.ReadValue();
+                        RectTransform rect = upgradeCostTextUI.GetComponent<RectTransform>();
+                        rect.position = new Vector3(mousePos.x + 10f, mousePos.y - 10f, 0f);
+                        upgradeCostTextUI.gameObject.SetActive(true);
+                    }
                 }
             }
         }
     }
-}
 
     private void HandleUpgradeClick()
     {
@@ -263,6 +272,8 @@ public class PlacementManager : MonoBehaviour
             if (cost > 0f && playerManager != null && playerManager.SpendGold((int)cost))
             {
                 hoveredTowerForUpgrade.Upgrade();
+                gameManager.AddUpgradesPurchased();
+                ExitUpgradeMode();
             }
             else
             {
@@ -282,6 +293,8 @@ public class PlacementManager : MonoBehaviour
         if (cam != null)
         {
             StartCoroutine(ShakeCamera(shakeDuration, shakeMagnitude));
+            CancelPlacement();
+            ExitUpgradeMode();
         }
         // To do: Add flash logic
     }

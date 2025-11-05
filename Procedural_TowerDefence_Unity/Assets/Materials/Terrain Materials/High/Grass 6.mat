@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Mid_Dork Goldenrod
+  m_Name: Grass 6
   m_Shader: {fileID: -6465566751694194690, guid: 057ba7e2c67e6e543a0b21eb4dbd16e1, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -54,7 +54,7 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
-    - _BottomColour: {r: 0, g: 0, b: 0, a: 0}
-    - _TopColour: {r: 0.72156864, g: 0.52156866, b: 0.043137256, a: 0}
+    - _BottomColour: {r: 0, g: 0.2924528, b: 0, a: 1}
+    - _TopColour: {r: 0, g: 1, b: 0.30853248, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

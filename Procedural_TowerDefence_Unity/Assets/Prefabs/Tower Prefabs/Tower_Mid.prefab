@@ -64,7 +64,14 @@ MonoBehaviour:
   upgradeLevel: 0
   upgradeMultiplier: 0.25
   starPrefab: {fileID: 7430209224450070065, guid: 43e2b2452e1cb884aa51777eafd512b3, type: 3}
+  upgradeCostMultipliers:
+  - 1
+  - 1.5
+  - 2
+  - 2.5
+  - 5
   starParent: {fileID: 8670177758751258660}
+  upgradePopupPrefab: {fileID: 6754947779195907939, guid: 12c601b9621eafd40b59ffb46efd83f2, type: 3}
   snapPoint: {fileID: 0}
   healthBar: {fileID: 3538877449045552284}
   animator: {fileID: 4435220792248996360}

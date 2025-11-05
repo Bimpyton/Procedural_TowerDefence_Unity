@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: High_Lemon Chiffon
+  m_Name: Sand
   m_Shader: {fileID: -6465566751694194690, guid: 057ba7e2c67e6e543a0b21eb4dbd16e1, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -54,7 +54,7 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
-    - _BottomColour: {r: 0, g: 0, b: 0, a: 0}
-    - _TopColour: {r: 1, g: 0.98039216, b: 0.8039216, a: 0}
+    - _BottomColour: {r: 0.5188679, g: 0.29928264, b: 0, a: 0}
+    - _TopColour: {r: 1, g: 0.8317428, b: 0.4292453, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

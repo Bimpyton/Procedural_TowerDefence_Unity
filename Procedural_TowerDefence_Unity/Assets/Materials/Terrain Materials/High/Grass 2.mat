@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Highj_Lavender
+  m_Name: Grass 2
   m_Shader: {fileID: -6465566751694194690, guid: 057ba7e2c67e6e543a0b21eb4dbd16e1, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -54,7 +54,7 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
-    - _BottomColour: {r: 0, g: 0, b: 0, a: 0}
-    - _TopColour: {r: 0.9019608, g: 0.9019608, b: 0.98039216, a: 0}
+    - _BottomColour: {r: 0, g: 0.2924528, b: 0, a: 1}
+    - _TopColour: {r: 0, g: 0.49056602, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

@@ -21,13 +21,6 @@ public class Spawner : MonoBehaviour
             enemyScript.target = target;
             enemyScript.SetPath(riverPath, transform.parent);
             enemyScript.enemyData = enemyData;
-
-            // Notify WaveManager enemy spawned
-            WaveManager waveManager = Object.FindFirstObjectByType<WaveManager>();
-            if (waveManager != null)
-            {
-                waveManager.EnemySpawned(enemyData.difficultyValue);
-            }
         }
         else
         {

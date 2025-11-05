@@ -2458,6 +2458,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xpToNextLevel: 100
+  uiManager: {fileID: 26650016}
 --- !u!4 &880645618
 Transform:
   m_ObjectHideFlags: 0
@@ -2503,17 +2504,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waterMaterial:
-  - {fileID: 2100000, guid: 5df334ad005a86941b58fda26e448b95, type: 2}
+  - {fileID: 2100000, guid: ba9318edb94216b4f9952ee9877a37f6, type: 2}
   middleMaterial:
   - {fileID: 2100000, guid: 5797a2127d8d91a44a8afe8c9b16d49f, type: 2}
-  - {fileID: 2100000, guid: 2b1fc93c4001df24b8137076bd5ff17f, type: 2}
-  - {fileID: 2100000, guid: 47ffa84478670a8488a36827cd1f6d1f, type: 2}
-  - {fileID: 2100000, guid: 29810e04ab83ae44c84c60fa1d4b79bb, type: 2}
+  - {fileID: 2100000, guid: 0d8aaf8ea3dff7a4d8f2d97d5cb06fbc, type: 2}
+  - {fileID: 2100000, guid: 4729a851c84242a428bcc592d84f3f2c, type: 2}
+  - {fileID: 2100000, guid: 591e5d3fd5da20940aac30bd12e8c416, type: 2}
+  - {fileID: 2100000, guid: 1b4ed0eabcd807947aaf7728df47e852, type: 2}
+  - {fileID: 2100000, guid: c51c5a6efa0e4804a94447b753bd0919, type: 2}
+  - {fileID: 2100000, guid: 95fbd1d31efbf5d43b3cacf5369fd619, type: 2}
   highMaterial:
   - {fileID: 2100000, guid: 719f812df6a1ea9458f637893b49ec81, type: 2}
-  - {fileID: 2100000, guid: aaca44965ea9dd64ab99d1ab5dd4347d, type: 2}
-  - {fileID: 2100000, guid: 7ecff627f72eb8d4d82c77f8843933e2, type: 2}
-  - {fileID: 2100000, guid: 0821b6b81e580fd43b32f28c3843bd77, type: 2}
+  - {fileID: 2100000, guid: d99fe9c7bbb1e6a4699437ea7c75ad65, type: 2}
+  - {fileID: 2100000, guid: 97a1db0709c61074cbb82b2901879c3f, type: 2}
+  - {fileID: 2100000, guid: bb7330910423cac47b945ae9a6577321, type: 2}
+  - {fileID: 2100000, guid: 5f7ade97dd102444cb20f4f0492172a2, type: 2}
+  - {fileID: 2100000, guid: c3f2db3ec8c45354096f81b957b05399, type: 2}
+  - {fileID: 2100000, guid: 1667f3bf20ef83647aa3ada9c4526b8b, type: 2}
   waterHeight: -4
   middleHeight: -1
   cubes: []
@@ -2831,6 +2838,7 @@ MonoBehaviour:
   inUpgradeMode: 0
   shakeDuration: 0.4
   shakeMagnitude: 0.1
+  gameManager: {fileID: 0}
 --- !u!4 &988317217
 Transform:
   m_ObjectHideFlags: 0
@@ -3623,6 +3631,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   frameRateLimit: 60
   waveManager: {fileID: 2060705285}
+  totalWavesCompleted: 0
+  totalEnemiesDefeated: 0
+  totalTowersBuilt: 0
+  totalUpgradesPurchased: 0
+  totalGoldEarned: 0
+  finalScore: 0
 --- !u!4 &1252603079
 Transform:
   m_ObjectHideFlags: 0
@@ -6793,6 +6807,7 @@ MonoBehaviour:
   totalDRSpawned: 0
   targetDR: 0
   nextWaveCountdown: 5
+  gameManager: {fileID: 0}
 --- !u!4 &2060705286
 Transform:
   m_ObjectHideFlags: 0
@@ -6846,7 +6861,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Gold: 0'
+  m_text: 100G
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5a89b7a85016d0244a0415faf3ad4a74, type: 2}
   m_sharedMaterial: {fileID: 7056525664825863076, guid: 5a89b7a85016d0244a0415faf3ad4a74, type: 2}
@@ -6880,8 +6895,8 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 4096
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -6941,8 +6956,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -688, y: 470}
-  m_SizeDelta: {x: 431.5598, y: 50}
+  m_AnchoredPosition: {x: -855.55, y: 470}
+  m_SizeDelta: {x: 208.90002, y: 140}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2117127813
 GameObject:
@@ -7289,9 +7304,9 @@ SceneRoots:
   - {fileID: 62161331}
   - {fileID: 26650017}
   - {fileID: 1796996999}
+  - {fileID: 1075781805}
   - {fileID: 1917645996}
   - {fileID: 294258818}
   - {fileID: 422525836}
   - {fileID: 410087041}
   - {fileID: 832575519}
-  - {fileID: 1075781805}

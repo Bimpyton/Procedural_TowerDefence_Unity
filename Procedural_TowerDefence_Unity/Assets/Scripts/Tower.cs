@@ -32,6 +32,7 @@ public class Tower : MonoBehaviour
     [SerializeField] private GameObject starPrefab;
     [SerializeField] private float[] upgradeCostMultipliers = {1f, 1.5f, 2f, 2.5f, 5f};
     [SerializeField] private Transform starParent;
+    [SerializeField] private GameObject upgradePopupPrefab;
 
     public SnapPoint snapPoint;
 
@@ -204,6 +205,38 @@ public class Tower : MonoBehaviour
         }
 
         AddStar();
+        StartCoroutine(ShowUpgradePopups());
+    }
+
+    private IEnumerator ShowUpgradePopups()
+    {
+        List<string> texts = new List<string> { "Health", "Damage", "Attack Speed" };
+        bool isLevel5 = upgradeLevel == 5;
+        if (isLevel5)
+        {
+            texts.Add("Passive Healing");
+        }
+        Color gold = new Color(1f, 0.84f, 0f); // Gold
+        float baseSpeed = 1.5f;
+        float speedStep = 0.25f; // Each popup is slower by this amount
+
+        for (int i = 0; i < texts.Count; i++)
+        {
+            if (upgradePopupPrefab != null)
+            {
+                GameObject popup = Instantiate(upgradePopupPrefab, transform.position + Vector3.up * 2, Quaternion.identity);
+                UpgradePopup popupScript = popup.GetComponent<UpgradePopup>();
+                if (popupScript != null)
+                {
+                    popupScript.floatSpeed = baseSpeed - (i * speedStep);
+                    if (isLevel5)
+                        popupScript.SetText(texts[i], gold);
+                    else
+                        popupScript.SetText(texts[i]);
+                }
+            }
+            yield return new WaitForSeconds(0.5f);
+        }
     }
 
     private void AddStar()

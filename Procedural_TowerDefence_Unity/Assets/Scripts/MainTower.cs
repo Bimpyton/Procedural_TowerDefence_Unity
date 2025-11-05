@@ -19,10 +19,11 @@ public class MainTower : MonoBehaviour
 
     [Header("----- UI -----")]
     [SerializeField] private HealthBar healthBar;
-    
+
 
     [Header("----- References -----")]
     [SerializeField] private CollapseTower collapseTower;
+    [SerializeField] private GameManager gameManager;
 
     void Start()
     {
@@ -32,7 +33,9 @@ public class MainTower : MonoBehaviour
             healthBar.SetHealth(health / maxHealth);
         }
 
-        collapseTower = GetComponent<CollapseTower>();
+        collapseTower = GetComponentInChildren<CollapseTower>();
+
+        gameManager = FindFirstObjectByType<GameManager>();
     }
     
     void Update()
@@ -80,12 +83,18 @@ public class MainTower : MonoBehaviour
     public void TakeDamage(int amount)
     {
         health -= amount;
-            if (healthBar != null)
-            {
-                healthBar.SetHealth(health / maxHealth);
-            }
+
+        if (healthBar != null)
+        {
+            healthBar.SetHealth(health / maxHealth);
+        }
+
         if (health <= 0)
         {
+            if (healthBar != null)
+            {
+                Destroy(healthBar.gameObject);
+            }
             health = 0;
             Die();
         }
@@ -94,11 +103,13 @@ public class MainTower : MonoBehaviour
     void Die()
     {
         Debug.Log("Main Tower destroyed!");
-        Destroy(gameObject);
-
         if (collapseTower != null)
         {
             collapseTower.ExplodeTower();
+        }
+        if (gameManager != null)
+        {
+            gameManager.GameOver();
         }
     }
 }

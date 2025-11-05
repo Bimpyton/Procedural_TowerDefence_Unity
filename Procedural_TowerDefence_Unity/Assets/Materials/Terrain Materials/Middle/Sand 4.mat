@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Mid_Saddle Brown
+  m_Name: Sand 4
   m_Shader: {fileID: -6465566751694194690, guid: 057ba7e2c67e6e543a0b21eb4dbd16e1, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -54,7 +54,7 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
-    - _BottomColour: {r: 0, g: 0, b: 0, a: 0}
-    - _TopColour: {r: 0.54509807, g: 0.27058825, b: 0.07450981, a: 0}
+    - _BottomColour: {r: 0.5188679, g: 0.29928264, b: 0, a: 0}
+    - _TopColour: {r: 0.6901961, g: 0.3744431, b: 0.15294115, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
