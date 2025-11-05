@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using UnityEngine.UI;
 
 public class Tower : MonoBehaviour
 {
@@ -8,6 +10,7 @@ public class Tower : MonoBehaviour
     [SerializeField] private float springiness = 4f;
     [SerializeField] private float springTime = 1f;
     [SerializeField] private float startScale = 0.01f;
+    
     [Header("----- DATA -----")]
     public TowerData towerData;
 
@@ -22,6 +25,13 @@ public class Tower : MonoBehaviour
     [SerializeField] private bool canAttack = true;
     [SerializeField] private bool isAttacking = false;
     public float cost = 50f;
+
+    [Header("----- UPGRADES -----")]
+    public int upgradeLevel = 0;
+    [SerializeField] private float upgradeMultiplier = 0.25f;
+    [SerializeField] private GameObject starPrefab;
+    private float[] upgradeCostMultipliers = {0.5f, 1f, 1.5f, 2f, 3f};
+    [SerializeField] private Transform starParent;
 
     public SnapPoint snapPoint;
 
@@ -44,6 +54,7 @@ public class Tower : MonoBehaviour
             attackRange = towerData.attackRange;
             projectileArcHeight = towerData.projectileArcHeight;
             projectilePrefab = towerData.projectilePrefab;
+            cost = towerData.cost;
         }
         if (healthBar != null)
         {
@@ -72,6 +83,17 @@ public class Tower : MonoBehaviour
 
     void Update()
     {
+        // Level 5 passive healing (10% max health per second)
+        if (upgradeLevel == 5 && health < maxHealth)
+        {
+            health += maxHealth * 0.1f * Time.deltaTime;
+            if (health > maxHealth) health = maxHealth;
+            if (healthBar != null)
+            {
+                healthBar.SetHealth(health / maxHealth);
+            }
+        }
+
         if (canAttack && !isAttacking)
         {
             StartCoroutine(AttackSequence());
@@ -97,77 +119,109 @@ public class Tower : MonoBehaviour
             // Shoot projectile
             yield return Attack(target);
 
-            // Wait for cooldown
-            yield return new WaitForSeconds(attackRate);
+            // Wait for cooldown (attackRate is attacks per second, so cooldown = 1 / attackRate)
+            yield return new WaitForSeconds(1f / attackRate);
 
             canAttack = true;
         }
         isAttacking = false;
     }
 
-        // Finds the best target according to priority
-        private GameObject FindTarget()
+    // Finds the best target according to priority
+    private GameObject FindTarget()
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        GameObject selectedEnemy = null;
+        List<GameObject> inRangeEnemies = new List<GameObject>();
+        float selectedDist = (towerData != null && towerData.targetPriorityMode == TowerData.TargetPriorityMode.Furthest) ? -Mathf.Infinity : Mathf.Infinity;
+        foreach (var enemy in enemies)
         {
-            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-            GameObject selectedEnemy = null;
-            List<GameObject> inRangeEnemies = new List<GameObject>();
-            float selectedDist = (towerData != null && towerData.targetPriorityMode == TowerData.TargetPriorityMode.Furthest) ? -Mathf.Infinity : Mathf.Infinity;
-            foreach (var enemy in enemies)
+            float dist = Vector3.Distance(transform.position, enemy.transform.position);
+            if (dist < attackRange)
             {
-                float dist = Vector3.Distance(transform.position, enemy.transform.position);
-                if (dist < attackRange)
+                inRangeEnemies.Add(enemy);
+                if (towerData != null && towerData.targetPriorityMode == TowerData.TargetPriorityMode.Furthest)
                 {
-                    inRangeEnemies.Add(enemy);
-                    if (towerData != null && towerData.targetPriorityMode == TowerData.TargetPriorityMode.Furthest)
+                    if (dist > selectedDist)
                     {
-                        if (dist > selectedDist)
-                        {
-                            selectedDist = dist;
-                            selectedEnemy = enemy;
-                        }
+                        selectedDist = dist;
+                        selectedEnemy = enemy;
                     }
-                    else if (towerData != null && towerData.targetPriorityMode == TowerData.TargetPriorityMode.Closest)
+                }
+                else if (towerData != null && towerData.targetPriorityMode == TowerData.TargetPriorityMode.Closest)
+                {
+                    if (dist < selectedDist)
                     {
-                        if (dist < selectedDist)
-                        {
-                            selectedDist = dist;
-                            selectedEnemy = enemy;
-                        }
+                        selectedDist = dist;
+                        selectedEnemy = enemy;
                     }
                 }
             }
-            if (towerData != null && towerData.targetPriorityMode == TowerData.TargetPriorityMode.Random && inRangeEnemies.Count > 0)
+        }
+        if (towerData != null && towerData.targetPriorityMode == TowerData.TargetPriorityMode.Random && inRangeEnemies.Count > 0)
+        {
+            selectedEnemy = inRangeEnemies[UnityEngine.Random.Range(0, inRangeEnemies.Count)];
+        }
+        return selectedEnemy;
+    }
+
+    // Attack the given target
+    private IEnumerator Attack(GameObject selectedEnemy)
+    {
+        if (selectedEnemy != null && projectilePrefab != null)
+        {
+            GameObject proj = Instantiate(projectilePrefab, transform.position + Vector3.up, Quaternion.identity);
+            Projectile projectile = proj.GetComponent<Projectile>();
+            if (projectile != null)
             {
-                selectedEnemy = inRangeEnemies[UnityEngine.Random.Range(0, inRangeEnemies.Count)];
+                projectile.target = selectedEnemy.transform;
+                projectile.arcHeight = projectileArcHeight;
+                projectile.speed = towerData.projectileSpeed;
+                projectile.damage = (int)projectileDamage;
             }
-            return selectedEnemy;
+        }
+        yield return null;
+    }
+
+    public float GetNextUpgradeCost()
+    {
+        if (upgradeLevel >= 5) return -1f;
+        return cost * upgradeCostMultipliers[upgradeLevel];
+    }
+
+    public void Upgrade()
+    {
+        if (upgradeLevel >= 5) return;
+
+        upgradeLevel++;
+        maxHealth *= (1f + upgradeMultiplier);
+        health = maxHealth; // Full heal
+        projectileDamage *= (1f + upgradeMultiplier);
+        attackRate *= (1f + upgradeMultiplier); // Increase attacks per second
+
+        if (healthBar != null)
+        {
+            healthBar.SetHealth(1f);
         }
 
-        // Attack the given target
-        private IEnumerator Attack(GameObject selectedEnemy)
-        {
-            if (selectedEnemy != null && projectilePrefab != null)
-            {
-                GameObject proj = Instantiate(projectilePrefab, transform.position + Vector3.up, Quaternion.identity);
-                Projectile projectile = proj.GetComponent<Projectile>();
-                if (projectile != null)
-                {
-                    projectile.target = selectedEnemy.transform;
-                    projectile.arcHeight = projectileArcHeight;
-                    projectile.speed = towerData.projectileSpeed;
-                    projectile.damage = (int)projectileDamage;
-                }
-            }
-            yield return null;
-        }
+        AddStar();
+    }
+
+    private void AddStar()
+    {
+        if (starPrefab == null || starParent == null) return;
+
+        GameObject star = Instantiate(starPrefab, starParent);
+        // Layout Group will automatically position it
+    }
 
     public void TakeDamage(int amount)
     {
         health -= amount;
-            if (healthBar != null)
-            {
-                healthBar.SetHealth(health / maxHealth);
-            }
+        if (healthBar != null)
+        {
+            healthBar.SetHealth(health / maxHealth);
+        }
         if (health <= 0)
         {
             Die();
@@ -182,6 +236,5 @@ public class Tower : MonoBehaviour
             snapPoint.TowerDestroyed();
         }
         Destroy(gameObject);
-
     }
 }

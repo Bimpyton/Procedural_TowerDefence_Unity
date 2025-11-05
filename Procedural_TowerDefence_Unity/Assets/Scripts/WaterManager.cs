@@ -29,7 +29,7 @@ public class WaterManager : MonoBehaviour
 
         if (cubeManager == null)
         {
-            cubeManager = FindObjectOfType<CubeManager>();
+            cubeManager = FindFirstObjectByType<CubeManager>();
         }
 
         if (cubeManager != null && cubeManager.waterMaterial != null && cubeManager.waterMaterial.Length > 0)

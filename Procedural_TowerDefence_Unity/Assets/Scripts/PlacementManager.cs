@@ -2,7 +2,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.EventSystems; // Add this for EventSystem
+using UnityEngine.EventSystems; 
+using TMPro;
 
 [System.Serializable]
 public class TowerPlacementOption
@@ -26,6 +27,12 @@ public class PlacementManager : MonoBehaviour
     private SnapPoint currentSnapPoint;
     private bool isPlacing = false;
 
+    [Header("----- UPGRADE -----")]
+    [SerializeField] private Texture2D upgradeCursorTexture;
+    [SerializeField] private TextMeshProUGUI upgradeCostTextUI;
+    public bool inUpgradeMode = false;
+    private Tower hoveredTowerForUpgrade;
+
     [Header("----- CAMERA SHAKE -----")]
     [SerializeField] private float shakeDuration = 0.5f;
     [SerializeField] private float shakeMagnitude = 0.2f;
@@ -33,10 +40,16 @@ public class PlacementManager : MonoBehaviour
     void Update()
     {
         HandleTowerSelection();
+
         if (isPlacing)
         {
             UpdatePreviewPosition();
             HandlePlacement();
+        }
+        else if (inUpgradeMode)
+        {
+            UpdateUpgradePreview();
+            HandleUpgradeClick();
         }
 
         if (Mouse.current.rightButton.wasPressedThisFrame && isPlacing)
@@ -47,6 +60,8 @@ public class PlacementManager : MonoBehaviour
 
     void HandleTowerSelection()
     {
+        if (inUpgradeMode) return; // Ignore placement keys in upgrade mode
+
         // Hardcoded key bindings 1-9
         for (int i = 0; i < Mathf.Min(9, towerOptions.Count); i++)
         {
@@ -57,6 +72,35 @@ public class PlacementManager : MonoBehaviour
                 CreatePreviewObject();
             }
         }
+    }
+
+    public void EnterUpgradeMode()
+    {
+        inUpgradeMode = true;
+        isPlacing = false;
+        selectedTowerIndex = -1;
+        if (previewObject != null)
+        {
+            Destroy(previewObject);
+        }
+        currentSnapPoint = null;
+        Cursor.SetCursor(upgradeCursorTexture, Vector2.zero, CursorMode.Auto);
+        if (upgradeCostTextUI != null)
+        {
+            upgradeCostTextUI.gameObject.SetActive(false);
+        }
+    }
+
+    public void ExitUpgradeMode()
+    {
+        inUpgradeMode = false;
+        Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+        if (upgradeCostTextUI != null)
+        {
+            upgradeCostTextUI.gameObject.SetActive(false);
+            upgradeCostTextUI.text = "";
+        }
+        hoveredTowerForUpgrade = null;
     }
 
     void CreatePreviewObject()
@@ -152,6 +196,65 @@ public class PlacementManager : MonoBehaviour
             Destroy(previewObject);
         }
         currentSnapPoint = null;
+    }
+
+    private void UpdateUpgradePreview()
+{
+    hoveredTowerForUpgrade = null;
+    if (upgradeCostTextUI != null)
+    {
+        upgradeCostTextUI.gameObject.SetActive(false);
+        upgradeCostTextUI.text = "";
+    }
+
+    Ray ray = cam.ScreenPointToRay(Mouse.current.position.ReadValue());
+    if (Physics.Raycast(ray, out RaycastHit hit))
+    {
+        Tower tower = hit.collider.GetComponentInParent<Tower>();
+        if (tower != null)
+        {
+            float nextCost = tower.GetNextUpgradeCost();
+            if (nextCost > 0f)
+            {
+                hoveredTowerForUpgrade = tower;
+                if (upgradeCostTextUI != null)
+                {
+                    upgradeCostTextUI.text = $"${nextCost:F0}";
+                    Vector2 mousePos = Mouse.current.position.ReadValue();
+                    RectTransform rect = upgradeCostTextUI.GetComponent<RectTransform>();
+                    rect.position = new Vector3(mousePos.x + 10f, mousePos.y - 10f, 0f);
+                    upgradeCostTextUI.gameObject.SetActive(true);
+                }
+            }
+        }
+    }
+}
+
+    private void HandleUpgradeClick()
+    {
+        // Check if pointer is over a UI element
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            return;
+        }
+
+        if (Mouse.current.leftButton.wasPressedThisFrame && hoveredTowerForUpgrade != null)
+        {
+            float cost = hoveredTowerForUpgrade.GetNextUpgradeCost();
+            if (cost > 0f && playerManager != null && playerManager.SpendGold((int)cost))
+            {
+                hoveredTowerForUpgrade.Upgrade();
+            }
+            else
+            {
+                CantAfford();
+            }
+        }
+
+        if (Mouse.current.rightButton.wasPressedThisFrame)
+        {
+            ExitUpgradeMode();
+        }
     }
 
     void CantAfford()
