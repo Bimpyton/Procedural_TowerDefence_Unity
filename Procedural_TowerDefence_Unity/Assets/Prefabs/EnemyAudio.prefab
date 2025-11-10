@@ -143,5 +143,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyShoot: {fileID: 8300000, guid: 867b14d41a5239f4f84e57769f03aee8, type: 3}
-  enemyDeath: {fileID: 8300000, guid: 3609cd92168acb744a2ca249976b99d0, type: 3}
+  enemyDeath: {fileID: 8300000, guid: 91d471f04e92d3d4e9015080ddc489ea, type: 3}
   enemyAudioSource: {fileID: 1491768249735041726}
