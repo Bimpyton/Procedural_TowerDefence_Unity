@@ -44,12 +44,14 @@ public class Enemy : MonoBehaviour
         public GameObject deathParticles;
         public float destroyDelay = 0.5f;
 
-        [Header("----- GAME MANAGER -----")]
-        public GameManager gameManager;
+    [Header("----- REFERENCES -----")]
+    public GameManager gameManager;
+    public EnemyAudio enemyAudio;
 
         void Start()
     {
-            gameManager = FindFirstObjectByType<GameManager>();
+        gameManager = FindFirstObjectByType<GameManager>();
+        enemyAudio = FindFirstObjectByType<EnemyAudio>();
             
             if (enemyData != null)
             {
@@ -142,6 +144,7 @@ public class Enemy : MonoBehaviour
                 var projectile = proj.GetComponent<Projectile>();
                 if (projectile)
                 {
+                    enemyAudio.PlaySFX(enemyAudio.enemyShoot);
                     projectile.target = selectedTower.transform;
                     projectile.arcHeight = projectileArcHeight;
                     projectile.speed = 10f;
@@ -183,6 +186,7 @@ public class Enemy : MonoBehaviour
             }
             if (health <= 0)
             {
+                enemyAudio.PlaySFX(enemyAudio.enemyDeath);
                 Die();
             }
         }

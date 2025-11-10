@@ -41,11 +41,16 @@ public class Tower : MonoBehaviour
 
     [Header("----- ANIMATION -----")]
     [SerializeField] private Animator animator;
-    [SerializeField] private float animationDuration = 2f; 
+    [SerializeField] private float animationDuration = 2f;
     [SerializeField] private string shootAnimationTrigger = "Shoot";
+
+    [Header("----- AUDIO -----")]
+    public TowerAudio towerAudio;
 
     void Start()
     {
+        towerAudio = FindFirstObjectByType<TowerAudio>();
+
         if (towerData != null)
         {
             maxHealth = towerData.maxHealth;
@@ -119,6 +124,7 @@ public class Tower : MonoBehaviour
 
             // Shoot projectile
             yield return Attack(target);
+            towerAudio.PlaySFX(towerAudio.towerShoot);
 
             yield return new WaitForSeconds(attackRate);
 
@@ -255,7 +261,8 @@ public class Tower : MonoBehaviour
             healthBar.SetHealth(health / maxHealth);
         }
         if (health <= 0)
-        {
+        {          
+            towerAudio.PlaySFX(towerAudio.towerDeath);
             Die();
         }
     }
@@ -267,6 +274,7 @@ public class Tower : MonoBehaviour
         {
             snapPoint.TowerDestroyed();
         }
+
         Destroy(gameObject);
     }
 }

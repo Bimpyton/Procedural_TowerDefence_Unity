@@ -39,12 +39,14 @@ public class PlacementManager : MonoBehaviour
     [SerializeField] private float shakeDuration = 0.5f;
     [SerializeField] private float shakeMagnitude = 0.2f;
 
-    [Header("----- GAME MANAGER -----")]
+    [Header("----- REFERENCES -----")]
     [SerializeField] private GameManager gameManager;
+    [SerializeField] private AudioManager audioManager;
 
     void Start()
     {
         gameManager = FindFirstObjectByType<GameManager>();
+        audioManager = FindFirstObjectByType<AudioManager>();
     }
 
     void Update()
@@ -209,7 +211,8 @@ public class PlacementManager : MonoBehaviour
             if (playerManager != null && playerManager.SpendGold(cost))
             {
                 snapPoint.PlaceTower(towerOptions[selectedTowerIndex].towerPrefab);
-                gameManager.AddTowersBuilt();
+                gameManager.AddTowersBuilt();           
+                audioManager.PlaySFX(audioManager.towerPlacement);
             }
             else
             {
@@ -271,6 +274,7 @@ public class PlacementManager : MonoBehaviour
             float cost = hoveredTowerForUpgrade.GetNextUpgradeCost();
             if (cost > 0f && playerManager != null && playerManager.SpendGold((int)cost))
             {
+                audioManager.PlaySFX(audioManager.towerUpgrade);
                 hoveredTowerForUpgrade.Upgrade();
                 gameManager.AddUpgradesPurchased();
                 ExitUpgradeMode();
@@ -283,6 +287,7 @@ public class PlacementManager : MonoBehaviour
 
         if (Mouse.current.rightButton.wasPressedThisFrame)
         {
+            audioManager.PlaySFX(audioManager.cancelAction);
             ExitUpgradeMode();
         }
     }
@@ -292,6 +297,7 @@ public class PlacementManager : MonoBehaviour
         // Camera shake
         if (cam != null)
         {
+            audioManager.PlaySFX(audioManager.cantAfford);
             StartCoroutine(ShakeCamera(shakeDuration, shakeMagnitude));
             CancelPlacement();
             ExitUpgradeMode();
@@ -331,6 +337,7 @@ public class PlacementManager : MonoBehaviour
         isPlacing = false;
         if (previewObject != null)
         {
+            audioManager.PlaySFX(audioManager.cancelAction);
             Destroy(previewObject);
         }
         currentSnapPoint = null;
