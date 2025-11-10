@@ -1,5 +1,6 @@
 using UnityEngine;
-
+using TMPro;
+using System.Collections;
 
 public class MainTower : MonoBehaviour
 {
@@ -13,7 +14,10 @@ public class MainTower : MonoBehaviour
     [SerializeField] private float projectileArcHeight = 5f;
     public GameObject projectilePrefab;
     [SerializeField] private Transform firePoint;
-
+    public float passiveGoldTimer = 3f;
+    public int passiveGold = 1;
+    public int mainTowerLevel = 1;
+    public GameObject upgradeEffectPrefab;
 
     private float lastAttackTime = 0f;
 
@@ -24,6 +28,7 @@ public class MainTower : MonoBehaviour
     [Header("----- References -----")]
     [SerializeField] private CollapseTower collapseTower;
     [SerializeField] private GameManager gameManager;
+    public PlayerManager playerManager;
 
     void Start()
     {
@@ -34,13 +39,42 @@ public class MainTower : MonoBehaviour
         }
 
         collapseTower = GetComponentInChildren<CollapseTower>();
-
         gameManager = FindFirstObjectByType<GameManager>();
+        playerManager = FindFirstObjectByType<PlayerManager>();
+
+        StartCoroutine(PassiveGoldIncome());
     }
-    
+
     void Update()
     {
         TryAttackEnemy();
+    }
+    
+    
+    public float GetNextUpgradeCost()
+    {
+        return 100 * mainTowerLevel;
+    }
+
+    public void UpgradeMainTower()
+    {
+        mainTowerLevel++;
+        passiveGold++;
+
+        SpawnUpgradePopup($"Tower level: {mainTowerLevel}\n\n {passiveGold}G every {passiveGoldTimer} seconds", Color.green);
+    }
+
+    public void SpawnUpgradePopup(string text, Color? color = null)
+    {
+        if (upgradeEffectPrefab != null)
+        {
+            GameObject popupObj = Instantiate(upgradeEffectPrefab, transform.position + Vector3.up * 5f, Quaternion.identity);
+            UpgradePopup popup = popupObj.GetComponent<UpgradePopup>();
+            if (popup != null)
+            {
+                popup.SetText(text, color);
+            }
+        }
     }
 
     void TryAttackEnemy()
@@ -112,4 +146,18 @@ public class MainTower : MonoBehaviour
             gameManager.GameOver();
         }
     }
+
+    //add gold per second
+    public IEnumerator PassiveGoldIncome()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(passiveGoldTimer);
+            if (playerManager != null)
+            {
+                playerManager.AddGold(passiveGold);
+            }
+        }
+    }
+
 }

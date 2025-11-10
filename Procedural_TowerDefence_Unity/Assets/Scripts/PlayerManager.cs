@@ -15,7 +15,7 @@ public class PlayerManager : MonoBehaviour
     void Start()
     {
         xp = 0;
-        Gold = 50;
+        Gold = 100;
         Level = 1;
         SkillPoints = 0;
     }

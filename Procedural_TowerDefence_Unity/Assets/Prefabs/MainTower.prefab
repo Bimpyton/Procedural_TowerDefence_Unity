@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7955222737424632650}
   m_Layer: 20
   m_Name: Explosion (1)
-  m_TagString: Untagged
+  m_TagString: MainTower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 1384529124041312975}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.98, y: 1.0902597, z: 8.43}
+  m_LocalPosition: {x: 0.297904, y: -2.1799998, z: -0.39993095}
   m_LocalScale: {x: 1, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 1570467009424466484}
   m_Layer: 20
   m_Name: Explosion
-  m_TagString: Untagged
+  m_TagString: MainTower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -56,7 +56,7 @@ Transform:
   m_GameObject: {fileID: 1477028596305235665}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.367, y: 3.4002595, z: 9.369}
+  m_LocalPosition: {x: -0.3150959, y: 0.13000011, z: 0.5390692}
   m_LocalScale: {x: 1, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -73,7 +73,7 @@ GameObject:
   - component: {fileID: 8401255748214841288}
   m_Layer: 20
   m_Name: Explosion (3)
-  m_TagString: Untagged
+  m_TagString: MainTower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -87,7 +87,7 @@ Transform:
   m_GameObject: {fileID: 1868632580317494537}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.31, y: 3.22, z: 8.71}
+  m_LocalPosition: {x: 0.62790394, y: -0.05025953, z: -0.11993122}
   m_LocalScale: {x: 1, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -151,9 +151,14 @@ MonoBehaviour:
   projectileArcHeight: 5
   projectilePrefab: {fileID: 2616329685473949415, guid: 1b9f832507d82e54ab29931c9095e373, type: 3}
   firePoint: {fileID: 6130144107729802344}
+  passiveGoldTimer: 3
+  passiveGold: 1
+  mainTowerLevel: 1
+  upgradeEffectPrefab: {fileID: 6754947779195907939, guid: 12c601b9621eafd40b59ffb46efd83f2, type: 3}
   healthBar: {fileID: 0}
   collapseTower: {fileID: 6051926212085077098}
   gameManager: {fileID: 0}
+  playerManager: {fileID: 0}
 --- !u!33 &7058701130354150602
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -226,8 +231,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 0.9197597, z: 1}
+  m_Center: {x: 0, y: -0.040121224, z: 0}
 --- !u!1 &4457830844330663552
 GameObject:
   m_ObjectHideFlags: 0
@@ -239,7 +244,7 @@ GameObject:
   - component: {fileID: 6130144107729802344}
   m_Layer: 20
   m_Name: FirePoint
-  m_TagString: Untagged
+  m_TagString: MainTower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -270,7 +275,7 @@ GameObject:
   - component: {fileID: 3067601945550206604}
   m_Layer: 0
   m_Name: Explosions
-  m_TagString: Untagged
+  m_TagString: MainTower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -284,7 +289,7 @@ Transform:
   m_GameObject: {fileID: 8618958063158643240}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.682096, y: -0.6540519, z: -8.829931}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 0.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -305,7 +310,7 @@ GameObject:
   - component: {fileID: 5097387773612949180}
   m_Layer: 20
   m_Name: Explosion (2)
-  m_TagString: Untagged
+  m_TagString: MainTower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -319,7 +324,7 @@ Transform:
   m_GameObject: {fileID: 8973229142394562585}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.29, y: 5.180259, z: 8.309931}
+  m_LocalPosition: {x: -0.39209604, y: 1.9099998, z: -0.52000046}
   m_LocalScale: {x: 1, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -528,6 +533,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 108c941d9b2696440acd834f960f3a39, type: 3}
       propertyPath: m_Name
       value: Main Tower
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 108c941d9b2696440acd834f960f3a39, type: 3}
+      propertyPath: m_TagString
+      value: MainTower
       objectReference: {fileID: 0}
     - target: {fileID: 962227963451179435, guid: 108c941d9b2696440acd834f960f3a39, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
